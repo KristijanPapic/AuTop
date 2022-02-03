@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>23e584f1-80c7-48e8-b8bc-b350295714b0</ProjectGuid>
+    <ProjectGuid>d1dea62f-9803-48c7-b9a8-2b3d9ea03530</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AuTOP.Model.Common</RootNamespace>
