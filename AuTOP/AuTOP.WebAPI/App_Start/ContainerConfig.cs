@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Reflection;
+using System.Web;
+using System.Web.Http;
+using Autofac;
+using Autofac.Integration.WebApi;
+
+namespace AuTOP.WebAPI
+{
+    public class ContainerConfig
+    {
+
+
+        public static IContainer Container;
+
+        public static void Initialize(HttpConfiguration config)
+        {
+            Initialize(config, RegisterServices(new ContainerBuilder()));
+        }
+
+
+        public static void Initialize(HttpConfiguration config, IContainer container)
+        {
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+        }
+
+        private static IContainer RegisterServices(ContainerBuilder builder)
+        {
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterAssemblyModules(Assembly.GetExecutingAssembly());
+
+            Container = builder.Build();
+
+            return Container;
+        }
+
+    }
+}

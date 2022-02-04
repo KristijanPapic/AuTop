@@ -14,8 +14,7 @@ namespace AuTOP.WebAPI
     {
         protected void Application_Start()
         {
-            //ContainerConfig.Initialize(GlobalConfiguration.Configuration);
-
+            ContainerConfig.Initialize(GlobalConfiguration.Configuration);
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
