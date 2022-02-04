@@ -9,6 +9,8 @@ using Autofac;
 using Autofac.Integration.WebApi;
 using AutoMapper;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
+using AuTOP.Repository;
+using AuTOP.Service;
 using AuTOP.WebAPI.App_Start;
 
 namespace AuTOP.WebAPI
@@ -34,6 +36,9 @@ namespace AuTOP.WebAPI
         {
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterAssemblyModules(Assembly.GetExecutingAssembly());
+
+            builder.RegisterModule(new RepositoryDIModule());
+            builder.RegisterModule(new ServiceDIModule());
 
             builder.RegisterAutoMapper(typeof(AutoMapperProfile).Assembly);
 

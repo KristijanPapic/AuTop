@@ -190,6 +190,9 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManufacturerController.cs" />
+    <Compile Include="Controllers\ModelController.cs" />
+    <Compile Include="Controllers\ModelVersionController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -279,6 +282,16 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AuTOP.Repository\AuTOP.Repository.csproj">
+      <Project>{AB281EDB-580B-4CCA-93FB-C8789EA4F9E0}</Project>
+      <Name>AuTOP.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AuTOP.Service\AuTOP.Service.csproj">
+      <Project>{9ECDEEE2-1CAA-425E-98B1-AC8F39AFDC2F}</Project>
+      <Name>AuTOP.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
