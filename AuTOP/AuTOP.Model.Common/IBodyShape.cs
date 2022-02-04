@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AuTOP.Model
+namespace AuTOP.Model.Common
 {
-    public class Class1
+    public interface IBodyShape
     {
+        Guid Id { get; set; }
+
+        string Name { get; set; }
     }
 }

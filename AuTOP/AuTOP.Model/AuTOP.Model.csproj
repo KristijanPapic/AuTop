@@ -80,7 +80,14 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="DomainModels\ManufacturerDomainModel.cs" />
+    <Compile Include="BodyShape.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AuTOP.Model.Common\AuTOP.Model.Common.csproj">
+      <Project>{D1DEA62F-9803-48C7-B9A8-2B3D9EA03530}</Project>
+      <Name>AuTOP.Model.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
