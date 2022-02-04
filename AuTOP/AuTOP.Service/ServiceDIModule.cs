@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AuTOP.Service.Common;
 
 namespace AuTOP.Service
 {
@@ -13,6 +14,7 @@ namespace AuTOP.Service
         {
             //builder.RegisterType<StudentRepository>().As<IStudentRepository>();
             //builder.RegisterType<CourseRepository>().As<ICourseRepository>();
+            builder.RegisterType<UserService>().As<IUserService>();
         }
     }
 }

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AuTOP.Model.Common;
 
-namespace AuTOP.Repository
+namespace AuTOP.Repository.Common
 {
-    public class Class1
+    public interface IUserRepository
     {
+        Task<List<IUser>> Get();
     }
 }

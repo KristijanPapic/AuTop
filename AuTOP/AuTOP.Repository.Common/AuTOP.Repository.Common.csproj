@@ -78,8 +78,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AuTOP.Model.Common\AuTOP.Model.Common.csproj">
+      <Project>{d1dea62f-9803-48c7-b9a8-2b3d9ea03530}</Project>
+      <Name>AuTOP.Model.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AuTOP.Model\AuTOP.Model.csproj">
+      <Project>{481499d4-d3ac-4fd9-a17a-9da228f7eca0}</Project>
+      <Name>AuTOP.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
