@@ -7,6 +7,9 @@ using System.Web;
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
+using AutoMapper;
+using AutoMapper.Contrib.Autofac.DependencyInjection;
+using AuTOP.WebAPI.App_Start;
 
 namespace AuTOP.WebAPI
 {
@@ -31,6 +34,8 @@ namespace AuTOP.WebAPI
         {
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterAssemblyModules(Assembly.GetExecutingAssembly());
+
+            builder.RegisterAutoMapper(typeof(AutoMapperProfile).Assembly);
 
             Container = builder.Build();
 
