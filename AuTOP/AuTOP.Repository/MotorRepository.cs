@@ -46,7 +46,7 @@ namespace AuTOP.Repository
         }
 
 
-        public async Task<Motor> GetByIdAsync(int id)
+        public async Task<Motor> GetByIdAsync(Guid id)
         {
             string queryString = $"SELECT * FROM Motor WHERE id={id};";
 

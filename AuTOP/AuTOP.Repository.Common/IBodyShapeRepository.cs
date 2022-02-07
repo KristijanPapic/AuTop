@@ -11,6 +11,6 @@ namespace AuTOP.Repository.Common
     {
         Task<List<BodyShape>> GetAllAsync();
 
-        Task<BodyShape> GetByIdAsync(int id);
+        Task<BodyShape> GetByIdAsync(Guid id);
     }
 }

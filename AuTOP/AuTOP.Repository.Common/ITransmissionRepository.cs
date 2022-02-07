@@ -11,6 +11,6 @@ namespace AuTOP.Repository.Common
     {
         Task<List<Transmission>> GetAllAsync();
 
-        Task<Transmission> GetByIdAsync(int id);
+        Task<Transmission> GetByIdAsync(Guid id);
     }
 }
