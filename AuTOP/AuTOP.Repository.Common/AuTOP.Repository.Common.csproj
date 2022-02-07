@@ -79,12 +79,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IBodyShapeRepository.cs" />
+    <Compile Include="IModelRepository.cs" />
     <Compile Include="IMotorRepository.cs" />
     <Compile Include="ITransmissionRepository.cs" />
     <Compile Include="IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IManufacturerRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AuTOP.Common\AuTOP.Common.csproj">
+      <Project>{C8543283-2FBF-482A-B432-04741018ABAC}</Project>
+      <Name>AuTOP.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AuTOP.Model.Common\AuTOP.Model.Common.csproj">
       <Project>{d1dea62f-9803-48c7-b9a8-2b3d9ea03530}</Project>
       <Name>AuTOP.Model.Common</Name>

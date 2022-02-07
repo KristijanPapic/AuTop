@@ -7,23 +7,25 @@ using System.Threading.Tasks;
 
 namespace AuTOP.Model.DomainModels
 {
-    public class ManufacturerDomainModel : DateTimeModel
+    public class ModelDomainModel : DateTimeModel
     {
         private Guid id;
+        private Guid manufacturerId;
         private string name;
-        private List<ModelDomainModel> models;
 
-        public ManufacturerDomainModel(Guid id,string name,DateTime dateCreated,DateTime dateUpdated)
+        public ModelDomainModel() { }
+
+        public ModelDomainModel(Guid id, Guid manufacturerId, string name,DateTime dateCreated,DateTime dateUpdated)
         {
             Id = id;
+            ManufacturerId = manufacturerId;
             Name = name;
             DateCreated = dateCreated;
             DateUpdated = dateUpdated;
-
         }
 
         public Guid Id { get => id; set => id = value; }
+        public Guid ManufacturerId { get => manufacturerId; set => manufacturerId = value; }
         public string Name { get => name; set => name = value; }
-        public List<ModelDomainModel> Models { get => models; set => models = value; }
     }
 }

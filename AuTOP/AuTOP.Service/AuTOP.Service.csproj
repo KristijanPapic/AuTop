@@ -107,5 +107,23 @@
       <Name>AuTOP.Service.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AuTOP.Common\AuTOP.Common.csproj">
+      <Project>{C8543283-2FBF-482A-B432-04741018ABAC}</Project>
+      <Name>AuTOP.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AuTOP.Model\AuTOP.Model.csproj">
+      <Project>{481499D4-D3AC-4FD9-A17A-9DA228F7ECA0}</Project>
+      <Name>AuTOP.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AuTOP.Repository.Common\AuTOP.Repository.Common.csproj">
+      <Project>{E2C764AE-BED0-43D8-825B-300923B84E81}</Project>
+      <Name>AuTOP.Repository.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AuTOP.Service.Common\AuTOP.Service.Common.csproj">
+      <Project>{5bc3cdc1-0440-4a84-80f5-0221bd696d9b}</Project>
+      <Name>AuTOP.Service.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
