@@ -12,12 +12,6 @@ namespace AuTOP.Repository
 {
     internal class ManufacturerRepository : IManufacturerRepository
     {
-        private IMapper mapper;
-
-        public ManufacturerRepository(IMapper mapper)
-        {
-            this.mapper = mapper;
-        }
 
         private String connectionString = "Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog=monoprojekt;Persist Security Info=False;User ID=kristijan;Password=Robinhoodr52600;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         public async Task<List<ManufacturerDomainModel>> GetAllManufacturers(ManufacturerFilter filter, Sorting sort, Paging paging)
@@ -32,7 +26,7 @@ namespace AuTOP.Repository
             }
             else
             {
-                queryString = "select * from course where Name like @FILTER";
+                queryString = "select * from Manufacturer where Name like @FILTER";
                 command = new SqlCommand(queryString, connection);
                 command.Parameters.AddWithValue("@FILTER", "%" + filter.Search + "%");
             }
@@ -51,9 +45,25 @@ namespace AuTOP.Repository
                 return manufacturers;
             }
 
-            manufacturers = mapper.Map<List<ManufacturerDomainModel>>(manufacturerData.Tables[0]);
+            foreach(DataRow dataRow in manufacturerData.Tables[0].Rows)
+            {
+                manufacturers.Add(new ManufacturerDomainModel(Guid.Parse(Convert.ToString(dataRow["Id"])), Convert.ToString(dataRow["Name"]), Convert.ToDateTime(dataRow["DateCreated"]),Convert.ToDateTime(dataRow["DateUpdated"])));
+            }
             return manufacturers;
 
         }
+        public async Task<ManufacturerDomainModel>GetManufacturerByNameAsync(string name)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            string queryString = $"select * from Manufacturer where Name = {name};";
+            SqlCommand command = new SqlCommand(queryString, connection);
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            DataSet manufacturerData = new DataSet();
+            await Task.Run(() => adapter.Fill(manufacturerData));
+            DataRow dataRow = manufacturerData.Tables[0].Rows[0];
+            ManufacturerDomainModel domainManufacturer = new ManufacturerDomainModel(Guid.Parse(Convert.ToString(dataRow["Id"])), Convert.ToString(dataRow["Name"]), Convert.ToDateTime(dataRow["DateCreated"]), Convert.ToDateTime(dataRow["DateUpdated"]));
+            return domainManufacturer;
+        }
+    
     }
 }

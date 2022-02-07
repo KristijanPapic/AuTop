@@ -13,7 +13,7 @@ namespace AuTOP.Repository
     {
         protected override void Load(ContainerBuilder builder)
         {
-            // builder.RegisterType<StudentRepository>().As<IStudentRepository>();
+           builder.RegisterType<ManufacturerRepository>().As<IManufacturerRepository>();
             //builder.RegisterType<CourseRepository>().As<ICourseRepository>();
             builder.RegisterType<UserRepository>().As<IUserRepository>();
             builder.RegisterType<BodyShapeRepository>().As<IBodyShapeRepository>();

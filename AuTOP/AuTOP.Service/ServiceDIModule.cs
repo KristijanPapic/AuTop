@@ -12,7 +12,7 @@ namespace AuTOP.Service
     {
         protected override void Load(ContainerBuilder builder)
         {
-            //builder.RegisterType<StudentRepository>().As<IStudentRepository>();
+            builder.RegisterType<ManufacturerServis>().As<IManufacturerServis>();
             //builder.RegisterType<CourseRepository>().As<ICourseRepository>();
             builder.RegisterType<UserService>().As<IUserService>();
         }

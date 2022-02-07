@@ -11,9 +11,8 @@ namespace AuTOP.Common
         private int rpp = 10;
         private int page;
 
-        public Paging(int rpp, int page)
+        public Paging(int page)
         {
-            Rpp = rpp;
             Page = page;
         }
 

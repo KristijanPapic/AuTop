@@ -81,6 +81,7 @@
     <Compile Include="DomainModels\ManufacturerDomainModel.cs" />
     <Compile Include="BodyShape.cs" />
     <Compile Include="Motor.cs" />
+    <Compile Include="DomainModels\ModelDomainModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>

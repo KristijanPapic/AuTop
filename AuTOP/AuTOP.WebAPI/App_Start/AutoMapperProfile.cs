@@ -12,7 +12,7 @@ namespace AuTOP.WebAPI.App_Start
     {
         public AutoMapperProfile()
         {
-            CreateMap<DataTable,ManufacturerDomainModel>().ReverseMap();
+            CreateMap<DataSet,ManufacturerDomainModel>();
         }
         
     }

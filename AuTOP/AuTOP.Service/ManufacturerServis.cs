@@ -13,6 +13,11 @@ namespace AuTOP.Service
     class ManufacturerServis : IManufacturerServis
     {
         private IManufacturerRepository manufacturerRepository;
+
+        public ManufacturerServis(IManufacturerRepository manufacturerRepository)
+        {
+            this.manufacturerRepository = manufacturerRepository;
+        }
         public async Task<List<ManufacturerDomainModel>> GetAllManufacturersAsync(ManufacturerFilter courseFilter, Sorting sort, Paging paging)
         {
             List<ManufacturerDomainModel> manufacturers = await manufacturerRepository.GetAllManufacturers(courseFilter, sort, paging);
