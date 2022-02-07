@@ -9,8 +9,10 @@ namespace AuTOP.Repository.Common
 {
     public interface IUserRepository
     {
-        Task<List<IUser>> Get();
-        Task<List<IUser>> GetById(Guid userId);
-        Task Post(IUser user);
+        Task<List<IUser>> GetAsync();
+        Task<IUser> GetByIdAsync(Guid userId);
+        Task PostAsync(IUser user);
+        Task PutAsync(Guid userId, IUser user);
+        Task DeleteAsync(Guid userId);
     }
 }

@@ -21,11 +21,11 @@ namespace AuTOP.WebAPI.Controllers
         protected IUserService UserService { get; set; }
 
         [Route("users")]
-        public async Task<HttpResponseMessage> Get()
+        public async Task<HttpResponseMessage> GetAsync()
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, await UserService.Get());
+                return Request.CreateResponse(HttpStatusCode.OK, await UserService.GetAsync());
             }
             catch (Exception ex)
             {
@@ -35,11 +35,11 @@ namespace AuTOP.WebAPI.Controllers
 
         // GET api/values/5
         [Route("users/{userId}")]
-        public async Task<HttpResponseMessage> GetById(Guid userId)
+        public async Task<HttpResponseMessage> GetByIdAsync(Guid userId)
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, await UserService.GetById(userId));
+                return Request.CreateResponse(HttpStatusCode.OK, await UserService.GetByIdAsync(userId));
             }
             catch (Exception ex)
             {
@@ -49,13 +49,13 @@ namespace AuTOP.WebAPI.Controllers
 
         // POST api/values
         [Route("users")]
-        public async Task<HttpResponseMessage> Post([FromBody] User user)
+        public async Task<HttpResponseMessage> PostAsync([FromBody] User user)
         {
             try
             {
                 IUser userPost = user;
-                await UserService.Post(userPost);
-                return Request.CreateResponse(HttpStatusCode.OK);
+                await UserService.PostAsync(userPost);
+                return Request.CreateResponse(HttpStatusCode.OK, "New user created");
             }
             catch (Exception ex)
             {
@@ -64,13 +64,34 @@ namespace AuTOP.WebAPI.Controllers
         }
 
         // PUT api/values/5
-        public void Put(int id, [FromBody] string value)
+        [Route("users/{id}")]
+        public async Task<HttpResponseMessage> Put(Guid id, [FromBody] User user)
         {
+            try
+            {
+                IUser userPut = user;
+                await UserService.PutAsync(id, userPut);
+                return Request.CreateResponse(HttpStatusCode.OK, "User updated");
+            }
+            catch
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            }
         }
 
         // DELETE api/values/5
-        public void Delete(int id)
+        [Route("users/{id}")]
+        public async Task<HttpResponseMessage> Delete(Guid id)
         {
+            try
+            {
+                await UserService.DeleteAsync(id);
+                return Request.CreateResponse(HttpStatusCode.OK, "User deleted");
+            }
+            catch
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, $"User with Id:{id} not found");
+            }
         }
     }
 }

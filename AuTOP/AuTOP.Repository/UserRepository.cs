@@ -16,7 +16,7 @@ namespace AuTOP.Repository
             "Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;" +
             "MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
-        public async Task<List<IUser>> Get()
+        public async Task<List<IUser>> GetAsync()
         {
             List<IUser> students = new List<IUser>();
             using (SqlConnection connection = new SqlConnection(connecitonString))
@@ -28,7 +28,7 @@ namespace AuTOP.Repository
 
                 connection.Open();
 
-                SqlDataReader reader = command.ExecuteReader();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
 
                 while (reader.Read())
                 {
@@ -49,9 +49,9 @@ namespace AuTOP.Repository
             return students;
         }
 
-        public async Task<List<IUser>> GetById(Guid userId)
+        public async Task<IUser> GetByIdAsync(Guid userId)
         {
-            List<IUser> students = new List<IUser>();
+            User user = new User();
             using (SqlConnection connection = new SqlConnection(connecitonString))
             {
                 string query = $"SELECT * FROM [User] WHERE Id = '{userId}';";
@@ -61,28 +61,24 @@ namespace AuTOP.Repository
 
                 connection.Open();
 
-                SqlDataReader reader = command.ExecuteReader();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
 
-                while (reader.Read())
-                {
-                    User user = new User()
-                    {
-                        UserId = (Guid)reader["Id"],
-                        Username = reader["Username"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        DateCreated = (DateTime)reader["DateCreated"],
-                        DateUpdated = (DateTime)reader["DateUpdated"]
-                    };
-                    students.Add(user);
-                }
+                reader.Read();
+
+
+                user.UserId = (Guid)reader["Id"];
+                user.Username = reader["Username"].ToString();
+                user.Email = reader["Email"].ToString();
+                user.DateCreated = (DateTime)reader["DateCreated"];
+                user.DateUpdated = (DateTime)reader["DateUpdated"];                
 
                 reader.Close();
                 connection.Close();
             }
-            return students;
+            return user;
         }
 
-        public async Task Post(IUser user)
+        public async Task PostAsync(IUser user)
         {
             using (SqlConnection connection = new SqlConnection(connecitonString))
             {
@@ -90,7 +86,33 @@ namespace AuTOP.Repository
                   $"INSERT INTO [User] VALUES (NEWID(),'{user.Username}','{user.Password}','{user.Email}','761B13B6-699D-45EF-9EFB-E31D352BC476',GETDATE(),GETDATE())", connection);
 
                 connection.Open();
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
+                connection.Close();
+            }
+        }
+
+        public async Task PutAsync(Guid userId, IUser user)
+        {
+            using (SqlConnection connection = new SqlConnection(connecitonString))
+            {
+                SqlCommand command = new SqlCommand(
+                  $"UPDATE [User] SET Username='{user.Username}', Password='{user.Password}', Email='{user.Email}', DateUpdated=GETDATE() WHERE Id='{userId}'", connection);
+
+                connection.Open();
+                await command.ExecuteNonQueryAsync();
+                connection.Close();
+            }
+        }
+
+        public async Task DeleteAsync(Guid userId)
+        {
+            using (SqlConnection connection = new SqlConnection(connecitonString))
+            {
+                SqlCommand command = new SqlCommand(
+                  $"DELETE FROM [User] WHERE Id='{userId}'", connection);
+
+                connection.Open();
+                await command.ExecuteNonQueryAsync();
                 connection.Close();
             }
         }

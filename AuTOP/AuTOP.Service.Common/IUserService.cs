@@ -10,10 +10,12 @@ namespace AuTOP.Service.Common
 
     public interface IUserService
     {
-        Task<List<IUser>> Get();
+        Task<List<IUser>> GetAsync();
 
-        Task<List<IUser>> GetById(Guid userId);
-        Task Post(IUser user);
+        Task<IUser> GetByIdAsync(Guid userId);
+        Task PostAsync(IUser user);
+        Task PutAsync(Guid userId, IUser user);
+        Task DeleteAsync(Guid userId);
 
 
     }

@@ -17,19 +17,27 @@ namespace AuTOP.Service
             this.UserRepository = userRepository;
         }
         protected IUserRepository UserRepository { get; set; }
-        public async Task<List<IUser>> Get()
+        public async Task<List<IUser>> GetAsync()
         {
-            return await UserRepository.Get();
+            return await UserRepository.GetAsync();
         }
 
-        public async Task<List<IUser>> GetById(Guid userId)
+        public async Task<IUser> GetByIdAsync(Guid userId)
         {
-            return await UserRepository.GetById(userId);
+            return await UserRepository.GetByIdAsync(userId);
         }
 
-        public async Task Post(IUser user)
+        public async Task PostAsync(IUser user)
         {
-            await UserRepository.Post(user);
+            await UserRepository.PostAsync(user);
+        }
+        public async Task PutAsync(Guid userId, IUser user)
+        {
+            await UserRepository.PutAsync(userId, user);
+        }
+        public async Task DeleteAsync(Guid userId)
+        {
+            await UserRepository.DeleteAsync(userId);
         }
     }
 }
