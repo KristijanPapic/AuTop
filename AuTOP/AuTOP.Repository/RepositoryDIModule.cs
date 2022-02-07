@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using AuTOP.Repository.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,9 @@ namespace AuTOP.Repository
             // builder.RegisterType<StudentRepository>().As<IStudentRepository>();
             //builder.RegisterType<CourseRepository>().As<ICourseRepository>();
             builder.RegisterType<UserRepository>().As<IUserRepository>();
+            builder.RegisterType<BodyShapeRepository>().As<IBodyShapeRepository>();
+            builder.RegisterType<MotorRepository>().As<IMotorRepository>();
+            builder.RegisterType<TransmissionRepository>().As<ITransmissionRepository>();
         }
     }
 }
