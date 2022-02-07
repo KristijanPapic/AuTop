@@ -81,6 +81,8 @@
     <Compile Include="DateTimeModel.cs" />
     <Compile Include="IBodyShape.cs" />
     <Compile Include="IUser.cs" />
+    <Compile Include="ITransmission.cs" />
+    <Compile Include="IMotor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
