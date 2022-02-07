@@ -10,8 +10,7 @@ namespace AuTOP.Repository
 {
     public class ModelVersionRepository
     {
-<<<<<<< HEAD
-=======
+
         private String connectionString = "Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog=monoprojekt;Persist Security Info=False;User ID=kristijan;Password=Robinhoodr52600;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         public async Task<List<ManufacturerDomainModel>> GetAllModelVersions(ManufacturerFilter filter, Sorting sort, Paging paging)
         {
@@ -63,7 +62,7 @@ namespace AuTOP.Repository
             ManufacturerDomainModel domainManufacturer = new ManufacturerDomainModel(Guid.Parse(Convert.ToString(dataRow["Id"])), Convert.ToString(dataRow["Name"]), Convert.ToDateTime(dataRow["DateCreated"]), Convert.ToDateTime(dataRow["DateUpdated"]));
             return domainManufacturer;
         }
->>>>>>> 270bf1d (change int id to guid)
+
 
     }
 }
