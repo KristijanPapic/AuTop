@@ -1,4 +1,5 @@
 ﻿using AuTOP.Model;
+using AuTOP.Repository.Common;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AuTOP.Repository
 {
-    public class BodyShapeRepository
+    public class BodyShapeRepository : IBodyShapeRepository
     {
         public async Task<List<BodyShape>> GetAllAsync()
         {

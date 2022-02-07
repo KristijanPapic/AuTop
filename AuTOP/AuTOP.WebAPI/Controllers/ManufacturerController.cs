@@ -30,9 +30,10 @@ namespace AuTOP.WebAPI.Controllers
             return Request.CreateResponse(HttpStatusCode.OK,domainManufacturers);
   
         }
-        public async Task<HttpResponseMessage> GetManufacturer([FromUri] Guid id)
+        public async Task<HttpResponseMessage> GetManufacturer(string name)
         {
-            return Request.CreateResponse(HttpStatusCode.OK);
+            ManufacturerDomainModel domainManufacturer = await manufacturerServis.GetManufacturerByNameAsync(name);
+            return Request.CreateResponse(HttpStatusCode.OK,domainManufacturer);
         }
 
 

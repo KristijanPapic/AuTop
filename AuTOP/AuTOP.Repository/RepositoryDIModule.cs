@@ -14,7 +14,7 @@ namespace AuTOP.Repository
         protected override void Load(ContainerBuilder builder)
         {
            builder.RegisterType<ManufacturerRepository>().As<IManufacturerRepository>();
-            //builder.RegisterType<CourseRepository>().As<ICourseRepository>();
+            builder.RegisterType<ModelRepository>().As<IModelRepository>();
             builder.RegisterType<UserRepository>().As<IUserRepository>();
             builder.RegisterType<BodyShapeRepository>().As<IBodyShapeRepository>();
             builder.RegisterType<MotorRepository>().As<IMotorRepository>();

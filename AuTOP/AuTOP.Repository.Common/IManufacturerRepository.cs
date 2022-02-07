@@ -8,5 +8,6 @@ namespace AuTOP.Repository
     public interface IManufacturerRepository
     {
         Task<List<ManufacturerDomainModel>> GetAllManufacturers(ManufacturerFilter filter, Sorting sort, Paging paging);
+        Task<ManufacturerDomainModel> GetManufacturerByNameAsync(string name);
     }
 }

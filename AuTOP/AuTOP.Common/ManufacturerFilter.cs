@@ -9,6 +9,7 @@ namespace AuTOP.Common
     public class ManufacturerFilter
     {
         private string search;
+        private bool dontGetModels = false;
 
         public ManufacturerFilter(string search)
         {
@@ -16,5 +17,6 @@ namespace AuTOP.Common
         }
 
         public string Search { get => search; set => search = value; }
+        public bool DontGetModels { get => dontGetModels; set => dontGetModels = value; }
     }
 }

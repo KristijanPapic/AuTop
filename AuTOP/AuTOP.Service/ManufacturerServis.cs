@@ -13,15 +13,24 @@ namespace AuTOP.Service
     class ManufacturerServis : IManufacturerServis
     {
         private IManufacturerRepository manufacturerRepository;
+        private IModelRepository modelRepository;
 
-        public ManufacturerServis(IManufacturerRepository manufacturerRepository)
+        public ManufacturerServis(IManufacturerRepository manufacturerRepository,IModelRepository modelRepository)
         {
             this.manufacturerRepository = manufacturerRepository;
+            this.modelRepository = modelRepository;
         }
         public async Task<List<ManufacturerDomainModel>> GetAllManufacturersAsync(ManufacturerFilter courseFilter, Sorting sort, Paging paging)
         {
             List<ManufacturerDomainModel> manufacturers = await manufacturerRepository.GetAllManufacturers(courseFilter, sort, paging);
+            
             return manufacturers; ;
+        }
+        public async Task<ManufacturerDomainModel> GetManufacturerByNameAsync(string name)
+        {
+            ManufacturerDomainModel domainManufacturer = await manufacturerRepository.GetManufacturerByNameAsync(name);
+            domainManufacturer.Models = await modelRepository.GetModelsByManufacturer(domainManufacturer.Id);
+            return domainManufacturer;
         }
     }
 }

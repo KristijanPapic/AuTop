@@ -11,6 +11,7 @@ namespace AuTOP.Model.DomainModels
     {
         private Guid id;
         private string name;
+        private List<ModelDomainModel> models;
 
         public ManufacturerDomainModel(Guid id,string name,DateTime dateCreated,DateTime dateUpdated)
         {
@@ -23,5 +24,6 @@ namespace AuTOP.Model.DomainModels
 
         public Guid Id { get => id; set => id = value; }
         public string Name { get => name; set => name = value; }
+        public List<ModelDomainModel> Models { get => models; set => models = value; }
     }
 }
