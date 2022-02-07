@@ -41,7 +41,7 @@ namespace AuTOP.Repository
             }
 
         }
-            public async Task<BodyShape> GetByIdAsync(int id)
+            public async Task<BodyShape> GetByIdAsync(Guid id)
         {
             string queryString = $"SELECT * FROM BodyShape WHERE id={id};";
 

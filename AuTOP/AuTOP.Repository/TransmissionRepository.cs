@@ -44,7 +44,7 @@ namespace AuTOP.Repository
         }
 
 
-        public async Task<Transmission> GetByIdAsync(int id)
+        public async Task<Transmission> GetByIdAsync(Guid id)
         {
             string queryString = $"SELECT * FROM Transmission WHERE id={id};";
 
