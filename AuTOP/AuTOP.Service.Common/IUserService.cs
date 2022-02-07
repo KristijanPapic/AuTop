@@ -8,11 +8,13 @@ using AuTOP.Model.Common;
 namespace AuTOP.Service.Common
 {
 
-    public interface IBodyShape
+    public interface IUserService
     {
-        Guid Id { get; set; }
+        Task<List<IUser>> Get();
 
-        string Name { get; set; }
+        Task<List<IUser>> GetById(Guid userId);
+        Task Post(IUser user);
 
 
+    }
 }

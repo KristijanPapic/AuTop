@@ -7,11 +7,13 @@ using AuTOP.Model.Common;
 
 namespace AuTOP.Service.Common
 {
+
     public interface IBodyShape
     {
         Guid Id { get; set; }
 
         string Name { get; set; }
+
 
     }
 }
