@@ -83,6 +83,7 @@
     <Compile Include="ITransmissionRepository.cs" />
     <Compile Include="IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="IManufacturerRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AuTOP.Model.Common\AuTOP.Model.Common.csproj">

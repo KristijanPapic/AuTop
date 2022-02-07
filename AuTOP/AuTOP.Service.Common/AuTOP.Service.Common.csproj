@@ -81,6 +81,7 @@
     <Compile Include="IUserService.cs" />
     <Compile Include="IBodyShape.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IManufacturerServis.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AuTOP.Model.Common\AuTOP.Model.Common.csproj">

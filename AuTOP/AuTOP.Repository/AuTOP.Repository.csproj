@@ -37,6 +37,9 @@
     <Reference Include="Autofac.Integration.WebApi, Version=6.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.WebApi2.6.1.0\lib\net472\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -101,6 +104,24 @@
       <Project>{e2c764ae-bed0-43d8-825b-300923b84e81}</Project>
       <Name>AuTOP.Repository.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AuTOP.Common\AuTOP.Common.csproj">
+      <Project>{C8543283-2FBF-482A-B432-04741018ABAC}</Project>
+      <Name>AuTOP.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AuTOP.Model\AuTOP.Model.csproj">
+      <Project>{481499D4-D3AC-4FD9-A17A-9DA228F7ECA0}</Project>
+      <Name>AuTOP.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AuTOP.Repository.Common\AuTOP.Repository.Common.csproj">
+      <Project>{e2c764ae-bed0-43d8-825b-300923b84e81}</Project>
+      <Name>AuTOP.Repository.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
