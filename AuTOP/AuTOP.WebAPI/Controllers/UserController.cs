@@ -49,11 +49,12 @@ namespace AuTOP.WebAPI.Controllers
 
         // POST api/values
         [Route("users")]
-        public async Task<HttpResponseMessage> Post([FromBody] IUser user)
+        public async Task<HttpResponseMessage> Post([FromBody] User user)
         {
             try
             {
-                await UserService.Post(user);
+                IUser userPost = user;
+                await UserService.Post(userPost);
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception ex)

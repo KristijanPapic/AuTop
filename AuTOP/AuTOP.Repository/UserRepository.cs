@@ -87,11 +87,7 @@ namespace AuTOP.Repository
             using (SqlConnection connection = new SqlConnection(connecitonString))
             {
                 SqlCommand command = new SqlCommand(
-                  $"INSERT INTO dbo.Student VALUES (NEWID(),@Username,@Password,@Email,'761B13B6-699D-45EF-9EFB-E31D352BC476',GETDATE(),GETDATE())", connection);
-
-                command.Parameters.AddWithValue("@Username", user.Username);
-                command.Parameters.AddWithValue("@Password", user.Password);
-                command.Parameters.AddWithValue("@Email", user.Email);
+                  $"INSERT INTO [User] VALUES (NEWID(),'{user.Username}','{user.Password}','{user.Email}','761B13B6-699D-45EF-9EFB-E31D352BC476',GETDATE(),GETDATE())", connection);
 
                 connection.Open();
                 command.ExecuteNonQuery();
