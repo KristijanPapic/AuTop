@@ -48,5 +48,55 @@ namespace AuTOP.Repository
             }
             return students;
         }
+
+        public async Task<List<IUser>> GetById(Guid userId)
+        {
+            List<IUser> students = new List<IUser>();
+            using (SqlConnection connection = new SqlConnection(connecitonString))
+            {
+                string query = $"SELECT * FROM [User] WHERE Id = '{userId}';";
+                SqlCommand command;
+
+                command = new SqlCommand(query, connection);
+
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    User user = new User()
+                    {
+                        UserId = (Guid)reader["Id"],
+                        Username = reader["Username"].ToString(),
+                        Email = reader["Email"].ToString(),
+                        DateCreated = (DateTime)reader["DateCreated"],
+                        DateUpdated = (DateTime)reader["DateUpdated"]
+                    };
+                    students.Add(user);
+                }
+
+                reader.Close();
+                connection.Close();
+            }
+            return students;
+        }
+
+        public async Task Post(IUser user)
+        {
+            using (SqlConnection connection = new SqlConnection(connecitonString))
+            {
+                SqlCommand command = new SqlCommand(
+                  $"INSERT INTO dbo.Student VALUES (NEWID(),@Username,@Password,@Email,'761B13B6-699D-45EF-9EFB-E31D352BC476',GETDATE(),GETDATE())", connection);
+
+                command.Parameters.AddWithValue("@Username", user.Username);
+                command.Parameters.AddWithValue("@Password", user.Password);
+                command.Parameters.AddWithValue("@Email", user.Email);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
     }
 }

@@ -14,7 +14,5 @@ namespace AuTOP.Model
         public string Password { get; set; }
         public string Email { get; set; }
 
-        public DateTime DateCreated { get ; set; }
-        public DateTime DateUpdated { get; set; }
     }
 }

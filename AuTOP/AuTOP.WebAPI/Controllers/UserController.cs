@@ -34,14 +34,32 @@ namespace AuTOP.WebAPI.Controllers
         }
 
         // GET api/values/5
-        public string Get(int id)
+        [Route("users/{userId}")]
+        public async Task<HttpResponseMessage> GetById(Guid userId)
         {
-            return "value";
+            try
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, await UserService.GetById(userId));
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex);
+            }
         }
 
         // POST api/values
-        public void Post([FromBody] string value)
+        [Route("users")]
+        public async Task<HttpResponseMessage> Post([FromBody] IUser user)
         {
+            try
+            {
+                await UserService.Post(user);
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex);
+            }
         }
 
         // PUT api/values/5

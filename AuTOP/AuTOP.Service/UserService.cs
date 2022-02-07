@@ -21,5 +21,15 @@ namespace AuTOP.Service
         {
             return await UserRepository.Get();
         }
+
+        public async Task<List<IUser>> GetById(Guid userId)
+        {
+            return await UserRepository.GetById(userId);
+        }
+
+        public async Task Post(IUser user)
+        {
+            await UserRepository.Post(user);
+        }
     }
 }

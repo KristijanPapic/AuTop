@@ -14,4 +14,5 @@ namespace AuTOP.Service.Common
 
         string Name { get; set; }
 
+
 }

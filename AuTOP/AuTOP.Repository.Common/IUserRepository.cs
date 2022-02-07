@@ -10,5 +10,7 @@ namespace AuTOP.Repository.Common
     public interface IUserRepository
     {
         Task<List<IUser>> Get();
+        Task<List<IUser>> GetById(Guid userId);
+        Task Post(IUser user);
     }
 }
