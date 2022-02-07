@@ -78,11 +78,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BodyShapeRepository.cs" />
     <Compile Include="ManufacturerRepository.cs" />
     <Compile Include="ModelRepository.cs" />
     <Compile Include="ModelVersionRepository.cs" />
+    <Compile Include="MotorRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryDIModule.cs" />
+    <Compile Include="TransmissionRepository.cs" />
     <Compile Include="UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
