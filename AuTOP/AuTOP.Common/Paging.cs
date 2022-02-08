@@ -10,7 +10,7 @@ namespace AuTOP.Common
     {
         private int rpp = 10;
         private int page;
-        private bool dontPage;
+        private bool dontPage = false;
 
         public Paging(int page)
         {

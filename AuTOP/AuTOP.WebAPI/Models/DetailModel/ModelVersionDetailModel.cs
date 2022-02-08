@@ -5,10 +5,7 @@ using System.Web;
 
 namespace AuTOP.WebAPI.Models.DetailModel
 {
-    public class ModelDetailView
+    public class ModelVersionDetailModel
     {
-        private Guid id;
-        private string name;
-        //private List<>
     }
 }

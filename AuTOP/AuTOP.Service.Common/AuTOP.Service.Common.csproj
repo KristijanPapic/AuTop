@@ -79,6 +79,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IReactionService.cs" />
+    <Compile Include="IModelService.cs" />
+    <Compile Include="IModelVersionService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="IBodyShape.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
