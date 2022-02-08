@@ -15,6 +15,7 @@ namespace AuTOP.Service
             builder.RegisterType<ManufacturerServis>().As<IManufacturerServis>();
             //builder.RegisterType<CourseRepository>().As<ICourseRepository>();
             builder.RegisterType<UserService>().As<IUserService>();
+            builder.RegisterType<ModelService>().As<IModelService>();
         }
     }
 }

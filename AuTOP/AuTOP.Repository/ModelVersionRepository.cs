@@ -15,18 +15,28 @@ namespace AuTOP.Repository
     {
 
         private String connectionString = "Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        public async Task<List<ModelVersion>> GetAllModelVersions(Sorting sort, Paging paging)
+        public async Task<List<ModelVersion>> GetAllModelVersions(ModelVersionFilter filter,Sorting sort, Paging paging)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            string queryString = "select * from ModelVersion";
-            SqlCommand command = new SqlCommand(queryString, connection);
-
+            SqlCommand command;
+            if(filter.SearchId == Guid.Empty)
+            {
+                string queryString = "select * from ModelVersion";
+                command = new SqlCommand(queryString, connection);
+            }
+            else
+            {
+                string queryString = $"select * from ModelVersion where {filter.SearchBy} = '{filter.SearchId}'";
+                command = new SqlCommand(queryString, connection);
+            }
             if (!(sort.SortBy == ""))
             {
                 command.CommandText = command.CommandText.Insert(command.CommandText.Length, $" order by { sort.SortBy} { sort.SortMethod}");
             }
-
-            command.CommandText = command.CommandText.Insert(command.CommandText.Length, $" offset { paging.GetStartElement()} rows fetch next {paging.Rpp} rows only;");
+            if (paging.DontPage == false)
+            {
+                command.CommandText = command.CommandText.Insert(command.CommandText.Length, $" offset { paging.GetStartElement()} rows fetch next {paging.Rpp} rows only;");
+            }
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             DataSet modelVersionData = new DataSet();
             await Task.Run(() => adapter.Fill(modelVersionData));
@@ -43,10 +53,10 @@ namespace AuTOP.Repository
             return modelVersions;
 
         }
-        public async Task<ModelVersion> GetModelVersionById(string name)
+        public async Task<ModelVersion> GetModelVersionById(Guid id)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            string queryString = $"select * from ModelVersions;";
+            string queryString = $"select * from ModelVersions where Id = {id};";
             SqlCommand command = new SqlCommand(queryString, connection);
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             DataSet modelVersionData = new DataSet();

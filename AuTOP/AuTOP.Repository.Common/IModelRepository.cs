@@ -9,5 +9,6 @@ namespace AuTOP.Repository
     public interface IModelRepository
     {
         Task<List<ModelDomainModel>> GetAllModelsAsync(ModelFilter filter, Sorting sort, Paging paging);
+        Task<ModelDomainModel> GetModelById(Guid id);
     }
 }

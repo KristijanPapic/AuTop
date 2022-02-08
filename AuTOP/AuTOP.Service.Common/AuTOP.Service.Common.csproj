@@ -78,6 +78,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IModelService.cs" />
+    <Compile Include="IModelVersionService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="IBodyShape.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

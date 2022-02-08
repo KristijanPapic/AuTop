@@ -10,8 +10,8 @@ namespace AuTOP.Repository.Common
 {
     public interface IModelVersionRepository 
     {
-       Task<List<ModelVersion>> GetAllModelVersions(Sorting sort, Paging paging);
+        Task<List<ModelVersion>> GetAllModelVersions(ModelVersionFilter filter, Sorting sort, Paging paging);
 
-       Task<ModelVersion> GetModelVersionById(string name);
+       Task<ModelVersion> GetModelVersionById(Guid id);
     }
 }

@@ -57,5 +57,19 @@ namespace AuTOP.Repository
 
         }
 
+        public async Task<ModelDomainModel> GetModelById(Guid id)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            string queryString = $"select * from Models where Id = {id};";
+            SqlCommand command = new SqlCommand(queryString, connection);
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            DataSet ModelData = new DataSet();
+            await Task.Run(() => adapter.Fill(ModelData));
+            DataRow dataRow = ModelData.Tables[0].Rows[0];
+            ModelDomainModel Model = new ModelDomainModel(Guid.Parse(Convert.ToString(dataRow["Id"])), Guid.Parse(Convert.ToString(dataRow["ManufacturerId"])), Convert.ToString(dataRow["Name"]), Convert.ToDateTime(dataRow["DateCreated"]), Convert.ToDateTime(dataRow["DateUpdated"]));
+            return Model;
+        }
+
+
     }
 }
