@@ -9,7 +9,9 @@ namespace AuTOP.WebAPI.Models.DetailModel
     {
         private string name;
         private List<ModelViewModel> models;
+        private Guid id;
         public string Name { get => name; set => name = value; }
         public List<ModelViewModel> Models { get => models; set => models = value; }
+        public Guid Id { get => id; set => id = value; }
     }
 }
