@@ -86,6 +86,7 @@
     <Compile Include="IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IManufacturerRepository.cs" />
+    <Compile Include="IReactionRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AuTOP.Common\AuTOP.Common.csproj">
