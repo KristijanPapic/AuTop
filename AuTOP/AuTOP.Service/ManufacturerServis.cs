@@ -29,7 +29,8 @@ namespace AuTOP.Service
         public async Task<ManufacturerDomainModel> GetManufacturerByNameAsync(string name)
         {
             ManufacturerDomainModel domainManufacturer = await manufacturerRepository.GetManufacturerByNameAsync(name);
-            domainManufacturer.Models = await modelRepository.GetModelsByManufacturer(domainManufacturer.Id);
+            domainManufacturer.Models = await modelRepository.GetAllModelsAsync(new ModelFilter(domainManufacturer.Id, "ManufacturerId"), new Sorting("Name", "ASC"), new Paging(true));
+            //domainManufacturer.Models = await modelRepository.GetModelsByManufacturer(domainManufacturer.Id);
             return domainManufacturer;
         }
     }
