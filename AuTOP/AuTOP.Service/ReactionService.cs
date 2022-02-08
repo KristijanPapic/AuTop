@@ -1,4 +1,5 @@
-﻿using AuTOP.Repository.Common;
+﻿using AuTOP.Model;
+using AuTOP.Repository.Common;
 using AuTOP.Service.Common;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,12 @@ namespace AuTOP.Service
             return await ReactionRepository.GetLikes();
         }
 
-      
+        public async Task<bool> PostAsync(Reaction reaction)
+        {
+            return await ReactionRepository.PostAsync(reaction);
+        }
+
+
+
     }
 }

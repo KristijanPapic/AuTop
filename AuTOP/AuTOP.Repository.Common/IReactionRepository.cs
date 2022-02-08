@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AuTOP.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace AuTOP.Repository.Common
 {
     public interface IReactionRepository
     {
-       Task<double> GetLikes();       
+        Task<double> GetLikes();
+
+        Task<bool> PostAsync(Reaction reaction);
     }
 }

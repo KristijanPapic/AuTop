@@ -1,4 +1,5 @@
-﻿using AuTOP.Service.Common;
+﻿using AuTOP.Model;
+using AuTOP.Service.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,19 @@ namespace AuTOP.WebAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.NotFound, ex);
             }
 
-        }               
+        }
+
+        public async Task<HttpResponseMessage> PostAsync(Reaction reaction)
+        {
+            try
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, await ReactionService.PostAsync(reaction));
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex);
+            }
+
+        }
     }
 }

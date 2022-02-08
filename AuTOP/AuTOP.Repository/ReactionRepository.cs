@@ -38,7 +38,7 @@ namespace AuTOP.Repository
                 {
                     numberOfDislikes++;
                 }
-               
+
                 myReaderDislike.Close();
                 connection.Close();
 
@@ -47,9 +47,46 @@ namespace AuTOP.Repository
                 double number = percentageOfLikes * 100;
                 number = Math.Round(number, 2);
                 return number;
-                
+
 
             }
         }
+
+        public async Task<bool> PostAsync(Reaction reaction)
+        {
+            reaction.DateCreated = DateTime.UtcNow;
+            reaction.DateUpdated = DateTime.UtcNow;
+           
+            string insertSql = @"INSERT INTO Reaction(UserId, ReviewId, IsLiked, DateCreated, DateUpdated)
+                     Values(@UserId, @ReviewId, @IsLiked, @DateCreated, @DateUpdated)";
+            
+            
+            using (SqlConnection connection = new SqlConnection("Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            {
+            try
+                {
+                    using (var com = new SqlCommand(insertSql, connection))
+                    {
+                        com.Parameters.AddWithValue("@UserId", reaction.UserId);
+                        com.Parameters.AddWithValue("@ReviewId", reaction.ReviewId);
+                        com.Parameters.AddWithValue("@IsLiked", reaction.IsLiked);
+                        com.Parameters.AddWithValue("@DateCreated", reaction.DateCreated);
+                        com.Parameters.AddWithValue("@DateUpdated", reaction.DateUpdated);
+                        connection.Open();
+                        await com.ExecuteNonQueryAsync();
+                    }
+                   
+                    connection.Close();
+                    return true;
+
+                }
+                catch (SqlException ex)
+                {
+                    return false;
+                }
+
+            }
+        }
+        
     }
 }
