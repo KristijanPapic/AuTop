@@ -10,14 +10,20 @@ namespace AuTOP.Common
     {
         private int rpp = 10;
         private int page;
+        private bool dontPage;
 
         public Paging(int page)
         {
             Page = page;
         }
+        public Paging(bool dontPage)
+        {
+            DontPage = dontPage;
+        }
 
         public int Rpp { get => rpp; set => rpp = value; }
         public int Page { get => page; set => page = value; }
+        public bool DontPage { get => dontPage; set => dontPage = value; }
 
         public int GetStartElement()
         {
