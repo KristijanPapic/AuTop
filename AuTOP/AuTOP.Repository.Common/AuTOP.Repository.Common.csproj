@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="IBodyShapeRepository.cs" />
     <Compile Include="IModelRepository.cs" />
+    <Compile Include="IModelVersionRepository.cs" />
     <Compile Include="IMotorRepository.cs" />
     <Compile Include="ITransmissionRepository.cs" />
     <Compile Include="IUserRepository.cs" />
