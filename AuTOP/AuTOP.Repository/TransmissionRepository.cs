@@ -16,7 +16,7 @@ namespace AuTOP.Repository
             List<Transmission> transmissions = new List<Transmission>();
             string queryString = $"SELECT * FROM Transmission;";
 
-            using (SqlConnection connection = new SqlConnection("Server = localhost; Database = webapi; Trusted_Connection = True;"))
+            using (SqlConnection connection = new SqlConnection("Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
 
                 connection.Open();
@@ -44,7 +44,7 @@ namespace AuTOP.Repository
         }
 
 
-        public async Task<Transmission> GetByIdAsync(int id)
+        public async Task<Transmission> GetByIdAsync(Guid id)
         {
             string queryString = $"SELECT * FROM Transmission WHERE id={id};";
 

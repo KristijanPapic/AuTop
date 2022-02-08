@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="DateTimeModel.cs" />
     <Compile Include="IBodyShape.cs" />
+    <Compile Include="IModelVersion.cs" />
     <Compile Include="IUser.cs" />
     <Compile Include="ITransmission.cs" />
     <Compile Include="IMotor.cs" />

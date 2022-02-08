@@ -11,6 +11,6 @@ namespace AuTOP.Repository.Common
     {
         Task<List<Motor>> GetAllAsync();
 
-        Task<Motor> GetByIdAsync(int id);
+        Task<Motor> GetByIdAsync(Guid id);
     }
 }
