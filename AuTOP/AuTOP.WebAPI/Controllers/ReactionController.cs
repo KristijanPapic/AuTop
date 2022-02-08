@@ -29,20 +29,7 @@ namespace AuTOP.WebAPI.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, ex);
             }
-            
-        }
 
-        public async Task<HttpResponseMessage> GetDislikes()
-        {
-            try
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, await ReactionService.GetDislikes());
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound, ex);
-            }
-           
-        }
+        }               
     }
 }

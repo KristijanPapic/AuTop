@@ -8,8 +8,6 @@ namespace AuTOP.Service.Common
 {
     public interface IReactionService
     {
-        Task<int> GetLikes();
-
-        Task<int> GetDislikes();
+        Task<double> GetLikes();
     }
 }

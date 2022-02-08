@@ -1,4 +1,5 @@
-﻿using AuTOP.Service.Common;
+﻿using AuTOP.Repository.Common;
+using AuTOP.Service.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,22 +11,19 @@ namespace AuTOP.Service
     public class ReactionService : IReactionService
     {
 
-        public ReactionService(IReactionService reactionRepository)
+        public ReactionService(IReactionRepository reactionRepository)
         {
             this.ReactionRepository = reactionRepository;
         }
-        protected IReactionService ReactionRepository { get; set; }
+        protected IReactionRepository ReactionRepository { get; set; }
 
 
 
-        public async Task<int> GetLikes()
+        public async Task<double> GetLikes()
         {
             return await ReactionRepository.GetLikes();
         }
 
-        public async Task<int> GetDislikes()
-        {
-            return await ReactionRepository.GetDislikes();
-        }
+      
     }
 }

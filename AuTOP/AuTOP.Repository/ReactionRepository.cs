@@ -11,49 +11,43 @@ namespace AuTOP.Repository
 {
     public class ReactionRepository : IReactionRepository
     {
-        public async Task<int> GetLikes()
+        public async Task<double> GetLikes()
         {
-            string queryString = $"SELECT COUNT(ReviewId) FROM Reaction WHERE IsLiked!=0;";
+            string queryStringLike = $"SELECT COUNT(ReviewId) FROM Reaction WHERE IsLiked!=0;";
+            string queryStringDislike = $"SELECT COUNT(ReviewId) FROM Reaction WHERE IsLiked=0;";
 
             using (SqlConnection connection = new SqlConnection("Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
 
                 connection.Open();
-                SqlCommand myCommand = new SqlCommand(queryString, connection);
-                SqlDataReader myReader = await myCommand.ExecuteReaderAsync();
-                int numberOfLikes = 0;
+                SqlCommand myCommandLike = new SqlCommand(queryStringLike, connection);
+                SqlCommand myCommandDislike = new SqlCommand(queryStringDislike, connection);
+                SqlDataReader myReaderLike = await myCommandLike.ExecuteReaderAsync();
+                int numberOfLikes = 1;
+                int numberOfDislikes = 1;
 
-                while (myReader.Read())
+                while (myReaderLike.Read())
                 {
                     numberOfLikes++;
                 }
-                myReader.Close();
-                connection.Close();
-                return numberOfLikes;
 
-            }
-        }
+                myReaderLike.Close();
+                SqlDataReader myReaderDislike = await myCommandDislike.ExecuteReaderAsync();
 
-        public async Task<int> GetDislikes()
-        {
-            string queryString = $"SELECT COUNT(ReviewId) FROM Reaction WHERE IsLiked=0;";
-
-            using (SqlConnection connection = new SqlConnection("Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
-            {
-
-                connection.Open();
-                SqlCommand myCommand = new SqlCommand(queryString, connection);
-                SqlDataReader myReader = await myCommand.ExecuteReaderAsync();
-                int numberOfDislikes = 0;
-
-                while (myReader.Read())
+                while (myReaderDislike.Read())
                 {
                     numberOfDislikes++;
                 }
-                myReader.Close();
+               
+                myReaderDislike.Close();
                 connection.Close();
-                return numberOfDislikes;
 
+                int numberOfLikesAndDislikes = numberOfDislikes + numberOfLikes;
+                double percentageOfLikes = (double)numberOfLikes / numberOfLikesAndDislikes;
+                double number = percentageOfLikes * 100;
+                number = Math.Round(number, 2);
+                return number;
+                
 
             }
         }

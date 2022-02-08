@@ -8,8 +8,6 @@ namespace AuTOP.Repository.Common
 {
     public interface IReactionRepository
     {
-       Task<int> GetLikes();
-
-       Task<int> GetDislikes();
+       Task<double> GetLikes();       
     }
 }
