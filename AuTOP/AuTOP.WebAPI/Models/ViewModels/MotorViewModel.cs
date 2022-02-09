@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace AuTOP.WebAPI.Models
+namespace AuTOP.WebAPI.Models.ViewModels
 {
-    public class ManufacturerViewModel
+    public class MotorViewModel
     {
         private string name;
-        private Guid id;
+
         public string Name { get => name; set => name = value; }
-        public Guid Id { get => id; set => id = value; }
     }
 }

@@ -200,8 +200,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DetailModel\ManufacturerDetailModel.cs" />
+    <Compile Include="Models\DetailModel\ModelDetailView.cs" />
+    <Compile Include="Models\DetailModel\ModelVersionDetailModel.cs" />
     <Compile Include="Models\ViewModels\ManufacturerViewModel.cs" />
+    <Compile Include="Models\ViewModels\ModelVersionViewModel.cs" />
     <Compile Include="Models\ViewModels\ModelViewModel.cs" />
+    <Compile Include="Models\ViewModels\MotorViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

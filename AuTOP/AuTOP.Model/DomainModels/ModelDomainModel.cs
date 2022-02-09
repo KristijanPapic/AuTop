@@ -12,6 +12,9 @@ namespace AuTOP.Model.DomainModels
         private Guid id;
         private Guid manufacturerId;
         private string name;
+        private ManufacturerDomainModel manufacturer;
+        private List<ModelVersion> modelVersions;
+
 
         public ModelDomainModel() { }
 
@@ -27,5 +30,7 @@ namespace AuTOP.Model.DomainModels
         public Guid Id { get => id; set => id = value; }
         public Guid ManufacturerId { get => manufacturerId; set => manufacturerId = value; }
         public string Name { get => name; set => name = value; }
+        public List<ModelVersion> ModelVersions { get => modelVersions; set => modelVersions = value; }
+        public ManufacturerDomainModel Manufacturer { get => manufacturer; set => manufacturer = value; }
     }
 }

@@ -26,10 +26,11 @@ namespace AuTOP.Service
             
             return manufacturers; ;
         }
-        public async Task<ManufacturerDomainModel> GetManufacturerByNameAsync(string name)
+        public async Task<ManufacturerDomainModel> GetManufacturerByIdAsync(Guid id)
         {
-            ManufacturerDomainModel domainManufacturer = await manufacturerRepository.GetManufacturerByNameAsync(name);
-            domainManufacturer.Models = await modelRepository.GetModelsByManufacturer(domainManufacturer.Id);
+            ManufacturerDomainModel domainManufacturer = await manufacturerRepository.GetManufacturerByIdAsync(id);
+            domainManufacturer.Models = await modelRepository.GetAllModelsAsync(new ModelFilter(domainManufacturer.Id, "ManufacturerId"), new Sorting("Name", "ASC"), new Paging(true));
+            //domainManufacturer.Models = await modelRepository.GetModelsByManufacturer(domainManufacturer.Id);
             return domainManufacturer;
         }
     }

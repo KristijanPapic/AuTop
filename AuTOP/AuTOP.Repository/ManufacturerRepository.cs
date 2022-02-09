@@ -52,10 +52,10 @@ namespace AuTOP.Repository
             return manufacturers;
 
         }
-        public async Task<ManufacturerDomainModel> GetManufacturerByNameAsync(string name)
+        public async Task<ManufacturerDomainModel> GetManufacturerByIdAsync(Guid id)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            string queryString = $"select * from Manufacturer where Name = '{name}';";
+            string queryString = $"select * from Manufacturer where Id = '{id}';";
             SqlCommand command = new SqlCommand(queryString, connection);
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             DataSet manufacturerData = new DataSet();

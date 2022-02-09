@@ -79,6 +79,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IReactionService.cs" />
+    <Compile Include="IModelService.cs" />
+    <Compile Include="IModelVersionService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="IBodyShape.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -105,6 +107,9 @@
       <Project>{ab281edb-580b-4cca-93fb-c8789ea4f9e0}</Project>
       <Name>AuTOP.Repository</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
