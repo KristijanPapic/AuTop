@@ -18,7 +18,7 @@ namespace AuTOP.Repository
 
         public async Task<List<IUser>> GetAsync()
         {
-            List<IUser> students = new List<IUser>();
+            List<IUser> users = new List<IUser>();
             using (SqlConnection connection = new SqlConnection(connecitonString))
             {
                 string query = "SELECT * FROM [User]";
@@ -36,17 +36,18 @@ namespace AuTOP.Repository
                     {
                         UserId = (Guid)reader["Id"],
                         Username = reader["Username"].ToString(),
+                        Password = reader["Password"].ToString(),
                         Email = reader["Email"].ToString(),
                         DateCreated = (DateTime)reader["DateCreated"],
                         DateUpdated = (DateTime)reader["DateUpdated"]
                     };
-                    students.Add(user);
+                    users.Add(user);
                 }
 
                 reader.Close();
                 connection.Close();
             }
-            return students;
+            return users;
         }
 
         public async Task<IUser> GetByIdAsync(Guid userId)

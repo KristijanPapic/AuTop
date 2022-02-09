@@ -12,6 +12,7 @@ using AuTOP.Service.Common;
 
 namespace AuTOP.WebAPI.Controllers
 {
+    [Authorize]
     public class UserController : ApiController
     {
         public UserController(IUserService userService)
@@ -33,7 +34,6 @@ namespace AuTOP.WebAPI.Controllers
             }
         }
 
-        // GET api/values/5
         [Route("users/{userId}")]
         public async Task<HttpResponseMessage> GetByIdAsync(Guid userId)
         {
@@ -47,7 +47,6 @@ namespace AuTOP.WebAPI.Controllers
             }
         }
 
-        // POST api/values
         [Route("users")]
         public async Task<HttpResponseMessage> PostAsync([FromBody] User user)
         {
@@ -63,7 +62,6 @@ namespace AuTOP.WebAPI.Controllers
             }
         }
 
-        // PUT api/values/5
         [Route("users/{id}")]
         public async Task<HttpResponseMessage> Put(Guid id, [FromBody] User user)
         {
@@ -79,7 +77,6 @@ namespace AuTOP.WebAPI.Controllers
             }
         }
 
-        // DELETE api/values/5
         [Route("users/{id}")]
         public async Task<HttpResponseMessage> Delete(Guid id)
         {

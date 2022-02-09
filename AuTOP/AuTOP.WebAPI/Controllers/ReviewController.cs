@@ -56,7 +56,7 @@ namespace AuTOP.WebAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.NotFound, ex);
             }
         }
-
+        [Authorize]
         [Route("reviews")]
         public async Task<HttpResponseMessage> PostAsync([FromBody] Review review)
         {
