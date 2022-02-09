@@ -44,6 +44,7 @@ namespace AuTOP.Service
         {
             ModelVersion domainModelVersion = await modelVersionRepository.GetModelVersionById(id);
             domainModelVersion.Model = await modelRepository.GetModelById(domainModelVersion.ModelId);
+            domainModelVersion.Model.Manufacturer = await manufacturerRepository.GetManufacturerByIdAsync(domainModelVersion.Model.ManufacturerId);
             domainModelVersion.Motor = await motorRepository.GetByIdAsync(domainModelVersion.MotorId);
             domainModelVersion.Transmission = await transmissionRepository.GetByIdAsync(domainModelVersion.TransmissionId);
             domainModelVersion.BodyShape = await bodyShapeRepository.GetByIdAsync(domainModelVersion.BodyShapeId);
