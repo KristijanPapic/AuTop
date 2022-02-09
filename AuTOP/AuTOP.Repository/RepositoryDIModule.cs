@@ -21,6 +21,7 @@ namespace AuTOP.Repository
             builder.RegisterType<MotorRepository>().As<IMotorRepository>();
             builder.RegisterType<TransmissionRepository>().As<ITransmissionRepository>();
             builder.RegisterType<ReactionRepository>().As<IReactionRepository>();
+            builder.RegisterType<ReviewRepository>().As<IReviewRepository>();
         }
     }
 }

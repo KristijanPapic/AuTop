@@ -82,6 +82,7 @@
     <Compile Include="IModelRepository.cs" />
     <Compile Include="IModelVersionRepository.cs" />
     <Compile Include="IMotorRepository.cs" />
+    <Compile Include="IReviewRepository.cs" />
     <Compile Include="ITransmissionRepository.cs" />
     <Compile Include="IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

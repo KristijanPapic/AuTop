@@ -18,6 +18,7 @@ namespace AuTOP.Service
             builder.RegisterType<ReactionService>().As<IReactionService>();
             builder.RegisterType<ModelService>().As<IModelService>();
             builder.RegisterType<ModelVersionService>().As<IModelVersionService>();
+            builder.RegisterType<ReviewService>().As<IReviewService>();
         }
     }
 }
