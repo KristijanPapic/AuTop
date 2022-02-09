@@ -86,20 +86,19 @@ namespace AuTOP.WebAPI.Controllers
         //        return Request.CreateResponse(HttpStatusCode.InternalServerError);
         //    }
         //}
-
-        //// DELETE api/values/5
-        //[Route("reviews/{id}")]
-        //public async Task<HttpResponseMessage> Delete(Guid id)
-        //{
-        //    try
-        //    {
-        //        await UserService.DeleteAsync(id);
-        //        return Request.CreateResponse(HttpStatusCode.OK, "User deleted");
-        //    }
-        //    catch
-        //    {
-        //        return Request.CreateResponse(HttpStatusCode.NotFound, $"User with Id:{id} not found");
-        //    }
-        //}
+        [Authorize]
+        [Route("reviews/{id}")]
+        public async Task<HttpResponseMessage> Delete(Guid id)
+        {
+            try
+            {
+                await ReviewService.DeleteAsync(id);
+                return Request.CreateResponse(HttpStatusCode.OK, "User deleted");
+            }
+            catch
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, $"User with Id:{id} not found");
+            }
+        }
     }
 }

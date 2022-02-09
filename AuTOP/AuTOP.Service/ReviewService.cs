@@ -30,5 +30,9 @@ namespace AuTOP.Service
         {
             await ReviewRepository.PostAsync(review);
         }
+        public async Task DeleteAsync(Guid reviewId)
+        {
+            await ReviewRepository.DeleteAsync(reviewId);
+        }
     }
 }

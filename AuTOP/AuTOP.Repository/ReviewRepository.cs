@@ -101,6 +101,18 @@ namespace AuTOP.Repository
                 connection.Close();
             }
         }
+        public async Task DeleteAsync(Guid reviewId)
+        {
+            using (SqlConnection connection = new SqlConnection(connecitonString))
+            {
+                SqlCommand command = new SqlCommand(
+                  $"DELETE FROM [Review] WHERE Id='{reviewId}'", connection);
+
+                connection.Open();
+                await command.ExecuteNonQueryAsync();
+                connection.Close();
+            }
+        }
 
     }
 }
