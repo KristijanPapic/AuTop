@@ -16,6 +16,7 @@ namespace AuTOP.Repository
             builder.RegisterType<ManufacturerRepository>().As<IManufacturerRepository>();
             builder.RegisterType<ModelRepository>().As<IModelRepository>();
             builder.RegisterType<UserRepository>().As<IUserRepository>();
+            builder.RegisterType<ModelVersionRepository>().As<IModelVersionRepository>();
             builder.RegisterType<BodyShapeRepository>().As<IBodyShapeRepository>();
             builder.RegisterType<MotorRepository>().As<IMotorRepository>();
             builder.RegisterType<TransmissionRepository>().As<ITransmissionRepository>();

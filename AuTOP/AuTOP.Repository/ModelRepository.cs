@@ -60,7 +60,7 @@ namespace AuTOP.Repository
         public async Task<ModelDomainModel> GetModelById(Guid id)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            string queryString = $"select * from Models where Id = {id};";
+            string queryString = $"select * from Model where Id = '{id}';";
             SqlCommand command = new SqlCommand(queryString, connection);
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             DataSet ModelData = new DataSet();

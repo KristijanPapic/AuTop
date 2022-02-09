@@ -14,7 +14,7 @@ namespace AuTOP.Repository
     public class ModelVersionRepository : IModelVersionRepository
     {
 
-        private String connectionString = "Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private String connectionString = "Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog=monoprojekt;Persist Security Info=False;User ID=kristijan;Password=Robinhoodr52600;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         public async Task<List<ModelVersion>> GetAllModelVersions(ModelVersionFilter filter,Sorting sort, Paging paging)
         {
             SqlConnection connection = new SqlConnection(connectionString);
@@ -56,7 +56,7 @@ namespace AuTOP.Repository
         public async Task<ModelVersion> GetModelVersionById(Guid id)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            string queryString = $"select * from ModelVersions where Id = {id};";
+            string queryString = $"select * from ModelVersion where Id = '{id}';";
             SqlCommand command = new SqlCommand(queryString, connection);
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             DataSet modelVersionData = new DataSet();

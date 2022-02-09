@@ -17,6 +17,7 @@ namespace AuTOP.Service
             builder.RegisterType<UserService>().As<IUserService>();
             builder.RegisterType<ReactionService>().As<IReactionService>();
             builder.RegisterType<ModelService>().As<IModelService>();
+            builder.RegisterType<ModelVersionService>().As<IModelVersionService>();
         }
     }
 }

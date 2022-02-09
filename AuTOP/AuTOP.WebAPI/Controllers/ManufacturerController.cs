@@ -36,9 +36,9 @@ namespace AuTOP.WebAPI.Controllers
             return Request.CreateResponse(HttpStatusCode.OK,viewManufacturers);
   
         }
-        public async Task<HttpResponseMessage> GetManufacturer(string name)
+        public async Task<HttpResponseMessage> GetManufacturerById(Guid id)
         {
-            ManufacturerDomainModel domainManufacturer = await manufacturerServis.GetManufacturerByNameAsync(name);
+            ManufacturerDomainModel domainManufacturer = await manufacturerServis.GetManufacturerByIdAsync(id);
             ManufacturerDetailModel detailManufacturer = mapper.Map<ManufacturerDomainModel, ManufacturerDetailModel>(domainManufacturer);
             return Request.CreateResponse(HttpStatusCode.OK,domainManufacturer);
         }

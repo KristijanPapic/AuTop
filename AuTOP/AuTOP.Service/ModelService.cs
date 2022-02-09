@@ -13,22 +13,26 @@ namespace AuTOP.Service
     {
         private IModelRepository modelRepository;
         private IModelVersionService modelVersionService;
+        private IManufacturerRepository manufacturerRepository;
 
-        public ModelService(IModelRepository modelRepository)
+        public ModelService(IModelRepository modelRepository,IModelVersionService modelVersionService,IManufacturerRepository manufacturerRepository)
         {
             this.modelRepository = modelRepository;
+            this.manufacturerRepository = manufacturerRepository;
+            this.modelVersionService = modelVersionService;
         }
         public async Task<List<ModelDomainModel>> GetAllModelsAsync(ModelFilter filter, Sorting sorting, Paging paging)
         {
-            List<ModelDomainModel> domainModels = await modelRepository.GetAllModelsAsync(filter, sorting, paging);
-            return domainModels;
+            List<ModelDomainModel> modelDomain = await modelRepository.GetAllModelsAsync(filter, sorting, paging);
+            return modelDomain;
         }
 
         public async Task<ModelDomainModel> GetModelAsync(Guid id)
         {
-            ModelDomainModel domainModel = await modelRepository.GetModelById(id);
-            domainModel.ModelVersions = await modelVersionService.GetAllModelVersionsAsync(new ModelVersionFilter(id, "ModelId"), new Sorting("", ""), new Paging(true));
-            return domainModel;
+            ModelDomainModel modelDomain = await modelRepository.GetModelById(id);
+            modelDomain.ModelVersions = await modelVersionService.GetAllModelVersionsAsync(new ModelVersionFilter(id, "ModelId"), new Sorting("", ""), new Paging(true));
+            modelDomain.Manufacturer = await manufacturerRepository.GetManufacturerByIdAsync(modelDomain.ManufacturerId);
+            return modelDomain;
         }
 
     }

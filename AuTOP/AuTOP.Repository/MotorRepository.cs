@@ -11,12 +11,13 @@ namespace AuTOP.Repository
 {
     class MotorRepository : IMotorRepository
     {
+        string connectionString = "Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog = monoprojekt; Persist Security Info=False;User ID = matej; Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout = 30;";
         public async Task<List<Motor>> GetAllAsync()
         {
             List<Motor> motors = new List<Motor>();
             string queryString = $"SELECT * FROM Motor;";
 
-            using (SqlConnection connection = new SqlConnection("Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
                 connection.Open();
@@ -49,9 +50,9 @@ namespace AuTOP.Repository
 
         public async Task<Motor> GetByIdAsync(Guid id)
         {
-            string queryString = $"SELECT * FROM Motor WHERE id={id};";
+            string queryString = $"SELECT * FROM Motor WHERE id='{id}';";
 
-            using (SqlConnection connection = new SqlConnection("Server = localhost; Database = webapi; Trusted_Connection = True;"))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
                 connection.Open();

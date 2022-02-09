@@ -14,12 +14,14 @@ namespace AuTOP.Service
     {
         private IModelVersionRepository modelVersionRepository;
         private IModelRepository modelRepository;
+        private IManufacturerRepository manufacturerRepository;
         private IMotorRepository motorRepository;
         private ITransmissionRepository transmissionRepository;
         private IBodyShapeRepository bodyShapeRepository;
 
-        public ModelVersionService(IModelVersionRepository modelVersionRepository, IModelRepository modelRepository, IMotorRepository motorRepository, ITransmissionRepository transmissionRepository, IBodyShapeRepository bodyShapeRepository)
+        public ModelVersionService(IModelVersionRepository modelVersionRepository, IModelRepository modelRepository, IManufacturerRepository manufacturerRepository ,IMotorRepository motorRepository, ITransmissionRepository transmissionRepository, IBodyShapeRepository bodyShapeRepository)
         {
+            this.manufacturerRepository = manufacturerRepository;
             this.modelVersionRepository = modelVersionRepository;
             this.modelRepository = modelRepository;
             this.motorRepository = motorRepository;
@@ -32,11 +34,13 @@ namespace AuTOP.Service
             foreach (ModelVersion modelVersion in ModelVersions)
             {
                 modelVersion.Motor = await motorRepository.GetByIdAsync(modelVersion.MotorId);
+                modelVersion.Model = await modelRepository.GetModelById(modelVersion.ModelId);
+                modelVersion.Model.Manufacturer = await manufacturerRepository.GetManufacturerByIdAsync(modelVersion.Model.ManufacturerId);
             }
 
             return ModelVersions;
         }
-        public async Task<ModelVersion> GetModelVersionByNameAsync(Guid id)
+        public async Task<ModelVersion> GetModelVersionByIdAsync(Guid id)
         {
             ModelVersion domainModelVersion = await modelVersionRepository.GetModelVersionById(id);
             domainModelVersion.Model = await modelRepository.GetModelById(domainModelVersion.ModelId);
