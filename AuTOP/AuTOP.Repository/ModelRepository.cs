@@ -51,7 +51,7 @@ namespace AuTOP.Repository
 
             foreach (DataRow dataRow in modelData.Tables[0].Rows)
             {
-                models.Add(new ModelDomainModel(Guid.Parse(Convert.ToString(dataRow["Id"])), Guid.Parse(Convert.ToString(dataRow["ManufacturerId"])), Convert.ToString(dataRow["Name"]), Convert.ToDateTime(dataRow["DateCreated"]), Convert.ToDateTime(dataRow["DateUpdated"])));
+                models.Add(new ModelDomainModel(Guid.Parse(Convert.ToString(dataRow["Id"])), Guid.Parse(Convert.ToString(dataRow["ManufacturerId"])), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["ImageURL"]), Convert.ToDateTime(dataRow["DateCreated"]), Convert.ToDateTime(dataRow["DateUpdated"])));
             }
             return models;
 
@@ -66,7 +66,7 @@ namespace AuTOP.Repository
             DataSet ModelData = new DataSet();
             await Task.Run(() => adapter.Fill(ModelData));
             DataRow dataRow = ModelData.Tables[0].Rows[0];
-            ModelDomainModel Model = new ModelDomainModel(Guid.Parse(Convert.ToString(dataRow["Id"])), Guid.Parse(Convert.ToString(dataRow["ManufacturerId"])), Convert.ToString(dataRow["Name"]), Convert.ToDateTime(dataRow["DateCreated"]), Convert.ToDateTime(dataRow["DateUpdated"]));
+            ModelDomainModel Model = new ModelDomainModel(Guid.Parse(Convert.ToString(dataRow["Id"])), Guid.Parse(Convert.ToString(dataRow["ManufacturerId"])), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["ImageURL"]),Convert.ToDateTime(dataRow["DateCreated"]), Convert.ToDateTime(dataRow["DateUpdated"]));
             return Model;
         }
 

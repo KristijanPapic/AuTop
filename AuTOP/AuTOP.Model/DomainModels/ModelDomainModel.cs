@@ -12,17 +12,19 @@ namespace AuTOP.Model.DomainModels
         private Guid id;
         private Guid manufacturerId;
         private string name;
+        private string imageURL;
         private ManufacturerDomainModel manufacturer;
         private List<ModelVersion> modelVersions;
 
 
         public ModelDomainModel() { }
 
-        public ModelDomainModel(Guid id, Guid manufacturerId, string name,DateTime dateCreated,DateTime dateUpdated)
+        public ModelDomainModel(Guid id, Guid manufacturerId, string name, string imageURL,DateTime dateCreated,DateTime dateUpdated)
         {
             Id = id;
             ManufacturerId = manufacturerId;
             Name = name;
+            ImageURL = imageURL;
             DateCreated = dateCreated;
             DateUpdated = dateUpdated;
         }
@@ -32,5 +34,6 @@ namespace AuTOP.Model.DomainModels
         public string Name { get => name; set => name = value; }
         public List<ModelVersion> ModelVersions { get => modelVersions; set => modelVersions = value; }
         public ManufacturerDomainModel Manufacturer { get => manufacturer; set => manufacturer = value; }
+        public string ImageURL { get => imageURL; set => imageURL = value; }
     }
 }

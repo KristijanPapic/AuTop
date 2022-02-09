@@ -47,7 +47,7 @@ namespace AuTOP.Repository
 
             foreach(DataRow dataRow in manufacturerData.Tables[0].Rows)
             {
-                manufacturers.Add(new ManufacturerDomainModel(Guid.Parse(Convert.ToString(dataRow["Id"])), Convert.ToString(dataRow["Name"]), Convert.ToDateTime(dataRow["DateCreated"]),Convert.ToDateTime(dataRow["DateUpdated"])));
+                manufacturers.Add(new ManufacturerDomainModel(Guid.Parse(Convert.ToString(dataRow["Id"])), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["ImageURL"]),Convert.ToDateTime(dataRow["DateCreated"]),Convert.ToDateTime(dataRow["DateUpdated"])));
             }
             return manufacturers;
 
@@ -61,7 +61,7 @@ namespace AuTOP.Repository
             DataSet manufacturerData = new DataSet();
             await Task.Run(() => adapter.Fill(manufacturerData));
             DataRow dataRow = manufacturerData.Tables[0].Rows[0];
-            ManufacturerDomainModel domainManufacturer = new ManufacturerDomainModel(Guid.Parse(Convert.ToString(dataRow["Id"])), Convert.ToString(dataRow["Name"]), Convert.ToDateTime(dataRow["DateCreated"]), Convert.ToDateTime(dataRow["DateUpdated"]));
+            ManufacturerDomainModel domainManufacturer = new ManufacturerDomainModel(Guid.Parse(Convert.ToString(dataRow["Id"])), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["ImageURL"]), Convert.ToDateTime(dataRow["DateCreated"]), Convert.ToDateTime(dataRow["DateUpdated"]));
             return domainManufacturer;
         }
     

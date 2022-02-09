@@ -7,6 +7,7 @@ using AuTOP.Repository.Common;
 using AuTOP.Model.Common;
 using System.Data.SqlClient;
 using AuTOP.Model;
+using AuTOP.Common;
 
 namespace AuTOP.Repository
 {
@@ -15,12 +16,20 @@ namespace AuTOP.Repository
         static string connecitonString = "Server=tcp:monoprojektdbserver.database.windows.net,1433;" +
             "Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;" +
             "MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        public async Task<List<IReview>> GetAsync()
+        public async Task<List<IReview>> GetAsync(ReviewFilter filter)
         {
             List<IReview> reviews = new List<IReview>();
             using (SqlConnection connection = new SqlConnection(connecitonString))
             {
-                string query = "SELECT * FROM [Review]";
+                string query;
+                if (filter.Search == Guid.Empty)
+                {
+                    query = "SELECT * FROM [Review]";
+                }
+                else
+                {
+                    query = $"SELECT * FROM [Review] where {filter.SearchBy} = '{filter.Search}'";
+                }
                 SqlCommand command;
 
                 command = new SqlCommand(query, connection);
