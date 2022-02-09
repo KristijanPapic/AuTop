@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AuTOP.Common;
 using AuTOP.Model.Common;
 using AuTOP.Repository;
 using AuTOP.Repository.Common;
@@ -17,9 +18,9 @@ namespace AuTOP.Service
             this.ReviewRepository = reviewRepository;
         }
         protected IReviewRepository ReviewRepository { get; set; }
-        public async Task<List<IReview>> GetAsync()
+        public async Task<List<IReview>> GetAsync(ReviewFilter filter)
         {
-            return await ReviewRepository.GetAsync();
+            return await ReviewRepository.GetAsync(filter);
         }
         public async Task<IReview> GetByIdAsync(Guid reviewId)
         {

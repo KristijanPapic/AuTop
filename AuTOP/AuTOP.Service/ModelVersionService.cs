@@ -2,6 +2,7 @@
 using AuTOP.Model;
 using AuTOP.Repository;
 using AuTOP.Repository.Common;
+using AuTOP.Service.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +19,8 @@ namespace AuTOP.Service
         private IMotorRepository motorRepository;
         private ITransmissionRepository transmissionRepository;
         private IBodyShapeRepository bodyShapeRepository;
-
-        public ModelVersionService(IModelVersionRepository modelVersionRepository, IModelRepository modelRepository, IManufacturerRepository manufacturerRepository ,IMotorRepository motorRepository, ITransmissionRepository transmissionRepository, IBodyShapeRepository bodyShapeRepository)
+        private IReviewService reviewService;
+        public ModelVersionService(IModelVersionRepository modelVersionRepository, IModelRepository modelRepository, IManufacturerRepository manufacturerRepository ,IMotorRepository motorRepository, ITransmissionRepository transmissionRepository, IBodyShapeRepository bodyShapeRepository,IReviewService reviewService)
         {
             this.manufacturerRepository = manufacturerRepository;
             this.modelVersionRepository = modelVersionRepository;
@@ -27,6 +28,8 @@ namespace AuTOP.Service
             this.motorRepository = motorRepository;
             this.transmissionRepository = transmissionRepository;
             this.bodyShapeRepository = bodyShapeRepository;
+            this.reviewService = reviewService;
+            
         }
         public async Task<List<ModelVersion>> GetAllModelVersionsAsync(ModelVersionFilter filter, Sorting sort, Paging paging)
         {
@@ -48,6 +51,7 @@ namespace AuTOP.Service
             domainModelVersion.Motor = await motorRepository.GetByIdAsync(domainModelVersion.MotorId);
             domainModelVersion.Transmission = await transmissionRepository.GetByIdAsync(domainModelVersion.TransmissionId);
             domainModelVersion.BodyShape = await bodyShapeRepository.GetByIdAsync(domainModelVersion.BodyShapeId);
+            domainModelVersion.Reviews = await reviewService.GetAsync(new ReviewFilter("ModelVersionId", domainModelVersion.Id));
             return domainModelVersion;
         }
     }

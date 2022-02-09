@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AuTOP.Common;
 using AuTOP.Model;
 using AuTOP.Model.Common;
 using AuTOP.Service;
@@ -21,11 +22,21 @@ namespace AuTOP.WebAPI.Controllers
         protected IReviewService ReviewService { get; set; }
 
         [Route("reviews")]
-        public async Task<HttpResponseMessage> GetAsync()
+        public async Task<HttpResponseMessage> GetAsync(Guid? searchOpt = null, string searchBy = "ModelVersionId")
         {
+            Guid search;
+            if (searchOpt.HasValue)
+            {
+                search = searchOpt.Value;
+            }
+            else
+            {
+                search = Guid.Empty;
+            }
+            ReviewFilter filter = new ReviewFilter(searchBy, search);
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, await ReviewService.GetAsync());
+                return Request.CreateResponse(HttpStatusCode.OK, await ReviewService.GetAsync(filter));
             }
             catch (Exception ex)
             {

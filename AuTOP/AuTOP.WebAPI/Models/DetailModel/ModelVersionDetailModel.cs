@@ -1,4 +1,5 @@
 ﻿using AuTOP.Model;
+using AuTOP.Model.Common;
 using AuTOP.Model.DomainModels;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace AuTOP.WebAPI.Models.DetailModel
         private Motor motor;
         private Transmission transmission;
         private BodyShape bodyShape;
+        private List<IReview> reviews;
 
         public Guid Id { get => id; set => id = value; }
         public decimal FuelConsumption { get => fuelConsumption; set => fuelConsumption = value; }
@@ -28,5 +30,6 @@ namespace AuTOP.WebAPI.Models.DetailModel
         public Motor Motor { get => motor; set => motor = value; }
         public Transmission Transmission { get => transmission; set => transmission = value; }
         public BodyShape BodyShape { get => bodyShape; set => bodyShape = value; }
+        public List<IReview> Reviews { get => reviews; set => reviews = value; }
     }
 }
