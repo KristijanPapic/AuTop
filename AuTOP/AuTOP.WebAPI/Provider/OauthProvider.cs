@@ -3,6 +3,7 @@ using AuTOP.Model.Common;
 using AuTOP.Repository;
 using AuTOP.Repository.Common;
 using AuTOP.Service.Common;
+using AuTOP.Service;
 using Microsoft.Owin.Security.OAuth;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,12 @@ namespace AuTOP.WebAPI.Provider
         public OauthProvider()
         {
         }
-        protected IUserRepository userRepository = new UserRepository();
+        //public OauthProvider(IUserService userService)
+        //{
+        //    this.UserService = userService;
+        //}
+        //protected IUserService UserService { get; set; }
+
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             await Task.Run(() => context.Validated());
@@ -28,9 +34,12 @@ namespace AuTOP.WebAPI.Provider
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
+            IUserRepository userRepository = new UserRepository();
+            IUserService userService = new UserService(userRepository);
+
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
 
-            var users = await userRepository.GetAsync();
+            var users = await userService.GetAsync();
 
             if (users != null)
             {

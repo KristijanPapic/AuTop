@@ -12,6 +12,8 @@ using AutoMapper.Contrib.Autofac.DependencyInjection;
 using AuTOP.Repository;
 using AuTOP.Service;
 using AuTOP.WebAPI.App_Start;
+using AuTOP.WebAPI.Provider;
+using Microsoft.Owin.Security.OAuth;
 
 namespace AuTOP.WebAPI
 {
@@ -36,6 +38,8 @@ namespace AuTOP.WebAPI
         {
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterAssemblyModules(Assembly.GetExecutingAssembly());
+
+            builder.RegisterType<OauthProvider>().As<IOAuthAuthorizationServerProvider>().SingleInstance();
 
             builder.RegisterModule(new RepositoryDIModule());
             builder.RegisterModule(new ServiceDIModule());
