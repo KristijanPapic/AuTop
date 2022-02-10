@@ -30,11 +30,11 @@ namespace AuTOP.WebAPI.Provider
         {
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
 
-            var students = await userRepository.GetAsync();
+            var users = await userRepository.GetAsync();
 
-            if (students != null)
+            if (users != null)
             {
-                var user = students.Where(o => o.Username == context.UserName && o.Password == context.Password).FirstOrDefault();
+                var user = users.Where(o => o.Username == context.UserName && o.Password == context.Password).FirstOrDefault();
                 if (user != null)
                 {
                     identity.AddClaim(new Claim(ClaimTypes.Name, user.Username));
