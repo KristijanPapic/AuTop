@@ -2,6 +2,7 @@
 using AuTOP.Repository.Common;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -11,12 +12,37 @@ namespace AuTOP.Repository
 {
     public class ReactionRepository : IReactionRepository
     {
+        private string connectionString = "Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog = monoprojekt; Persist Security Info=False;User ID = matej; Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout = 30;";
+        public async Task<Reaction> GetUserReaction(Guid userId,Guid reviewId)
+        {
+            string queryString = $"select * from Reaction where UserId = '{userId}' and ReviewId = ''{reviewId}";
+            SqlConnection connection = new SqlConnection(connectionString);
+            SqlDataAdapter adapter = new SqlDataAdapter(queryString, connection);
+            DataSet reactionData = new DataSet();
+            adapter.Fill(reactionData);
+            if(reactionData.Tables[0].Rows.Count == 0)
+            {
+                return null;
+            }
+            DataRow dataRow = reactionData.Tables[0].Rows[0];
+            Reaction reaction = new Reaction
+            {
+                UserId = Guid.Parse(Convert.ToString(dataRow["UserId"])),
+                ReviewId = Guid.Parse(Convert.ToString(dataRow["ReviewId"])),
+                IsLiked = Convert.ToBoolean(dataRow["IsLiked"]),
+                DateCreated = Convert.ToDateTime(dataRow["DateCreated"]),
+                DateUpdated = Convert.ToDateTime(dataRow["DateUpdated"])
+            };
+            return reaction;
+
+            
+        }
         public async Task<double> GetLikes()
         {
             string queryStringLike = $"SELECT COUNT(ReviewId) FROM Reaction WHERE IsLiked!=0;";
             string queryStringDislike = $"SELECT COUNT(ReviewId) FROM Reaction WHERE IsLiked=0;";
 
-            using (SqlConnection connection = new SqlConnection("Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
                 connection.Open();
@@ -61,7 +87,7 @@ namespace AuTOP.Repository
                      Values(@UserId, @ReviewId, @IsLiked, @DateCreated, @DateUpdated)";
             
             
-            using (SqlConnection connection = new SqlConnection("Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
             try
                 {
@@ -95,7 +121,7 @@ namespace AuTOP.Repository
             string insertSql = @"UPDATE Reaction SET IsLiked=@IsLiked, DateUpdated=@DateUpdated WHERE UserId=@UserId AND ReviewId=@ReviewId";
 
 
-            using (SqlConnection connection = new SqlConnection("Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
                 {
@@ -124,7 +150,7 @@ namespace AuTOP.Repository
         {
             string queryString = $"DELETE FROM Reaction WHERE UserId='{userId}' AND ReviewId='{reviewId}';";
 
-            using (SqlConnection connection = new SqlConnection("Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
                 {

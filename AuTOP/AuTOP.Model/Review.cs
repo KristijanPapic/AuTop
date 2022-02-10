@@ -14,7 +14,9 @@ namespace AuTOP.Model
         public Guid UserId { get; set; }
         public string Comment { get; set; }
         public int  Rating { get; set; }
-        public Task<double> LikePercentage { get; set; }
+        public double LikePercentage { get; set; }
+
+        public IReaction CurrentUserReaction { get; set; }
 
     }
 }

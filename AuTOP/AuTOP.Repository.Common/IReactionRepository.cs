@@ -9,6 +9,8 @@ namespace AuTOP.Repository.Common
 {
     public interface IReactionRepository
     {
+        Task<Reaction> GetUserReaction(Guid userId, Guid reviewId);
+
         Task<double> GetLikes();
 
         Task<bool> PostAsync(Reaction reaction);

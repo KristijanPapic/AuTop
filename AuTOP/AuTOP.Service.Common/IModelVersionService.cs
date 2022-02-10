@@ -9,6 +9,6 @@ namespace AuTOP.Service
     public interface IModelVersionService
     {
         Task<List<ModelVersion>> GetAllModelVersionsAsync(ModelVersionFilter filter, Sorting sort, Paging paging);
-        Task<ModelVersion> GetModelVersionByIdAsync(Guid id);
+        Task<ModelVersion> GetModelVersionByIdAsync(Guid id,string currentUserName);
     }
 }

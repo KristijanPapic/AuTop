@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AuTOP.Model.Common;
 using AuTOP.Model;
 using AuTOP.Repository.Common;
+using System.Data;
 
 namespace AuTOP.Repository 
 {
@@ -116,6 +117,16 @@ namespace AuTOP.Repository
                 await command.ExecuteNonQueryAsync();
                 connection.Close();
             }
+        }
+        public async Task<Guid> GetIdbyName(string name)
+        {
+            SqlConnection connection = new SqlConnection(connecitonString);
+            string querryString = $"Select Id from User where Name = '{name}'";
+            SqlDataAdapter adapter = new SqlDataAdapter(querryString, connection);
+            DataSet userData = new DataSet();
+            adapter.Fill(userData);
+            DataRow dataRow = userData.Tables[0].Rows[0];
+            return Guid.Parse(Convert.ToString(dataRow["Id"]));
         }
     }
 }
