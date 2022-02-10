@@ -87,6 +87,52 @@ namespace AuTOP.Repository
 
             }
         }
-        
+
+        public async Task<bool> PutAsync(Reaction reaction)
+        {                        
+            string queryString = $"UPDATE Reaction SET IsLiked='{reaction.IsLiked}' WHERE UserId='{reaction.UserId}' AND ReviewId='{reaction.ReviewId}';";
+
+            using (SqlConnection connection = new SqlConnection("Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand myCommand = new SqlCommand(queryString, connection);
+
+                    await myCommand.ExecuteNonQueryAsync();
+                    connection.Close();
+                    return true;
+                }
+                catch (SqlException ex)
+                {
+                    return false;
+                }
+
+            }
+        }
+
+        public async Task<bool> DeleteAsync(Guid userId, Guid reviewId)
+        {
+            string queryString = $"DELETE FROM Reaction WHERE UserId='{userId}' AND ReviewId='{reviewId}';";
+
+            using (SqlConnection connection = new SqlConnection("Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand myCommand = new SqlCommand(queryString, connection);
+                    await myCommand.ExecuteNonQueryAsync();
+                    connection.Close();
+                    return true;
+                }
+                catch (SqlException ex)
+                {
+                    return false;
+                }
+
+            }
+
+        }
+
     }
 }

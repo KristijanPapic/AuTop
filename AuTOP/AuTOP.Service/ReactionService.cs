@@ -30,7 +30,16 @@ namespace AuTOP.Service
             return await ReactionRepository.PostAsync(reaction);
         }
 
+        public async Task<bool> PutAsync(Reaction reaction)
+        {
+            return await ReactionRepository.PutAsync(reaction);
+        }
 
+        public async Task<bool> DeleteAsync(Guid userId, Guid reviewId)
+        {
+            return await ReactionRepository.DeleteAsync(userId, reviewId);
+        }
 
-    }
+       
+}
 }

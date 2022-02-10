@@ -45,5 +45,29 @@ namespace AuTOP.WebAPI.Controllers
             }
 
         }
+
+        public async Task<HttpResponseMessage> PutAsync(Reaction reaction)
+        {
+            try
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, await ReactionService.PutAsync(reaction));
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex);
+            }
+        }
+
+        public async Task<HttpResponseMessage> DeleteAsync(Guid userId, Guid reviewId)
+        {
+            try
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, await ReactionService.DeleteAsync(userId,reviewId));
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex);
+            }
+        }
     }
 }

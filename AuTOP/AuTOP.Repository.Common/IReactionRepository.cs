@@ -12,5 +12,12 @@ namespace AuTOP.Repository.Common
         Task<double> GetLikes();
 
         Task<bool> PostAsync(Reaction reaction);
+
+        Task<bool> PutAsync(Reaction reaction);
+        
+        Task<bool> DeleteAsync(Guid userId, Guid reviewId);
+
+        
+       
     }
 }
