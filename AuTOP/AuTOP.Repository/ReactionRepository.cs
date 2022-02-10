@@ -15,7 +15,7 @@ namespace AuTOP.Repository
         private string connectionString = "Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog = monoprojekt; Persist Security Info=False;User ID = matej; Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout = 30;";
         public async Task<Reaction> GetUserReaction(Guid userId,Guid reviewId)
         {
-            string queryString = $"select * from Reaction where UserId = '{userId}' and ReviewId = ''{reviewId}";
+            string queryString = $"select * from Reaction where UserId = '{userId}' and ReviewId = '{reviewId}'";
             SqlConnection connection = new SqlConnection(connectionString);
             SqlDataAdapter adapter = new SqlDataAdapter(queryString, connection);
             DataSet reactionData = new DataSet();

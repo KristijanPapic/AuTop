@@ -121,7 +121,7 @@ namespace AuTOP.Repository
         public async Task<Guid> GetIdbyName(string name)
         {
             SqlConnection connection = new SqlConnection(connecitonString);
-            string querryString = $"Select Id from User where Name = '{name}'";
+            string querryString = $"Select Id from [User] where Username = '{name}'";
             SqlDataAdapter adapter = new SqlDataAdapter(querryString, connection);
             DataSet userData = new DataSet();
             adapter.Fill(userData);
