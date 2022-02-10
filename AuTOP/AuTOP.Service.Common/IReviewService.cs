@@ -13,6 +13,7 @@ namespace AuTOP.Service.Common
         Task<List<IReview>> GetAsync(ReviewFilter filter);
         Task<IReview> GetByIdAsync(Guid reviewId);
         Task PostAsync(IReview review);
+        Task PutAsync(Guid reviewId, IReview review);
         Task DeleteAsync(Guid reviewId);
     }
 }

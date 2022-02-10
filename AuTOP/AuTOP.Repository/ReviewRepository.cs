@@ -101,6 +101,19 @@ namespace AuTOP.Repository
                 connection.Close();
             }
         }
+        public async Task PutAsync(Guid reveiwId, IReview review)
+        {
+            using (SqlConnection connection = new SqlConnection(connecitonString))
+            {
+                SqlCommand command = new SqlCommand(
+                  $"UPDATE [Review] SET Comment='{review.Comment}', Rating='{review.Rating}', DateUpdated=GETDATE() WHERE Id='{reveiwId}'", connection);
+
+                connection.Open();
+                await command.ExecuteNonQueryAsync();
+                connection.Close();
+            }
+        }
+
         public async Task DeleteAsync(Guid reviewId)
         {
             using (SqlConnection connection = new SqlConnection(connecitonString))

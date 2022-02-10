@@ -72,20 +72,22 @@ namespace AuTOP.WebAPI.Controllers
             }
         }
 
-        //[Route("reviews/{id}")]
-        //public async Task<HttpResponseMessage> Put(Guid id, [FromBody] User user)
-        //{
-        //    try
-        //    {
-        //        IUser userPut = user;
-        //        await UserService.PutAsync(id, userPut);
-        //        return Request.CreateResponse(HttpStatusCode.OK, "User updated");
-        //    }
-        //    catch
-        //    {
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError);
-        //    }
-        //}
+        [Authorize]
+        [Route("reviews/{id}")]
+        public async Task<HttpResponseMessage> Put(Guid id, [FromBody] Review review)
+        {
+            try
+            {
+                IReview reviewPut = review;
+                await ReviewService.PutAsync(id, reviewPut);
+                return Request.CreateResponse(HttpStatusCode.OK, "Review updated");
+            }
+            catch
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            }
+        }
+
         [Authorize]
         [Route("reviews/{id}")]
         public async Task<HttpResponseMessage> Delete(Guid id)
