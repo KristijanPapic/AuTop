@@ -89,25 +89,34 @@ namespace AuTOP.Repository
         }
 
         public async Task<bool> PutAsync(Reaction reaction)
-        {                        
-            string queryString = $"UPDATE Reaction SET IsLiked='{reaction.IsLiked}' WHERE UserId='{reaction.UserId}' AND ReviewId='{reaction.ReviewId}';";
+        {            
+            reaction.DateUpdated = DateTime.UtcNow;
+
+            string insertSql = @"UPDATE Reaction SET IsLiked=@IsLiked, DateUpdated=@DateUpdated WHERE UserId=@UserId AND ReviewId=@ReviewId";
+
 
             using (SqlConnection connection = new SqlConnection("Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 try
                 {
-                    connection.Open();
-                    SqlCommand myCommand = new SqlCommand(queryString, connection);
+                    using (var com = new SqlCommand(insertSql, connection))
+                    {
+                        com.Parameters.AddWithValue("@UserId", reaction.UserId);
+                        com.Parameters.AddWithValue("@ReviewId", reaction.ReviewId);
+                        com.Parameters.AddWithValue("@IsLiked", reaction.IsLiked);
+                        com.Parameters.AddWithValue("@DateUpdated", reaction.DateUpdated);
+                        connection.Open();
+                        await com.ExecuteNonQueryAsync();
+                    }
 
-                    await myCommand.ExecuteNonQueryAsync();
                     connection.Close();
                     return true;
+
                 }
                 catch (SqlException ex)
                 {
                     return false;
                 }
-
             }
         }
 
