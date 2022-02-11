@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace AuTOP.Model.DomainModels
 {
-    public class ManufacturerDomainModel : DateTimeModel
+    public class ManufacturerDomainModel : IdDateBaseModel
     {
-        private Guid id;
         private string name;
         private string imageURL;
         private List<ModelDomainModel> models;
@@ -24,7 +23,6 @@ namespace AuTOP.Model.DomainModels
 
         }
 
-        public Guid Id { get => id; set => id = value; }
         public string Name { get => name; set => name = value; }
         public List<ModelDomainModel> Models { get => models; set => models = value; }
         public string ImageURL { get => imageURL; set => imageURL = value; }

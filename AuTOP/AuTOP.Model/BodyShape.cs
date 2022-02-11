@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace AuTOP.Model
 {
-    public class BodyShape : DateTimeModel, IBodyShape
+    public class BodyShape : IdDateBaseModel, IBodyShape
     {
-        public Guid Id { get; set; }
 
         public string Name { get; set; }
 

@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace AuTOP.Model
 {
-    public class Motor : DateTimeModel, IMotor
+    public class Motor : IdDateBaseModel, IMotor
     {
-        public Guid Id { get; set; }
 
         public int Year { get; set; }
 

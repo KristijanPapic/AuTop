@@ -35,7 +35,7 @@ namespace AuTOP.Repository
                 {
                     User user = new User()
                     {
-                        UserId = (Guid)reader["Id"],
+                        Id = (Guid)reader["Id"],
                         Username = reader["Username"].ToString(),
                         Password = reader["Password"].ToString(),
                         Email = reader["Email"].ToString(),
@@ -68,7 +68,7 @@ namespace AuTOP.Repository
                 reader.Read();
 
 
-                user.UserId = (Guid)reader["Id"];
+                user.Id = (Guid)reader["Id"];
                 user.Username = reader["Username"].ToString();
                 user.Email = reader["Email"].ToString();
                 user.DateCreated = (DateTime)reader["DateCreated"];

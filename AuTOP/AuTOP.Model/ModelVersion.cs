@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace AuTOP.Model
 {
-    public class ModelVersion : DateTimeModel, IModelVersion
+    public class ModelVersion : IdDateBaseModel, IModelVersion
     {
-        public Guid Id { get; set; }
 
         public Guid ModelId { get; set; }
 

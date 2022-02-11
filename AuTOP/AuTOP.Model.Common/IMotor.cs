@@ -8,7 +8,6 @@ namespace AuTOP.Model.Common
 {
     public interface IMotor
     {
-        Guid Id { get; set;}
         
         int Year { get; set; }
 

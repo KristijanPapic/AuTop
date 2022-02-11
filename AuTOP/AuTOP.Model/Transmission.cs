@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace AuTOP.Model
 {
-    public class Transmission : DateTimeModel, ITransmission
+    public class Transmission : IdDateBaseModel, ITransmission
     {
-        public Guid Id { get; set; }
 
         public string Name { get; set; }
 

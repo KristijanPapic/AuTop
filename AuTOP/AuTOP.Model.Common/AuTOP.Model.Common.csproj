@@ -78,7 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DateTimeModel.cs" />
+    <Compile Include="IdDateBaseModelcs.cs" />
     <Compile Include="IBodyShape.cs" />
     <Compile Include="IModelVersion.cs" />
     <Compile Include="IReaction.cs" />

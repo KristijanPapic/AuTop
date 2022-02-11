@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AuTOP.Model
 {
-    public class Reaction : DateTimeModel, IReaction
+    public class Reaction : IdDateBaseModel, IReaction
     {
         public Guid UserId { get; set; }
 

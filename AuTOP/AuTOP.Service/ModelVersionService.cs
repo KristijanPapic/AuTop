@@ -61,7 +61,7 @@ namespace AuTOP.Service
                 Guid userId = await userRepository.GetIdbyName(currentUserName);
                 foreach(Review review in domainModelVersion.Reviews)
                 {
-                    review.CurrentUserReaction = await reactionRepository.GetUserReaction(userId, review.ReviewId);
+                    review.CurrentUserReaction = await reactionRepository.GetUserReaction(userId, review.Id);
                 }
             }
             

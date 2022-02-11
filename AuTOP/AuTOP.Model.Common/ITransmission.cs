@@ -8,7 +8,6 @@ namespace AuTOP.Model.Common
 {
     public interface ITransmission
     {
-        Guid Id { get; set; }
 
         string Name { get; set; }
 

@@ -42,7 +42,7 @@ namespace AuTOP.Repository
                 {
                     Review review = new Review()
                     {
-                        ReviewId = (Guid)reader["Id"],
+                        Id = (Guid)reader["Id"],
                         UserId = (Guid)reader["UserId"],
                         ModelVersionId = (Guid)reader["ModelVersionID"],
                         Comment = reader["Comment"].ToString(),
@@ -76,7 +76,7 @@ namespace AuTOP.Repository
                 reader.Read();
 
 
-                review.ReviewId = (Guid)reader["Id"];
+                review.Id = (Guid)reader["Id"];
                 review.UserId = (Guid)reader["UserId"];
                 review.ModelVersionId = (Guid)reader["ModelVersionID"];
                 review.Comment = reader["Comment"].ToString();
@@ -94,7 +94,7 @@ namespace AuTOP.Repository
             using (SqlConnection connection = new SqlConnection(connecitonString))
             {
                 SqlCommand command = new SqlCommand(
-                  $"INSERT INTO [Review] VALUES (NEWID(),'{review.ModelVersionId}','{review.UserId}','{review.Comment}','{review.Rating}',GETDATE(),GETDATE())", connection);
+                  $"INSERT INTO [Review] VALUES (NEWID(),'{review.ModelVersionId}','{review.Id}','{review.Comment}','{review.Rating}',GETDATE(),GETDATE())", connection);
 
                 connection.Open();
                 await command.ExecuteNonQueryAsync();

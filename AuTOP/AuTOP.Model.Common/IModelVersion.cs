@@ -8,7 +8,6 @@ namespace AuTOP.Model.Common
 {
     public interface IModelVersion
     {
-        Guid Id { get; set; }
 
         Guid ModelId { get; set; }
 
