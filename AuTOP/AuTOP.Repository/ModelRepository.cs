@@ -17,19 +17,19 @@ namespace AuTOP.Repository
             SqlConnection connection = new SqlConnection(connectionString);
             SqlCommand command;
             string queryString;
-            if (filter.Search == "" && filter.SearchId == Guid.Empty);
+            if (filter.Name == "" && filter.ManufacturerId == Guid.Empty);
             {
                 queryString = "select * from model";
                 command = new SqlCommand(queryString, connection);
             }
-            if(filter.SearchId == Guid.Empty)
+            if(filter.ManufacturerId == Guid.Empty)
             {
-                queryString = $"select * from model where {filter.SearchBy} like '%{filter.Search}%'";
+                queryString = $"select * from model where Name like '%{filter.Name}%'";
                 command = new SqlCommand(queryString, connection);
             }
             else
             {
-                queryString = $"select * from model where {filter.SearchBy} = '{filter.SearchId}'";
+                queryString = $"select * from model where ManufacturerId = '{filter.ManufacturerId}'";
                 command = new SqlCommand(queryString, connection);
             }
             if (!(sort.SortBy == ""))

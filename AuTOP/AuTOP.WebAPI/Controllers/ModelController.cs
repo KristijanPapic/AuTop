@@ -26,7 +26,9 @@ namespace AuTOP.WebAPI.Controllers
         }
         public async Task<HttpResponseMessage> GetAllModels(string search = "", string sortBy = "Name", string sortMethod = "", int page = 1)
         {
-            ModelFilter filter = new ModelFilter(search,"Name");
+            ModelFilter filter = new ModelFilter {
+                Name = search
+            };
             Sorting sorting = new Sorting(sortBy, sortMethod);
             Paging paging = new Paging(page);
             List<ModelDomainModel> domainModels = await modelService.GetAllModelsAsync(filter, sorting, paging);

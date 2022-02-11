@@ -31,17 +31,20 @@ namespace AuTOP.Model
         public BodyShape BodyShape { get => bodyShape; set => bodyShape = value; }
         public Transmission Transmission { get => transmission; set => transmission = value; }
         public List<IReview> Reviews { get => reviews; set => reviews = value; }
+        public string Name { get => name; set => name = value; }
 
         private ModelDomainModel model;
         private Motor motor;
         private BodyShape bodyShape;
         private Transmission transmission;
         private List<IReview> reviews;
+        private string name;
 
-        public ModelVersion(Guid id, Guid modelId, Guid motorId, Guid bodyShapeId, Guid transmissionId, decimal fuelConsumption, int year, decimal acceleration, int doors,DateTime dateCreated, DateTime dateUpdated)
+        public ModelVersion(Guid id, Guid modelId,string name, Guid motorId, Guid bodyShapeId, Guid transmissionId, decimal fuelConsumption, int year, decimal acceleration, int doors,DateTime dateCreated, DateTime dateUpdated)
         {
             Id = id;
             ModelId = modelId;
+            Name = name;
             MotorId = motorId;
             BodyShapeId = bodyShapeId;
             TransmissionId = transmissionId;

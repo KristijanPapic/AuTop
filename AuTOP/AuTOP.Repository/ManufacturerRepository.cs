@@ -19,7 +19,7 @@ namespace AuTOP.Repository
             SqlConnection connection = new SqlConnection(connectionString);
             SqlCommand command;
             string queryString;
-            if (filter.Search == "")
+            if (filter.Name == "")
             {
                 queryString = "select * from Manufacturer";
                 command = new SqlCommand(queryString, connection);
@@ -28,14 +28,17 @@ namespace AuTOP.Repository
             {
                 queryString = "select * from Manufacturer where Name like @FILTER";
                 command = new SqlCommand(queryString, connection);
-                command.Parameters.AddWithValue("@FILTER", "%" + filter.Search + "%");
+                command.Parameters.AddWithValue("@FILTER", "%" + filter.Name + "%");
             }
-            if (!(sort.SortBy == ""))
+            if (sort.SortBy != "")
             {
                 command.CommandText = command.CommandText.Insert(command.CommandText.Length, $" order by { sort.SortBy} { sort.SortMethod}");
             }
-
-            command.CommandText = command.CommandText.Insert(command.CommandText.Length, $" offset { paging.GetStartElement()} rows fetch next {paging.Rpp} rows only;");
+            if(paging.DontPage == false)
+            {
+                command.CommandText = command.CommandText.Insert(command.CommandText.Length, $" offset { paging.GetStartElement()} rows fetch next {paging.Rpp} rows only;");
+            }
+            
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             DataSet manufacturerData = new DataSet();
             await Task.Run(() => adapter.Fill(manufacturerData));

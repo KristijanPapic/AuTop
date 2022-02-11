@@ -18,17 +18,26 @@ namespace AuTOP.Repository
         public async Task<List<ModelVersion>> GetAllModelVersions(ModelVersionFilter filter,Sorting sort, Paging paging)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            SqlCommand command;
-            if(filter.SearchId == Guid.Empty)
+            StringBuilder queryString = new StringBuilder($"select * from ModelVersion where Name like '%{filter.Name}%' ");
+            
+            if(filter.ModelId != Guid.Empty)
             {
-                string queryString = "select * from ModelVersion";
-                command = new SqlCommand(queryString, connection);
+                queryString.Append($" and where ModelId = {filter.ModelId}");
             }
-            else
+            if (filter.MotorId != Guid.Empty)
             {
-                string queryString = $"select * from ModelVersion where {filter.SearchBy} = '{filter.SearchId}'";
-                command = new SqlCommand(queryString, connection);
+                queryString.Append($" and where MotorId = {filter.MotorId}");
             }
+            if (filter.TransmissionId != Guid.Empty)
+            {
+                queryString.Append($" and where TransmissionId = {filter.TransmissionId}");
+            }
+            if (filter.BodyShapeId != Guid.Empty)
+            {
+                queryString.Append($" and where BodyShapeId = {filter.BodyShapeId}");
+            }
+
+
             if (!(sort.SortBy == ""))
             {
                 command.CommandText = command.CommandText.Insert(command.CommandText.Length, $" order by { sort.SortBy} { sort.SortMethod}");
@@ -62,7 +71,7 @@ namespace AuTOP.Repository
             DataSet modelVersionData = new DataSet();
             await Task.Run(() => adapter.Fill(modelVersionData));
             DataRow dataRow = modelVersionData.Tables[0].Rows[0];
-            ModelVersion modelVersion = new ModelVersion(Guid.Parse(Convert.ToString(dataRow["Id"])), Guid.Parse(Convert.ToString(dataRow["ModelId"])), Guid.Parse(Convert.ToString(dataRow["MotorId"])), Guid.Parse(Convert.ToString(dataRow["BodyShapeId"])), Guid.Parse(Convert.ToString(dataRow["TransmissionId"])), Convert.ToDecimal(dataRow["FuelConsumption"]), Convert.ToInt32(dataRow["Year"]), Convert.ToDecimal(dataRow["Acceleration"]), Convert.ToInt32(dataRow["Doors"]), Convert.ToDateTime(dataRow["DateCreated"]), Convert.ToDateTime(dataRow["DateUpdated"])); 
+            ModelVersion modelVersion = new ModelVersion(Guid.Parse(Convert.ToString(dataRow["Id"])), Guid.Parse(Convert.ToString(dataRow["ModelId"])), Convert.ToString(dataRow["Name"]),Guid.Parse(Convert.ToString(dataRow["MotorId"])), Guid.Parse(Convert.ToString(dataRow["BodyShapeId"])), Guid.Parse(Convert.ToString(dataRow["TransmissionId"])), Convert.ToDecimal(dataRow["FuelConsumption"]), Convert.ToInt32(dataRow["Year"]), Convert.ToDecimal(dataRow["Acceleration"]), Convert.ToInt32(dataRow["Doors"]), Convert.ToDateTime(dataRow["DateCreated"]), Convert.ToDateTime(dataRow["DateUpdated"])); 
             return modelVersion;
         }
 

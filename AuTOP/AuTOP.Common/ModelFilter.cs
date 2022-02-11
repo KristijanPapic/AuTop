@@ -8,22 +8,10 @@ namespace AuTOP.Common
 {
     public class ModelFilter
     {
-        private string searchBy;
-        private string search;
-        private Guid searchId;
-        public ModelFilter(string search,string searchBy)
-        {
-            SearchBy = searchBy;
-            Search = search;
-        }
-        public ModelFilter(Guid searchId, string searchBy)
-        {
-            SearchBy = searchBy;
-            SearchId = searchId;
-        }
+        private string name = "";
+        private Guid manufacturerId = Guid.Empty;
 
-        public string Search { get => search; set => search = value; }
-        public string SearchBy { get => searchBy; set => searchBy = value; }
-        public Guid SearchId { get => searchId; set => searchId = value; }
+        public Guid ManufacturerId { get => manufacturerId; set => manufacturerId = value; }
+        public string Name { get => name; set => name = value; }
     }
 }

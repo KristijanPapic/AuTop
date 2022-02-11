@@ -28,7 +28,10 @@ namespace AuTOP.WebAPI.Controllers
         }
         public async Task<HttpResponseMessage> GetAllManufacturers(string search = "", string sortBy = "Name", string sortMethod = "", int page = 1)
         {
-            ManufacturerFilter filter = new ManufacturerFilter(search);
+            ManufacturerFilter filter = new ManufacturerFilter
+            {
+                Name = search
+            };
             Sorting sorting = new Sorting(sortBy, sortMethod);
             Paging paging = new Paging(page);
             List<ManufacturerDomainModel> domainManufacturers = await manufacturerServis.GetAllManufacturersAsync(filter,sorting,paging);
