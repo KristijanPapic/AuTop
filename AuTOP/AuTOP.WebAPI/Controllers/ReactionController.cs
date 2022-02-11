@@ -18,20 +18,6 @@ namespace AuTOP.WebAPI.Controllers
         }
         protected IReactionService ReactionService { get; set; }
 
-        public ReactionController() { }
-
-        public async Task<HttpResponseMessage> GetLikes()
-        {
-            try
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, await ReactionService.GetLikes());
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound, ex);
-            }
-
-        }
 
         public async Task<HttpResponseMessage> PostAsync(Reaction reaction)
         {

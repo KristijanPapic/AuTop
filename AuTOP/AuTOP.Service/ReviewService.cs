@@ -28,7 +28,7 @@ namespace AuTOP.Service
             List<IReview> reviews = await ReviewRepository.GetAsync(filter);
             foreach (IReview review in reviews)
             {
-                review.LikePercentage = await ReactionRepository.GetLikes();
+                review.LikePercentage = await ReactionRepository.GetLikePercentage(review.ReviewId);
             }
             return reviews;
         }

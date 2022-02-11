@@ -9,7 +9,6 @@ namespace AuTOP.Service.Common
 {
     public interface IReactionService
     {
-        Task<double> GetLikes();
 
         Task<bool> PostAsync(Reaction reaction);
 

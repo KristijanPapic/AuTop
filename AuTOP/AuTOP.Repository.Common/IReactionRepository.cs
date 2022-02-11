@@ -11,7 +11,7 @@ namespace AuTOP.Repository.Common
     {
         Task<Reaction> GetUserReaction(Guid userId, Guid reviewId);
 
-        Task<double> GetLikes();
+        Task<double> GetLikePercentage(Guid id);
 
         Task<bool> PostAsync(Reaction reaction);
 
