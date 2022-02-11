@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AuTOP.Common;
 using AuTOP.Model;
 using AuTOP.Model.Common;
 using AuTOP.Service;
@@ -22,9 +23,13 @@ namespace AuTOP.WebAPI.Controllers
         protected IUserService UserService { get; set; }
 
         [Route("users")]
-        public async Task<HttpResponseMessage> GetAsync()
+        public async Task<HttpResponseMessage> GetAsync(string searchQuery = "Username", string sortBy = "Username", string sortMethod = "ASC", int page = 1)
         {
-            var users = await UserService.GetAsync();
+            UserFilter filter = new UserFilter(searchQuery);
+            Sorting sorting = new Sorting(sortBy, sortMethod);
+            Paging paging = new Paging(page);
+
+            var users = await UserService.GetAsync(filter, sorting, paging);
 
             if (users != null)
             {

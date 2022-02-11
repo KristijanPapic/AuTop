@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AuTOP.Common;
 using AuTOP.Model.Common;
 using AuTOP.Repository;
 using AuTOP.Repository.Common;
@@ -17,9 +18,9 @@ namespace AuTOP.Service
             this.UserRepository = userRepository;
         }
         protected IUserRepository UserRepository { get; set; }
-        public async Task<List<IUser>> GetAsync()
+        public async Task<List<IUser>> GetAsync(UserFilter filter, Sorting sort, Paging paging)
         {
-            return await UserRepository.GetAsync();
+            return await UserRepository.GetAsync(filter, sort, paging);
         }
 
         public async Task<IUser> GetByIdAsync(Guid userId)

@@ -28,7 +28,7 @@ namespace AuTOP.Service
             List<IReview> reviews = await ReviewRepository.GetAsync(filter);
             foreach (IReview review in reviews)
             {
-                review.LikePercentage = await ReactionRepository.GetLikePercentage(review.Id);
+                review.LikePercentage = await ReactionRepository.GetLikePercentage(review.UserId);
             }
             return reviews;
         }
@@ -45,9 +45,9 @@ namespace AuTOP.Service
             return await ReviewRepository.PostAsync(review);
         }
 
-        public async Task DeleteAsync(Guid reviewId)
+        public async Task<bool> DeleteAsync(Guid reviewId)
         {
-            await ReviewRepository.DeleteAsync(reviewId);
+            return await ReviewRepository.DeleteAsync(reviewId);
         }
     }
 }

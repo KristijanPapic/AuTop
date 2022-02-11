@@ -8,6 +8,7 @@ using AuTOP.Model.Common;
 using AuTOP.Model;
 using AuTOP.Repository.Common;
 using System.Data;
+using AuTOP.Common;
 
 namespace AuTOP.Repository 
 {
@@ -17,16 +18,49 @@ namespace AuTOP.Repository
             "Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;" +
             "MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
-        public async Task<List<IUser>> GetAsync()
+        public async Task<List<IUser>> GetAsync(UserFilter filter, Sorting sort, Paging paging)
         {
             List<IUser> users = new List<IUser>();
             using (SqlConnection connection = new SqlConnection(connecitonString))
             {
-                string query = "SELECT * FROM [User]";
-                SqlCommand command;
                 
-                command = new SqlCommand(query, connection);
+                SqlCommand command;
+                StringBuilder queryString = new StringBuilder(); 
+                queryString.Append("Select * from [User] WHERE 1=1");
 
+
+                //if (filter.SearchEmail == "" && filter.SearchUsername == "")
+                //{
+                //    command = new SqlCommand(queryString, connection);
+                //}
+                //TODO:
+                //3 metode: jedna za filtere, druga za sorter, treća za paging
+
+                if(filter!=null)
+                {
+                    await AddFilter(filter, queryString);
+                }
+
+                if (sort != null)
+                {
+                    await AddSorting(sort, queryString);
+                }
+
+                //else
+                //{
+                //    queryString.Append($" AND Username = {}''")
+                //    command = new SqlCommand(queryString, connection);
+                //}
+                //if (!string.IsNullOrWhiteSpace(sort.SortBy))
+                //{
+                //    command.CommandText = command.CommandText.Insert(command.CommandText.Length, $" order by { sort.SortBy} { sort.SortMethod}");
+                //}
+                //if (paging.DontPage == false)
+                //{
+                //    command.CommandText = command.CommandText.Insert(command.CommandText.Length, $" offset { paging.GetStartElement()} rows fetch next {paging.Rpp} rows only;");
+                //}
+
+                command = new SqlCommand(queryString.ToString(), connection);
                 connection.Open();
 
                 SqlDataReader reader = await command.ExecuteReaderAsync();
@@ -69,7 +103,7 @@ namespace AuTOP.Repository
                 {
                     reader.Read();
 
-                    user.UserId = (Guid)reader["Id"];
+                    user.Id = (Guid)reader["Id"];
                     user.Username = reader["Username"].ToString();
                     user.Email = reader["Email"].ToString();
                     user.DateCreated = (DateTime)reader["DateCreated"];
@@ -157,6 +191,30 @@ namespace AuTOP.Repository
             adapter.Fill(userData);
             DataRow dataRow = userData.Tables[0].Rows[0];
             return Guid.Parse(Convert.ToString(dataRow["Id"]));
+        }
+
+        private async Task<StringBuilder> AddFilter(UserFilter filter,StringBuilder queryString)
+        {
+            if (!string.IsNullOrWhiteSpace(filter.SearchQuery))
+            {
+                queryString.Append($" AND (Username = '{ filter.SearchQuery}' OR Email = '{ filter.SearchQuery}')");
+
+            }
+            //if (filter.RoleId.HasValue)
+            //{
+            //    queryString.Append($" AND RoleId = '{ filter.RoleId}' ");
+            //}
+            return await Task.FromResult(queryString);
+        }
+
+        private async Task<StringBuilder> AddSorting(Sorting sorting, StringBuilder queryString)
+        {
+            if (!string.IsNullOrWhiteSpace(sorting.SortMethod))
+            {
+                queryString.Append($" ORDER BY '{sorting.SortBy}' {sorting.SortMethod}");
+
+            }
+            return await Task.FromResult(queryString);
         }
     }
 }
