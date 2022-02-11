@@ -65,57 +65,87 @@ namespace AuTOP.Repository
 
                 SqlDataReader reader = await command.ExecuteReaderAsync();
 
-                reader.Read();
+                if (reader.HasRows != false)
+                {
+                    reader.Read();
 
+                    user.UserId = (Guid)reader["Id"];
+                    user.Username = reader["Username"].ToString();
+                    user.Email = reader["Email"].ToString();
+                    user.DateCreated = (DateTime)reader["DateCreated"];
+                    user.DateUpdated = (DateTime)reader["DateUpdated"];
 
-                user.Id = (Guid)reader["Id"];
-                user.Username = reader["Username"].ToString();
-                user.Email = reader["Email"].ToString();
-                user.DateCreated = (DateTime)reader["DateCreated"];
-                user.DateUpdated = (DateTime)reader["DateUpdated"];                
-
-                reader.Close();
-                connection.Close();
-            }
-            return user;
+                    reader.Close();
+                    connection.Close();
+                    return user;
+                }
+                else
+                {
+                    return null;
+                }
+            }            
         }
 
-        public async Task PostAsync(IUser user)
+        public async Task<bool> PostAsync(IUser user)
         {
-            using (SqlConnection connection = new SqlConnection(connecitonString))
+            if (user != null)
             {
-                SqlCommand command = new SqlCommand(
-                  $"INSERT INTO [User] VALUES (NEWID(),'{user.Username}','{user.Password}','{user.Email}','761B13B6-699D-45EF-9EFB-E31D352BC476',GETDATE(),GETDATE())", connection);
+                using (SqlConnection connection = new SqlConnection(connecitonString))
+                {
+                    SqlCommand command = new SqlCommand(
+                      $"INSERT INTO [User] VALUES (NEWID(),'{user.Username}','{user.Password}','{user.Email}','761B13B6-699D-45EF-9EFB-E31D352BC476',GETDATE(),GETDATE())", connection);
 
-                connection.Open();
-                await command.ExecuteNonQueryAsync();
-                connection.Close();
+                    connection.Open();
+                    await command.ExecuteNonQueryAsync();
+                    connection.Close();
+                }
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
-        public async Task PutAsync(Guid userId, IUser user)
+        public async Task<bool> PutAsync(Guid userId, IUser user)
         {
-            using (SqlConnection connection = new SqlConnection(connecitonString))
+            if (userId != null && user != null)
             {
-                SqlCommand command = new SqlCommand(
-                  $"UPDATE [User] SET Username='{user.Username}', Password='{user.Password}', Email='{user.Email}', DateUpdated=GETDATE() WHERE Id='{userId}'", connection);
+                using (SqlConnection connection = new SqlConnection(connecitonString))
+                {
+                    SqlCommand command = new SqlCommand(
+                      $"UPDATE [User] SET Username='{user.Username}', Password='{user.Password}', Email='{user.Email}', DateUpdated=GETDATE() WHERE Id='{userId}'", connection);
 
-                connection.Open();
-                await command.ExecuteNonQueryAsync();
-                connection.Close();
+                    connection.Open();
+                    await command.ExecuteNonQueryAsync();
+                    connection.Close();
+                }
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
-        public async Task DeleteAsync(Guid userId)
+        public async Task<bool> DeleteAsync(Guid userId)
         {
-            using (SqlConnection connection = new SqlConnection(connecitonString))
+            if (userId != null)
             {
-                SqlCommand command = new SqlCommand(
-                  $"DELETE FROM [User] WHERE Id='{userId}'", connection);
+                using (SqlConnection connection = new SqlConnection(connecitonString))
+                {
+                    SqlCommand command = new SqlCommand(
+                      $"DELETE FROM [User] WHERE Id='{userId}'", connection);
 
-                connection.Open();
-                await command.ExecuteNonQueryAsync();
-                connection.Close();
+                    connection.Open();
+                    await command.ExecuteNonQueryAsync();
+                    connection.Close();
+                }
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
         public async Task<Guid> GetIdbyName(string name)
