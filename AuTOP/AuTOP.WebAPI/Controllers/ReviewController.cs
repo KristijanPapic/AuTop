@@ -47,28 +47,31 @@ namespace AuTOP.WebAPI.Controllers
         [Route("reviews/{reviewId}")]
         public async Task<HttpResponseMessage> GetByIdAsync(Guid reviewId)
         {
-            try
+            var review = await ReviewService.GetByIdAsync(reviewId);
+
+            if(review != null)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, await ReviewService.GetByIdAsync(reviewId));
+                return Request.CreateResponse(HttpStatusCode.OK, review);
             }
-            catch (Exception ex)
+            else
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, ex);
+                return Request.CreateResponse(HttpStatusCode.NotFound);
             }
         }
         [Authorize]
         [Route("reviews")]
         public async Task<HttpResponseMessage> PostAsync([FromBody] Review review)
         {
-            try
-            {
-                IReview reviewPost = review;
-                await ReviewService.PostAsync(reviewPost);
+            IReview reviewPost = review;
+            var status = await ReviewService.PostAsync(reviewPost);
+
+            if(status)
+            {                
                 return Request.CreateResponse(HttpStatusCode.OK, "New review created");
             }
-            catch (Exception ex)
+            else
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, ex);
+                return Request.CreateResponse(HttpStatusCode.NotFound);
             }
         }
 
@@ -76,13 +79,14 @@ namespace AuTOP.WebAPI.Controllers
         [Route("reviews/{id}")]
         public async Task<HttpResponseMessage> Put(Guid id, [FromBody] Review review)
         {
-            try
-            {
-                IReview reviewPut = review;
-                await ReviewService.PutAsync(id, reviewPut);
+            IReview reviewPut = review;
+            var status = await ReviewService.PutAsync(id, reviewPut);
+            
+            if(status)
+            {                
                 return Request.CreateResponse(HttpStatusCode.OK, "Review updated");
             }
-            catch
+            else
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError);
             }
@@ -92,14 +96,15 @@ namespace AuTOP.WebAPI.Controllers
         [Route("reviews/{id}")]
         public async Task<HttpResponseMessage> Delete(Guid id)
         {
-            try
+            var status = await ReviewService.DeleteAsync(id);
+
+            if(status)
             {
-                await ReviewService.DeleteAsync(id);
-                return Request.CreateResponse(HttpStatusCode.OK, "User deleted");
+                return Request.CreateResponse(HttpStatusCode.OK, "Review deleted");
             }
-            catch
+            else
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, $"User with Id:{id} not found");
+                return Request.CreateResponse(HttpStatusCode.NotFound, $"Review with Id:{id} not found");
             }
         }
     }

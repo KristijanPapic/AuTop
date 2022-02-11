@@ -89,41 +89,67 @@ namespace AuTOP.Repository
             }
             return review;
         }
-        public async Task PostAsync(IReview review)
+        public async Task<bool> PostAsync(IReview review)
         {
-            using (SqlConnection connection = new SqlConnection(connecitonString))
+            if (review != null)
             {
-                SqlCommand command = new SqlCommand(
-                  $"INSERT INTO [Review] VALUES (NEWID(),'{review.ModelVersionId}','{review.Id}','{review.Comment}','{review.Rating}',GETDATE(),GETDATE())", connection);
 
-                connection.Open();
-                await command.ExecuteNonQueryAsync();
-                connection.Close();
+                using (SqlConnection connection = new SqlConnection(connecitonString))
+                {
+                    SqlCommand command = new SqlCommand(
+                      $"INSERT INTO [Review] VALUES (NEWID(),'{review.ModelVersionId}','{review.UserId}','{review.Comment}','{review.Rating}',GETDATE(),GETDATE())", connection);
+
+                    connection.Open();
+                    await command.ExecuteNonQueryAsync();
+                    connection.Close();
+                }
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+            
+        }
+        public async Task<bool> PutAsync(Guid reveiwId, IReview review)
+        {
+            if (reveiwId != null && review != null)
+            {
+                using (SqlConnection connection = new SqlConnection(connecitonString))
+                {
+                    SqlCommand command = new SqlCommand(
+                      $"UPDATE [Review] SET Comment='{review.Comment}', Rating='{review.Rating}', DateUpdated=GETDATE() WHERE Id='{reveiwId}'", connection);
+
+                    connection.Open();
+                    await command.ExecuteNonQueryAsync();
+                    connection.Close();
+                }
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
-        public async Task PutAsync(Guid reveiwId, IReview review)
-        {
-            using (SqlConnection connection = new SqlConnection(connecitonString))
-            {
-                SqlCommand command = new SqlCommand(
-                  $"UPDATE [Review] SET Comment='{review.Comment}', Rating='{review.Rating}', DateUpdated=GETDATE() WHERE Id='{reveiwId}'", connection);
 
-                connection.Open();
-                await command.ExecuteNonQueryAsync();
-                connection.Close();
+        public async Task<bool> DeleteAsync(Guid reviewId)
+        {
+            if (reviewId != null)
+            {
+                using (SqlConnection connection = new SqlConnection(connecitonString))
+                {
+                    SqlCommand command = new SqlCommand(
+                      $"DELETE FROM [Review] WHERE Id='{reviewId}'", connection);
+
+                    connection.Open();
+                    await command.ExecuteNonQueryAsync();
+                    connection.Close();
+                }
+                return true;
             }
-        }
-
-        public async Task DeleteAsync(Guid reviewId)
-        {
-            using (SqlConnection connection = new SqlConnection(connecitonString))
+            else
             {
-                SqlCommand command = new SqlCommand(
-                  $"DELETE FROM [Review] WHERE Id='{reviewId}'", connection);
-
-                connection.Open();
-                await command.ExecuteNonQueryAsync();
-                connection.Close();
+                return false;
             }
         }
 

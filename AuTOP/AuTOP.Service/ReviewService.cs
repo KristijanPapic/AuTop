@@ -36,13 +36,13 @@ namespace AuTOP.Service
         {
             return await ReviewRepository.GetByIdAsync(reviewId);
         }
-        public async Task PutAsync(Guid reviewId, IReview review)
+        public async Task<bool> PutAsync(Guid reviewId, IReview review)
         {
-            await ReviewRepository.PutAsync(reviewId, review);
+            return await ReviewRepository.PutAsync(reviewId, review);
         }
-        public async Task PostAsync(IReview review)
+        public async Task<bool> PostAsync(IReview review)
         {
-            await ReviewRepository.PostAsync(review);
+            return await ReviewRepository.PostAsync(review);
         }
 
         public async Task DeleteAsync(Guid reviewId)

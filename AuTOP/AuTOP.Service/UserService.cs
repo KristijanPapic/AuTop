@@ -27,17 +27,17 @@ namespace AuTOP.Service
             return await UserRepository.GetByIdAsync(userId);
         }
 
-        public async Task PostAsync(IUser user)
+        public async Task<bool> PostAsync(IUser user)
         {
-            await UserRepository.PostAsync(user);
+            return await UserRepository.PostAsync(user);
         }
-        public async Task PutAsync(Guid userId, IUser user)
+        public async Task<bool> PutAsync(Guid userId, IUser user)
         {
-            await UserRepository.PutAsync(userId, user);
+            return await UserRepository.PutAsync(userId, user);
         }
-        public async Task DeleteAsync(Guid userId)
+        public async Task<bool> DeleteAsync(Guid userId)
         {
-            await UserRepository.DeleteAsync(userId);
+            return await UserRepository.DeleteAsync(userId);
         }
     }
 }
