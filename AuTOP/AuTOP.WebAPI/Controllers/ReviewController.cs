@@ -10,6 +10,7 @@ using AuTOP.Model;
 using AuTOP.Model.Common;
 using AuTOP.Service;
 using AuTOP.Service.Common;
+using AuTOP.WebAPI.Models.ViewModels;
 
 namespace AuTOP.WebAPI.Controllers
 {
