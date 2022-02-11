@@ -18,13 +18,6 @@ namespace AuTOP.Service
         }
         protected IReactionRepository ReactionRepository { get; set; }
 
-
-
-        public async Task<double> GetLikes()
-        {
-            return await ReactionRepository.GetLikes();
-        }
-
         public async Task<bool> PostAsync(Reaction reaction)
         {
             return await ReactionRepository.PostAsync(reaction);

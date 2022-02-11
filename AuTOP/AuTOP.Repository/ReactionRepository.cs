@@ -37,45 +37,24 @@ namespace AuTOP.Repository
 
             
         }
-        public async Task<double> GetLikes()
+        public async Task<double> GetLikePercentage(Guid id)
         {
-            string queryStringLike = $"SELECT COUNT(ReviewId) FROM Reaction WHERE IsLiked!=0;";
-            string queryStringDislike = $"SELECT COUNT(ReviewId) FROM Reaction WHERE IsLiked=0;";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            SqlConnection connection = new SqlConnection(connectionString);
+            string queryString = $"SELECT COUNT(CASE WHEN IsLiked = 1 THEN 1 END) AS Likes,COUNT(CASE WHEN IsLiked = 0 THEN 1 END) AS Dislikes FROM Reaction where ReviewId = '{id}';";
+            SqlDataAdapter adapter = new SqlDataAdapter(queryString, connection);
+            DataSet reactData = new DataSet();
+            adapter.Fill(reactData);
+            DataRow dataRow = reactData.Tables[0].Rows[0];
+            int Likes = Convert.ToInt32(dataRow["Likes"]);
+            int Dislikes = Convert.ToInt32(dataRow["Dislikes"]);
+            if(Likes + Dislikes == 0)
             {
-
-                connection.Open();
-                SqlCommand myCommandLike = new SqlCommand(queryStringLike, connection);
-                SqlCommand myCommandDislike = new SqlCommand(queryStringDislike, connection);
-                SqlDataReader myReaderLike = await myCommandLike.ExecuteReaderAsync();
-                int numberOfLikes = 1;
-                int numberOfDislikes = 1;
-
-                while (myReaderLike.Read())
-                {
-                    numberOfLikes++;
-                }
-
-                myReaderLike.Close();
-                SqlDataReader myReaderDislike = await myCommandDislike.ExecuteReaderAsync();
-
-                while (myReaderDislike.Read())
-                {
-                    numberOfDislikes++;
-                }
-
-                myReaderDislike.Close();
-                connection.Close();
-
-                int numberOfLikesAndDislikes = numberOfDislikes + numberOfLikes;
-                double percentageOfLikes = (double)numberOfLikes / numberOfLikesAndDislikes;
-                double number = percentageOfLikes * 100;
-                number = Math.Round(number, 2);
-                return number;
-
-
+                return 0;
             }
+            return (Likes / (Likes + Dislikes)) * 100;
+
+
+
         }
 
         public async Task<bool> PostAsync(Reaction reaction)
