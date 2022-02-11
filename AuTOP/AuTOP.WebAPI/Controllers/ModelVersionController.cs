@@ -47,7 +47,7 @@ namespace AuTOP.WebAPI.Controllers
         }
         public async Task<HttpResponseMessage> GetModelVersionById(Guid id)
         {
-            ModelVersion modelVersionDomain = await modelVersionService.GetModelVersionByIdAsync(id);
+            ModelVersion modelVersionDomain = await modelVersionService.GetModelVersionByIdAsync(id,"Marko");
             ModelVersionDetailModel detailModel = mapper.Map<ModelVersion, ModelVersionDetailModel>(modelVersionDomain);
             return Request.CreateResponse(HttpStatusCode.OK, detailModel);
 

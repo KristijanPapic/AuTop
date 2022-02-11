@@ -14,5 +14,6 @@ namespace AuTOP.Repository.Common
         Task PostAsync(IUser user);
         Task PutAsync(Guid userId, IUser user);
         Task DeleteAsync(Guid userId);
+        Task<Guid> GetIdbyName(string name);
     }
 }

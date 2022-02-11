@@ -13,6 +13,7 @@ namespace AuTOP.Model.Common
         Guid UserId { get; set; }
         string Comment { get; set; }
         int Rating { get; set; }
-        Task<double> LikePercentage { get; set; }
+        double LikePercentage { get; set; }
+        IReaction CurrentUserReaction { get; set; }
     }
 }

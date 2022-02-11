@@ -13,22 +13,22 @@ namespace AuTOP.Service
 {
     public class ReviewService : IReviewService
     {
-        public ReviewService(IReviewRepository reviewRepository)
+        public ReviewService(IReviewRepository reviewRepository, IReactionRepository reactionRepository, IUserRepository userRepository)
         {
             this.ReviewRepository = reviewRepository;
-        }
-        public ReviewService(IReactionRepository reactionRepository)
-        {
+            this.UserRepository = userRepository;
             this.ReactionRepository = reactionRepository;
         }
+       
         protected IReviewRepository ReviewRepository { get; set; }
+        protected IUserRepository UserRepository { get; set; }
         protected IReactionRepository ReactionRepository { get; set; }
         public async Task<List<IReview>> GetAsync(ReviewFilter filter)
         {
             List<IReview> reviews = await ReviewRepository.GetAsync(filter);
             foreach (IReview review in reviews)
             {
-                review.LikePercentage = ReactionRepository.GetLikes();
+                review.LikePercentage = await ReactionRepository.GetLikes();
             }
             return reviews;
         }

@@ -20,7 +20,9 @@ namespace AuTOP.Service
         private ITransmissionRepository transmissionRepository;
         private IBodyShapeRepository bodyShapeRepository;
         private IReviewService reviewService;
-        public ModelVersionService(IModelVersionRepository modelVersionRepository, IModelRepository modelRepository, IManufacturerRepository manufacturerRepository ,IMotorRepository motorRepository, ITransmissionRepository transmissionRepository, IBodyShapeRepository bodyShapeRepository,IReviewService reviewService)
+        private IReactionRepository reactionRepository;
+        private IUserRepository userRepository;
+        public ModelVersionService(IModelVersionRepository modelVersionRepository, IModelRepository modelRepository, IManufacturerRepository manufacturerRepository ,IMotorRepository motorRepository, ITransmissionRepository transmissionRepository, IBodyShapeRepository bodyShapeRepository,IReviewService reviewService,IReactionRepository reactionRepository,IUserRepository userRepository)
         {
             this.manufacturerRepository = manufacturerRepository;
             this.modelVersionRepository = modelVersionRepository;
@@ -29,6 +31,8 @@ namespace AuTOP.Service
             this.transmissionRepository = transmissionRepository;
             this.bodyShapeRepository = bodyShapeRepository;
             this.reviewService = reviewService;
+            this.reactionRepository = reactionRepository;
+            this.userRepository = userRepository;
             
         }
         public async Task<List<ModelVersion>> GetAllModelVersionsAsync(ModelVersionFilter filter, Sorting sort, Paging paging)
@@ -43,7 +47,7 @@ namespace AuTOP.Service
 
             return ModelVersions;
         }
-        public async Task<ModelVersion> GetModelVersionByIdAsync(Guid id)
+        public async Task<ModelVersion> GetModelVersionByIdAsync(Guid id,string currentUserName)
         {
             ModelVersion domainModelVersion = await modelVersionRepository.GetModelVersionById(id);
             domainModelVersion.Model = await modelRepository.GetModelById(domainModelVersion.ModelId);
@@ -52,6 +56,15 @@ namespace AuTOP.Service
             domainModelVersion.Transmission = await transmissionRepository.GetByIdAsync(domainModelVersion.TransmissionId);
             domainModelVersion.BodyShape = await bodyShapeRepository.GetByIdAsync(domainModelVersion.BodyShapeId);
             domainModelVersion.Reviews = await reviewService.GetAsync(new ReviewFilter("ModelVersionId", domainModelVersion.Id));
+            if(currentUserName != "")
+            {
+                Guid userId = await userRepository.GetIdbyName(currentUserName);
+                foreach(Review review in domainModelVersion.Reviews)
+                {
+                    review.CurrentUserReaction = await reactionRepository.GetUserReaction(userId, review.ReviewId);
+                }
+            }
+            
             return domainModelVersion;
         }
     }
