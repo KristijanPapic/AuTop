@@ -40,22 +40,7 @@ namespace AuTOP.Model
         private List<IReview> reviews;
         private string name;
 
-        public ModelVersion(Guid id, Guid modelId,string name, Guid motorId, Guid bodyShapeId, Guid transmissionId, decimal fuelConsumption, int year, decimal acceleration, int doors,DateTime dateCreated, DateTime dateUpdated)
-        {
-            Id = id;
-            ModelId = modelId;
-            Name = name;
-            MotorId = motorId;
-            BodyShapeId = bodyShapeId;
-            TransmissionId = transmissionId;
-            FuelConsumption = fuelConsumption;
-            Year = year;
-            Acceleration = acceleration;
-            Doors = doors;
-            DateCreated = dateCreated;
-            DateUpdated = dateUpdated;
-
-        }
+        
 
     }
 }

@@ -9,9 +9,9 @@ namespace AuTOP.Common
     public class ModelFilter
     {
         private string name = "";
-        private Guid manufacturerId = Guid.Empty;
+        private Guid? manufacturerId = null;
 
-        public Guid ManufacturerId { get => manufacturerId; set => manufacturerId = value; }
+        public Guid? ManufacturerId { get => manufacturerId; set => manufacturerId = value; }
         public string Name { get => name; set => name = value; }
     }
 }
