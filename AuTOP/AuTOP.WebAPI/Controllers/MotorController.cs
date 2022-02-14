@@ -1,6 +1,8 @@
-﻿using AuTOP.Common;
+﻿using AutoMapper;
+using AuTOP.Common;
 using AuTOP.Model;
 using AuTOP.Service.Common;
+using AuTOP.WebAPI.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +15,12 @@ namespace AuTOP.WebAPI.Controllers
 {
     public class MotorController : ApiController
     {
-
-        public MotorController(IMotorService motorService)
+        private IMapper mapper;
+       
+        public MotorController(IMotorService motorService, IMapper mapper)
         {
             this.MotorService = motorService;
+            this.mapper = mapper;
         }
         protected IMotorService MotorService { get; set; }
 
@@ -27,12 +31,18 @@ namespace AuTOP.WebAPI.Controllers
                 filter = new MotorFilter();
             }
             Sorting sorting = new Sorting(sortBy, sortMethod);
-            Paging paging = new Paging(page);
-            return Request.CreateResponse(HttpStatusCode.OK, await MotorService.GetAllAsync( filter,  sorting,  paging));
+            Paging paging = new Paging(page);           
+            List<Motor> motors = await MotorService.GetAllAsync(filter, sorting, paging);
+            List<MotorViewModel> motorView = mapper.Map<List<Motor>, List<MotorViewModel>>(motors);
+
+
+            return Request.CreateResponse(HttpStatusCode.OK, motorView);
         }
         public async Task<HttpResponseMessage> GetByIdAsync(Guid id)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, await MotorService.GetByIdAsync(id));
+            Motor motor = await MotorService.GetByIdAsync(id);
+            MotorViewModel motorView = mapper.Map<Motor, MotorViewModel>(motor);
+            return Request.CreateResponse(HttpStatusCode.OK,motorView);
         }
 
         public async Task<HttpResponseMessage> PostAsync(Motor motor)
