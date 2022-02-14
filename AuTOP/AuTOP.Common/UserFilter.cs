@@ -10,6 +10,8 @@ namespace AuTOP.Common
     {
         private string searchBy;
         private string searchQuery;
+
+        public UserFilter() { }
         //private Guid? roleId;
 
         //public UserFilter(string searchBy, string searchUsername)

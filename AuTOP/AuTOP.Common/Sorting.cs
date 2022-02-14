@@ -11,6 +11,8 @@ namespace AuTOP.Common
         private string sortBy;
         private string sortMethod;
 
+        public Sorting() { }
+
         public Sorting(string sortBy, string sortMethod)
         {
             SortBy = sortBy;

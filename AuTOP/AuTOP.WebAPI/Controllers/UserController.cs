@@ -23,12 +23,19 @@ namespace AuTOP.WebAPI.Controllers
         protected IUserService UserService { get; set; }
 
         [Route("users")]
-        public async Task<HttpResponseMessage> GetAsync(string searchQuery = "Username", string sortBy = "Username", string sortMethod = "ASC", int page = 1)
+        public async Task<HttpResponseMessage> GetAsync([FromUri] UserFilter filter, [FromUri] Sorting sorting, [FromUri] Paging paging)
         {
-            UserFilter filter = new UserFilter(searchQuery);
-            Sorting sorting = new Sorting(sortBy, sortMethod);
-            Paging paging = new Paging(page);
+            //filter.SearchBy = "Username";
+            //filter.SearchQuery = "";
 
+            //sorting.SortBy = "Username";
+            //sorting.SortMethod = "ASC";
+
+            //paging.Page = 1;
+            //UserFilter filter = new UserFilter(searchQuery);
+            //Sorting sorting = new Sorting(sortBy, sortMethod);
+            //Paging paging = new Paging(page);
+            
             var users = await UserService.GetAsync(filter, sorting, paging);
 
             if (users != null)
