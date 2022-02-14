@@ -106,16 +106,19 @@ namespace AuTOP.Repository
             }            
         }
 
-        public async Task<bool> PostAsync(IUser user)
+        public async Task<bool> PostAsync(User user)
         {
             if (user != null)
             {
                 using (SqlConnection connection = new SqlConnection(connecitonString))
                 {
                     SqlCommand command = new SqlCommand(
-                      $"INSERT INTO [User] VALUES (NEWID(),'{user.Username}','{user.Password}','{user.Email}','761B13B6-699D-45EF-9EFB-E31D352BC476',GETDATE(),GETDATE())", connection);
+                      $"INSERT INTO [User] VALUES (@Id,'{user.Username}','{user.Password}','{user.Email}','761B13B6-699D-45EF-9EFB-E31D352BC476',@DateCreated,@DateUpdated)", connection);
 
                     connection.Open();
+                    command.Parameters.AddWithValue("@Id", user.Id);
+                    command.Parameters.AddWithValue("@DateCreated", user.DateCreated);
+                    command.Parameters.AddWithValue("@DateUpdated", user.DateUpdated);
                     await command.ExecuteNonQueryAsync();
                     connection.Close();
                 }
@@ -127,16 +130,17 @@ namespace AuTOP.Repository
             }
         }
 
-        public async Task<bool> PutAsync(Guid userId, IUser user)
+        public async Task<bool> PutAsync(Guid userId, User user)
         {
             if (userId != null && user != null)
             {
                 using (SqlConnection connection = new SqlConnection(connecitonString))
                 {
                     SqlCommand command = new SqlCommand(
-                      $"UPDATE [User] SET Username='{user.Username}', Password='{user.Password}', Email='{user.Email}', DateUpdated=GETDATE() WHERE Id='{userId}'", connection);
+                      $"UPDATE [User] SET Username='{user.Username}', Password='{user.Password}', Email='{user.Email}', DateUpdated=@DateUpdated WHERE Id='{userId}'", connection);
 
                     connection.Open();
+                    command.Parameters.AddWithValue("@DateUpdated", user.DateUpdated);
                     await command.ExecuteNonQueryAsync();
                     connection.Close();
                 }

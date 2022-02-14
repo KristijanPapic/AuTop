@@ -96,7 +96,7 @@ namespace AuTOP.Repository
             }
             return review;
         }
-        public async Task<bool> PostAsync(IReview review)
+        public async Task<bool> PostAsync(Review review)
         {
             if (review != null)
             {
@@ -118,7 +118,7 @@ namespace AuTOP.Repository
             }
             
         }
-        public async Task<bool> PutAsync(Guid reveiwId, IReview review)
+        public async Task<bool> PutAsync(Guid reveiwId, Review review)
         {
             if (reveiwId != null && review != null)
             {

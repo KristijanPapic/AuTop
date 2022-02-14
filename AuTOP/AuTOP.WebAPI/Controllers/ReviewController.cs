@@ -35,7 +35,7 @@ namespace AuTOP.WebAPI.Controllers
             {
                 foreach (Review r in reviews)
                 {
-                    ReviewViewModel review = mapper.Map<IReview, ReviewViewModel>(r);
+                    ReviewViewModel review = mapper.Map<Review, ReviewViewModel>(r);
                     review.DateCreated = r.DateCreated;
                     reviewsView.Add(review);
                 }
@@ -65,7 +65,7 @@ namespace AuTOP.WebAPI.Controllers
         [Route("reviews")]
         public async Task<HttpResponseMessage> PostAsync([FromBody] Review review)
         {
-            IReview reviewPost = review;
+            Review reviewPost = review;
 
             if(await ReviewService.PostAsync(reviewPost))
             {                
@@ -81,7 +81,7 @@ namespace AuTOP.WebAPI.Controllers
         [Route("reviews/{id}")]
         public async Task<HttpResponseMessage> Put(Guid id, [FromBody] Review review)
         {
-            IReview reviewPut = review;
+            Review reviewPut = review;
             
             if(await ReviewService.PutAsync(id, reviewPut))
             {                

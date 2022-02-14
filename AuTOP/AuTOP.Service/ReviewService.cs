@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AuTOP.Common;
+using AuTOP.Model;
 using AuTOP.Model.Common;
 using AuTOP.Repository;
 using AuTOP.Repository.Common;
@@ -36,12 +37,14 @@ namespace AuTOP.Service
         {
             return await ReviewRepository.GetByIdAsync(reviewId);
         }
-        public async Task<bool> PutAsync(Guid reviewId, IReview review)
+        public async Task<bool> PutAsync(Guid reviewId, Review review)
         {
+            review.Generate();
             return await ReviewRepository.PutAsync(reviewId, review);
         }
-        public async Task<bool> PostAsync(IReview review)
+        public async Task<bool> PostAsync(Review review)
         {
+            review.GenerateUpdateDate();
             return await ReviewRepository.PostAsync(review);
         }
 

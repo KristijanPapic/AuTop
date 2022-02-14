@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AuTOP.Common;
+using AuTOP.Model;
 using AuTOP.Model.Common;
 
 namespace AuTOP.Repository.Common
@@ -12,8 +13,8 @@ namespace AuTOP.Repository.Common
     {
         Task<List<IReview>> GetAsync(ReviewFilter filter, Sorting sort, Paging paging);
         Task<IReview> GetByIdAsync(Guid reviewId);
-        Task<bool> PostAsync(IReview review);
-        Task<bool> PutAsync(Guid reveiwId, IReview review);
+        Task<bool> PostAsync(Review review);
+        Task<bool> PutAsync(Guid reveiwId, Review review);
         Task<bool> DeleteAsync(Guid reviewId);
     }
 }

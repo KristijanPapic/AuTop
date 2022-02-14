@@ -36,7 +36,7 @@ namespace AuTOP.WebAPI.Controllers
             {
                 foreach(User u in users)
                 {
-                    UserViewModel user = mapper.Map<IUser, UserViewModel>(u);
+                    UserViewModel user = mapper.Map<User, UserViewModel>(u);
                     usersView.Add(user);
                 }
                 return Request.CreateResponse(HttpStatusCode.OK, usersView);
@@ -54,7 +54,7 @@ namespace AuTOP.WebAPI.Controllers
             UserViewModel userView = new UserViewModel();            
             if (user != null)
             {
-                userView = mapper.Map<IUser, UserViewModel>(user);
+                userView = mapper.Map<User, UserViewModel>(user);
 
                 return Request.CreateResponse(HttpStatusCode.OK, userView);
             }
@@ -67,7 +67,7 @@ namespace AuTOP.WebAPI.Controllers
         [Route("users")]
         public async Task<HttpResponseMessage> PostAsync([FromBody] User user)
         {
-            IUser userPost = user;
+            User userPost = user;
             var status = await UserService.PostAsync(userPost);
 
             if (status)
@@ -83,7 +83,7 @@ namespace AuTOP.WebAPI.Controllers
         [Route("users/{id}")]
         public async Task<HttpResponseMessage> Put(Guid id, [FromBody] User user)
         {
-            IUser userPut = user;
+            User userPut = user;
             var status = await UserService.PutAsync(id, userPut);
 
             if(status)

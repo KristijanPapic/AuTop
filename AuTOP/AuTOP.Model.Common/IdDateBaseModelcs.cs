@@ -22,5 +22,10 @@ namespace AuTOP.Model.Common
             DateCreated = DateTime.UtcNow;
             DateUpdated = DateTime.UtcNow;
         }
+
+        public void GenerateUpdateDate()
+        {
+            DateUpdated = DateTime.UtcNow;
+        }
     }
 }
