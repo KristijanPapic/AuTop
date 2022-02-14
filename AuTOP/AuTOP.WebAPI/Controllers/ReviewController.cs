@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 using AuTOP.Common;
 using AuTOP.Model;
 using AuTOP.Model.Common;
@@ -16,19 +17,29 @@ namespace AuTOP.WebAPI.Controllers
 {
     public class ReviewController : ApiController
     {
-        public ReviewController(IReviewService reviewService)
+        public ReviewController(IReviewService reviewService, IMapper mapper)
         {
             this.ReviewService = reviewService;
+            this.mapper = mapper;
         }
         protected IReviewService ReviewService { get; set; }
+        private IMapper mapper;
 
         [Route("reviews")]
         public async Task<HttpResponseMessage> GetAsync([FromUri] ReviewFilter filter, [FromUri] Sorting sort, [FromUri] Paging paging)
         {
             var reviews = await ReviewService.GetAsync(filter, sort, paging);
+            List<ReviewViewModel> reviewsView = new List<ReviewViewModel>();
+
             if (reviews != null)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, reviews);
+                foreach (Review r in reviews)
+                {
+                    ReviewViewModel review = mapper.Map<IReview, ReviewViewModel>(r);
+                    review.DateCreated = r.DateCreated;
+                    reviewsView.Add(review);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, reviewsView);
             }
             else
             {

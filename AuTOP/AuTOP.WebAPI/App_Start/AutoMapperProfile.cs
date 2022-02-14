@@ -8,6 +8,7 @@ using AutoMapper;
 using AuTOP.WebAPI.Models;
 using AuTOP.WebAPI.Models.DetailModel;
 using AuTOP.Model;
+using AuTOP.Model.Common;
 using AuTOP.WebAPI.Models.ViewModels;
 
 namespace AuTOP.WebAPI.App_Start
@@ -24,7 +25,8 @@ namespace AuTOP.WebAPI.App_Start
             CreateMap<Motor, MotorViewModel>();
             CreateMap<ModelVersion, ModelVersionViewModel>();
             CreateMap<ModelVersion, ModelVersionDetailModel>();
-            
+            CreateMap<IUser, UserViewModel>();
+            CreateMap<IReview, ReviewViewModel>();
         }
         
     }
