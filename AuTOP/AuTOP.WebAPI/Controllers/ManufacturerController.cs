@@ -26,11 +26,11 @@ namespace AuTOP.WebAPI.Controllers
             this.manufacturerServis = manufacturerServis;
             this.mapper = mapper;
         }
-        public async Task<HttpResponseMessage> GetAllManufacturers(string search = "", string sortBy = "Name", string sortMethod = "", int page = 1)
+        public async Task<HttpResponseMessage> GetAllManufacturers(string name = "", string sortBy = "Name", string sortMethod = "", int page = 1)
         {
             ManufacturerFilter filter = new ManufacturerFilter
             {
-                Name = search
+                Name = name
             };
             Sorting sorting = new Sorting(sortBy, sortMethod);
             Paging paging = new Paging(page);

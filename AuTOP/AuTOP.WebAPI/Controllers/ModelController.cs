@@ -24,11 +24,12 @@ namespace AuTOP.WebAPI.Controllers
             this.modelService = modelServis;
             this.mapper = mapper;
         }
-        public async Task<HttpResponseMessage> GetAllModels(string search = "", string sortBy = "Name", string sortMethod = "", int page = 1)
+        public async Task<HttpResponseMessage> GetAllModels(ModelFilter filter = null, string sortBy = "Name", string sortMethod = "", int page = 1)
         {
-            ModelFilter filter = new ModelFilter {
-                Name = search
-            };
+            if(filter == null)
+            {
+                filter = new ModelFilter();
+            }
             Sorting sorting = new Sorting(sortBy, sortMethod);
             Paging paging = new Paging(page);
             List<ModelDomainModel> domainModels = await modelService.GetAllModelsAsync(filter, sorting, paging);
