@@ -81,6 +81,7 @@
     <Compile Include="ManufacturerServis.cs" />
     <Compile Include="ModelService.cs" />
     <Compile Include="ModelVersionService.cs" />
+    <Compile Include="MotorService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReactionService.cs" />
     <Compile Include="ReviewService.cs" />

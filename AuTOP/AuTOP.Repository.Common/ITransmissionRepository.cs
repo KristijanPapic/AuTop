@@ -1,4 +1,5 @@
-﻿using AuTOP.Model;
+﻿using AuTOP.Common;
+using AuTOP.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace AuTOP.Repository.Common
 {
     public interface ITransmissionRepository
     {
-        Task<List<Transmission>> GetAllAsync();
+        Task<List<Transmission>> GetAllAsync(TransmissionFilter filter, Sorting sort, Paging paging);
 
         Task<Transmission> GetByIdAsync(Guid id);
     }

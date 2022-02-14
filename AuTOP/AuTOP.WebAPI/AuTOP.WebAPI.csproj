@@ -224,6 +224,7 @@
     <Compile Include="Controllers\ManufacturerController.cs" />
     <Compile Include="Controllers\ModelController.cs" />
     <Compile Include="Controllers\ModelVersionController.cs" />
+    <Compile Include="Controllers\MotorController.cs" />
     <Compile Include="Controllers\ReactionController.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
     <Compile Include="Controllers\UserController.cs" />
