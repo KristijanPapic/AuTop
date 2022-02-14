@@ -30,7 +30,7 @@ namespace AuTOP.Service
         public async Task<ModelDomainModel> GetModelAsync(Guid id)
         {
             ModelDomainModel modelDomain = await modelRepository.GetModelById(id);
-            modelDomain.ModelVersions = await modelVersionService.GetAllModelVersionsAsync(new ModelVersionFilter(id, "ModelId"), new Sorting("", ""), new Paging(true));
+            modelDomain.ModelVersions = await modelVersionService.GetAllModelVersionsAsync(new ModelVersionFilter {ModelId = id }, new Sorting("", ""), new Paging(true));
             modelDomain.Manufacturer = await manufacturerRepository.GetManufacturerByIdAsync(modelDomain.ManufacturerId);
             return modelDomain;
         }

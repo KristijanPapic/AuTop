@@ -26,18 +26,11 @@ namespace AuTOP.WebAPI.Controllers
             this.mapper = mapper;
             this.modelVersionService = modelVersionService;
         }
-        public async Task<HttpResponseMessage> GetAllModelVersions(Guid? searchOpt = null, string searchBy="Id",string sortBy = "Year", string sortMethod = "ASC", int page = 1)
-        {
-            Guid search;
-            if (searchOpt.HasValue)
+        public async Task<HttpResponseMessage> GetAllModelVersions(ModelVersionFilter filter = null,string sortBy = "Year", string sortMethod = "ASC", int page = 1)
+        {   if(filter == null)
             {
-                search = searchOpt.Value;
+                filter = new ModelVersionFilter();
             }
-            else
-            {
-                search = Guid.Empty;
-            }
-            ModelVersionFilter filter = new ModelVersionFilter(search, searchBy);
             Sorting sorting = new Sorting(sortBy, sortMethod);
             Paging paging = new Paging(page);
             List<ModelVersion> modelVersionsDomain = await modelVersionService.GetAllModelVersionsAsync(filter, sorting, paging);

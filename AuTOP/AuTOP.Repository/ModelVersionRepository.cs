@@ -18,25 +18,40 @@ namespace AuTOP.Repository
         public async Task<List<ModelVersion>> GetAllModelVersions(ModelVersionFilter filter,Sorting sort, Paging paging)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            SqlCommand command;
-            if(filter.SearchId == Guid.Empty)
+            StringBuilder queryString = new StringBuilder("select * from ModelVersion where 1=1");
+
+            if (!String.IsNullOrWhiteSpace(filter.Name))
             {
-                string queryString = "select * from ModelVersion";
-                command = new SqlCommand(queryString, connection);
+                queryString.Append($" and Name Like '%{filter.Name}%'");
             }
-            else
+            
+            if(filter.ModelId.HasValue)
             {
-                string queryString = $"select * from ModelVersion where {filter.SearchBy} = '{filter.SearchId}'";
-                command = new SqlCommand(queryString, connection);
+                queryString.Append($" and ModelId = '{filter.ModelId}'");
             }
-            if (!(sort.SortBy == ""))
+            if (filter.MotorId.HasValue)
             {
-                command.CommandText = command.CommandText.Insert(command.CommandText.Length, $" order by { sort.SortBy} { sort.SortMethod}");
+                queryString.Append($" and MotorId = '{filter.MotorId}'");
+            }
+            if (filter.TransmissionId.HasValue)
+            {
+                queryString.Append($" and TransmissionId = '{filter.TransmissionId}'");
+            }
+            if (filter.BodyShapeId.HasValue)
+            {
+                queryString.Append($" and BodyShapeId = '{filter.BodyShapeId}'");
+            }
+
+
+            if (!String.IsNullOrWhiteSpace(sort.SortBy))
+            {
+                queryString.Append($" order by { sort.SortBy} { sort.SortMethod}");
             }
             if (paging.DontPage == false)
             {
-                command.CommandText = command.CommandText.Insert(command.CommandText.Length, $" offset { paging.GetStartElement()} rows fetch next {paging.Rpp} rows only;");
+                queryString.Append($" offset {paging.GetStartElement()} rows fetch next {paging.Rpp} rows only;");
             }
+            SqlCommand command = new SqlCommand(queryString.ToString(), connection);
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             DataSet modelVersionData = new DataSet();
             await Task.Run(() => adapter.Fill(modelVersionData));
@@ -48,7 +63,21 @@ namespace AuTOP.Repository
 
             foreach (DataRow dataRow in modelVersionData.Tables[0].Rows)
             {
-                modelVersions.Add(new ModelVersion(Guid.Parse(Convert.ToString(dataRow["Id"])), Guid.Parse(Convert.ToString(dataRow["ModelId"])), Guid.Parse(Convert.ToString(dataRow["MotorId"])), Guid.Parse(Convert.ToString(dataRow["BodyShapeId"])), Guid.Parse(Convert.ToString(dataRow["TransmissionId"])), Convert.ToDecimal(dataRow["FuelConsumption"]), Convert.ToInt32(dataRow["Year"]), Convert.ToDecimal(dataRow["Acceleration"]), Convert.ToInt32(dataRow["Doors"]), Convert.ToDateTime(dataRow["DateCreated"]), Convert.ToDateTime(dataRow["DateUpdated"])));
+                modelVersions.Add(new ModelVersion
+                {
+                    Name = Convert.ToString(dataRow["Name"]),
+                    Id = Guid.Parse(Convert.ToString(dataRow["Id"])),
+                    ModelId = Guid.Parse(Convert.ToString(dataRow["ModelId"])),
+                    MotorId = Guid.Parse(Convert.ToString(dataRow["MotorId"])),
+                    BodyShapeId = Guid.Parse(Convert.ToString(dataRow["BodyShapeId"])),
+                    TransmissionId = Guid.Parse(Convert.ToString(dataRow["TransmissionId"])),
+                    FuelConsumption = Convert.ToDecimal(dataRow["FuelConsumption"]),
+                    Year = Convert.ToInt32(dataRow["Year"]),
+                    Acceleration = Convert.ToDecimal(dataRow["Acceleration"]),
+                    Doors = Convert.ToInt32(dataRow["Doors"]),
+                    DateCreated = Convert.ToDateTime(dataRow["DateCreated"]),
+                    DateUpdated = Convert.ToDateTime(dataRow["DateUpdated"])
+                });
             }
             return modelVersions;
 
@@ -62,7 +91,21 @@ namespace AuTOP.Repository
             DataSet modelVersionData = new DataSet();
             await Task.Run(() => adapter.Fill(modelVersionData));
             DataRow dataRow = modelVersionData.Tables[0].Rows[0];
-            ModelVersion modelVersion = new ModelVersion(Guid.Parse(Convert.ToString(dataRow["Id"])), Guid.Parse(Convert.ToString(dataRow["ModelId"])), Guid.Parse(Convert.ToString(dataRow["MotorId"])), Guid.Parse(Convert.ToString(dataRow["BodyShapeId"])), Guid.Parse(Convert.ToString(dataRow["TransmissionId"])), Convert.ToDecimal(dataRow["FuelConsumption"]), Convert.ToInt32(dataRow["Year"]), Convert.ToDecimal(dataRow["Acceleration"]), Convert.ToInt32(dataRow["Doors"]), Convert.ToDateTime(dataRow["DateCreated"]), Convert.ToDateTime(dataRow["DateUpdated"])); 
+            ModelVersion modelVersion = new ModelVersion
+            {
+                Name = Convert.ToString(dataRow["Name"]),
+                Id = Guid.Parse(Convert.ToString(dataRow["Id"])),
+                ModelId = Guid.Parse(Convert.ToString(dataRow["ModelId"])),
+                MotorId = Guid.Parse(Convert.ToString(dataRow["MotorId"])),
+                BodyShapeId = Guid.Parse(Convert.ToString(dataRow["BodyShapeId"])),
+                TransmissionId = Guid.Parse(Convert.ToString(dataRow["TransmissionId"])),
+                FuelConsumption = Convert.ToDecimal(dataRow["FuelConsumption"]),
+                Year = Convert.ToInt32(dataRow["Year"]),
+                Acceleration = Convert.ToDecimal(dataRow["Acceleration"]),
+                Doors = Convert.ToInt32(dataRow["Doors"]),
+                DateCreated = Convert.ToDateTime(dataRow["DateCreated"]),
+                DateUpdated = Convert.ToDateTime(dataRow["DateUpdated"])
+            };
             return modelVersion;
         }
 

@@ -8,16 +8,16 @@ namespace AuTOP.Common
 {
     public class ModelVersionFilter
     {
-        private Guid searchId;
-        private string searchBy;
+        private string name = "";
+        private Guid? modelId = null;
+        private Guid? motorId = null;
+        private Guid? transmissionId = null;
+        private Guid? bodyShapeId = null;
 
-        public ModelVersionFilter(Guid searchId, string searchBy)
-        {
-            SearchId = searchId;
-            SearchBy = searchBy;
-        }
-
-        public Guid SearchId { get => searchId; set => searchId = value; }
-        public string SearchBy { get => searchBy; set => searchBy = value; }
+        public Guid? ModelId { get => modelId; set => modelId = value; }
+        public Guid? MotorId { get => motorId; set => motorId = value; }
+        public Guid? TransmissionId { get => transmissionId; set => transmissionId = value; }
+        public Guid? BodyShapeId { get => bodyShapeId; set => bodyShapeId = value; }
+        public string Name { get => name; set => name = value; }
     }
 }

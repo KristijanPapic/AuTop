@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace AuTOP.Repository
@@ -15,31 +16,25 @@ namespace AuTOP.Repository
         public async Task<List<ModelDomainModel>> GetAllModelsAsync(ModelFilter filter, Sorting sort, Paging paging)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            SqlCommand command;
-            string queryString;
-            if (filter.Search == "" && filter.SearchId == Guid.Empty);
+            StringBuilder queryString = new StringBuilder("select * from Model where 1=1");
+            if (!String.IsNullOrWhiteSpace(filter.Name));
             {
-                queryString = "select * from model";
-                command = new SqlCommand(queryString, connection);
+                queryString.Append($" and Name Like '%{filter.Name}%");
             }
-            if(filter.SearchId == Guid.Empty)
+            if(filter.ManufacturerId.HasValue)
             {
-                queryString = $"select * from model where {filter.SearchBy} like '%{filter.Search}%'";
-                command = new SqlCommand(queryString, connection);
+                queryString.Append($" and ManufacturerId = '{filter.ManufacturerId}'");
             }
-            else
+
+            if (!String.IsNullOrWhiteSpace(sort.SortBy))
             {
-                queryString = $"select * from model where {filter.SearchBy} = '{filter.SearchId}'";
-                command = new SqlCommand(queryString, connection);
-            }
-            if (!(sort.SortBy == ""))
-            {
-                command.CommandText = command.CommandText.Insert(command.CommandText.Length, $" order by { sort.SortBy} { sort.SortMethod}");
+                queryString.Append($" order by { sort.SortBy} { sort.SortMethod}");
             }
             if (paging.DontPage == false)
             {
-                command.CommandText = command.CommandText.Insert(command.CommandText.Length, $" offset { paging.GetStartElement()} rows fetch next {paging.Rpp} rows only;");
+                queryString.Append($" offset { paging.GetStartElement()} rows fetch next {paging.Rpp} rows only;");
             }
+            SqlCommand command = new SqlCommand(queryString.ToString(), connection);
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             DataSet modelData = new DataSet();
             await Task.Run(() => adapter.Fill(modelData));
@@ -51,7 +46,15 @@ namespace AuTOP.Repository
 
             foreach (DataRow dataRow in modelData.Tables[0].Rows)
             {
-                models.Add(new ModelDomainModel(Guid.Parse(Convert.ToString(dataRow["Id"])), Guid.Parse(Convert.ToString(dataRow["ManufacturerId"])), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["ImageURL"]), Convert.ToDateTime(dataRow["DateCreated"]), Convert.ToDateTime(dataRow["DateUpdated"])));
+                models.Add(new ModelDomainModel
+                {
+                    Id = Guid.Parse(Convert.ToString(dataRow["Id"])),
+                    ManufacturerId = Guid.Parse(Convert.ToString(dataRow["ManufacturerId"])),
+                    Name = Convert.ToString(dataRow["Name"]),
+                    ImageURL = Convert.ToString(dataRow["ImageURL"]),
+                    DateCreated = Convert.ToDateTime(dataRow["DateCreated"]),
+                    DateUpdated = Convert.ToDateTime(dataRow["DateUpdated"])
+                });
             }
             return models;
 
@@ -66,7 +69,15 @@ namespace AuTOP.Repository
             DataSet ModelData = new DataSet();
             await Task.Run(() => adapter.Fill(ModelData));
             DataRow dataRow = ModelData.Tables[0].Rows[0];
-            ModelDomainModel Model = new ModelDomainModel(Guid.Parse(Convert.ToString(dataRow["Id"])), Guid.Parse(Convert.ToString(dataRow["ManufacturerId"])), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["ImageURL"]),Convert.ToDateTime(dataRow["DateCreated"]), Convert.ToDateTime(dataRow["DateUpdated"]));
+            ModelDomainModel Model = new ModelDomainModel
+            {
+                Id = Guid.Parse(Convert.ToString(dataRow["Id"])),
+                ManufacturerId = Guid.Parse(Convert.ToString(dataRow["ManufacturerId"])),
+                Name = Convert.ToString(dataRow["Name"]),
+                ImageURL = Convert.ToString(dataRow["ImageURL"]),
+                DateCreated = Convert.ToDateTime(dataRow["DateCreated"]),
+                DateUpdated = Convert.ToDateTime(dataRow["DateUpdated"])
+            };
             return Model;
         }
 

@@ -8,15 +8,12 @@ namespace AuTOP.Common
 {
     public class ManufacturerFilter
     {
-        private string search;
-        private bool dontGetModels = false;
+        private string name = "";
+        private bool dontGetModels = true;
 
-        public ManufacturerFilter(string search)
-        {
-            Search = search;
-        }
 
-        public string Search { get => search; set => search = value; }
+
         public bool DontGetModels { get => dontGetModels; set => dontGetModels = value; }
+        public string Name { get => name; set => name = value; }
     }
 }

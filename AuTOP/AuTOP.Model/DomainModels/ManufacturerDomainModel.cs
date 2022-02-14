@@ -13,15 +13,6 @@ namespace AuTOP.Model.DomainModels
         private string imageURL;
         private List<ModelDomainModel> models;
 
-        public ManufacturerDomainModel(Guid id,string name, string imageURL,DateTime dateCreated,DateTime dateUpdated)
-        {
-            Id = id;
-            Name = name;
-            ImageURL = imageURL;
-            DateCreated = dateCreated;
-            DateUpdated = dateUpdated;
-
-        }
 
         public string Name { get => name; set => name = value; }
         public List<ModelDomainModel> Models { get => models; set => models = value; }

@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using AuTOP.Repository.Common;
+using System.Text;
 
 namespace AuTOP.Repository
 {
@@ -17,25 +18,21 @@ namespace AuTOP.Repository
         public async Task<List<ManufacturerDomainModel>> GetAllManufacturers(ManufacturerFilter filter, Sorting sort, Paging paging)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            SqlCommand command;
-            string queryString;
-            if (filter.Search == "")
+            
+            StringBuilder queryString = new StringBuilder("select * from Manufacturer");
+            if(!String.IsNullOrWhiteSpace(filter.Name))
             {
-                queryString = "select * from Manufacturer";
-                command = new SqlCommand(queryString, connection);
+                queryString.Append($" where Name like '%{filter.Name}%'");
             }
-            else
+            if (!String.IsNullOrWhiteSpace(sort.SortBy))
             {
-                queryString = "select * from Manufacturer where Name like @FILTER";
-                command = new SqlCommand(queryString, connection);
-                command.Parameters.AddWithValue("@FILTER", "%" + filter.Search + "%");
+                queryString.Append($" order by { sort.SortBy} { sort.SortMethod}");
             }
-            if (!(sort.SortBy == ""))
+            if(paging.DontPage == false)
             {
-                command.CommandText = command.CommandText.Insert(command.CommandText.Length, $" order by { sort.SortBy} { sort.SortMethod}");
+                queryString.Append($" offset { paging.GetStartElement()} rows fetch next {paging.Rpp} rows only;");
             }
-
-            command.CommandText = command.CommandText.Insert(command.CommandText.Length, $" offset { paging.GetStartElement()} rows fetch next {paging.Rpp} rows only;");
+            SqlCommand command = new SqlCommand(queryString.ToString(), connection);
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             DataSet manufacturerData = new DataSet();
             await Task.Run(() => adapter.Fill(manufacturerData));
@@ -45,9 +42,15 @@ namespace AuTOP.Repository
                 return manufacturers;
             }
 
-            foreach(DataRow dataRow in manufacturerData.Tables[0].Rows)
+            foreach (DataRow dataRow in manufacturerData.Tables[0].Rows)
             {
-                manufacturers.Add(new ManufacturerDomainModel(Guid.Parse(Convert.ToString(dataRow["Id"])), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["ImageURL"]),Convert.ToDateTime(dataRow["DateCreated"]),Convert.ToDateTime(dataRow["DateUpdated"])));
+                manufacturers.Add(new ManufacturerDomainModel{
+                   Id =  Guid.Parse(Convert.ToString(dataRow["Id"])), 
+                   Name = Convert.ToString(dataRow["Name"]), 
+                   ImageURL = Convert.ToString(dataRow["ImageURL"]), 
+                   DateCreated = Convert.ToDateTime(dataRow["DateCreated"]), 
+                   DateUpdated = Convert.ToDateTime(dataRow["DateUpdated"])
+                    });
             }
             return manufacturers;
 
@@ -61,7 +64,13 @@ namespace AuTOP.Repository
             DataSet manufacturerData = new DataSet();
             await Task.Run(() => adapter.Fill(manufacturerData));
             DataRow dataRow = manufacturerData.Tables[0].Rows[0];
-            ManufacturerDomainModel domainManufacturer = new ManufacturerDomainModel(Guid.Parse(Convert.ToString(dataRow["Id"])), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["ImageURL"]), Convert.ToDateTime(dataRow["DateCreated"]), Convert.ToDateTime(dataRow["DateUpdated"]));
+            ManufacturerDomainModel domainManufacturer = new ManufacturerDomainModel {
+                Id = Guid.Parse(Convert.ToString(dataRow["Id"])),
+                Name = Convert.ToString(dataRow["Name"]),
+                ImageURL = Convert.ToString(dataRow["ImageURL"]),
+                DateCreated = Convert.ToDateTime(dataRow["DateCreated"]),
+                DateUpdated = Convert.ToDateTime(dataRow["DateUpdated"])
+            };
             return domainManufacturer;
         }
     
