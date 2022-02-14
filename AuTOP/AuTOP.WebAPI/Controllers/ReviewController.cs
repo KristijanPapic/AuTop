@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 using AuTOP.Common;
 using AuTOP.Model;
 using AuTOP.Model.Common;
@@ -16,19 +17,29 @@ namespace AuTOP.WebAPI.Controllers
 {
     public class ReviewController : ApiController
     {
-        public ReviewController(IReviewService reviewService)
+        public ReviewController(IReviewService reviewService, IMapper mapper)
         {
             this.ReviewService = reviewService;
+            this.mapper = mapper;
         }
         protected IReviewService ReviewService { get; set; }
+        private IMapper mapper;
 
         [Route("reviews")]
         public async Task<HttpResponseMessage> GetAsync([FromUri] ReviewFilter filter, [FromUri] Sorting sort, [FromUri] Paging paging)
         {
             var reviews = await ReviewService.GetAsync(filter, sort, paging);
+            List<ReviewViewModel> reviewsView = new List<ReviewViewModel>();
+
             if (reviews != null)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, reviews);
+                foreach (Review r in reviews)
+                {
+                    ReviewViewModel review = mapper.Map<Review, ReviewViewModel>(r);
+                    review.DateCreated = r.DateCreated;
+                    reviewsView.Add(review);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, reviewsView);
             }
             else
             {
@@ -39,11 +50,14 @@ namespace AuTOP.WebAPI.Controllers
         [Route("reviews/{reviewId}")]
         public async Task<HttpResponseMessage> GetByIdAsync(Guid reviewId)
         {
-            var review = await ReviewService.GetByIdAsync(reviewId);
+            Review review = await ReviewService.GetByIdAsync(reviewId);
+            ReviewViewModel reviewView = new ReviewViewModel();
 
             if(review != null)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, review);
+                reviewView = mapper.Map<Review, ReviewViewModel>(review);
+                reviewView.DateCreated = review.DateCreated;
+                return Request.CreateResponse(HttpStatusCode.OK, reviewView);
             }
             else
             {
@@ -54,7 +68,7 @@ namespace AuTOP.WebAPI.Controllers
         [Route("reviews")]
         public async Task<HttpResponseMessage> PostAsync([FromBody] Review review)
         {
-            IReview reviewPost = review;
+            Review reviewPost = review;
 
             if(await ReviewService.PostAsync(reviewPost))
             {                
@@ -70,7 +84,7 @@ namespace AuTOP.WebAPI.Controllers
         [Route("reviews/{id}")]
         public async Task<HttpResponseMessage> Put(Guid id, [FromBody] Review review)
         {
-            IReview reviewPut = review;
+            Review reviewPut = review;
             
             if(await ReviewService.PutAsync(id, reviewPut))
             {                

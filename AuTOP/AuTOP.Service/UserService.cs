@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AuTOP.Common;
+using AuTOP.Model;
 using AuTOP.Model.Common;
 using AuTOP.Repository;
 using AuTOP.Repository.Common;
@@ -28,12 +29,14 @@ namespace AuTOP.Service
             return await UserRepository.GetByIdAsync(userId);
         }
 
-        public async Task<bool> PostAsync(IUser user)
+        public async Task<bool> PostAsync(User user)
         {
+            user.Generate();
             return await UserRepository.PostAsync(user);
         }
-        public async Task<bool> PutAsync(Guid userId, IUser user)
+        public async Task<bool> PutAsync(Guid userId, User user)
         {
+            user.GenerateUpdateDate();
             return await UserRepository.PutAsync(userId, user);
         }
         public async Task<bool> DeleteAsync(Guid userId)

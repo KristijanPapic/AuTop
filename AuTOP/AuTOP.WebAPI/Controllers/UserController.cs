@@ -10,37 +10,36 @@ using AuTOP.Model;
 using AuTOP.Model.Common;
 using AuTOP.Service;
 using AuTOP.Service.Common;
+using AuTOP.WebAPI.Models.ViewModels;
+using AutoMapper;
 
 namespace AuTOP.WebAPI.Controllers
 {
     [Authorize]
     public class UserController : ApiController
     {
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IMapper mapper)
         {
             this.UserService = userService;
+            this.mapper = mapper; 
         }
         protected IUserService UserService { get; set; }
+        private IMapper mapper;
 
         [Route("users")]
         public async Task<HttpResponseMessage> GetAsync([FromUri] UserFilter filter, [FromUri] Sorting sorting, [FromUri] Paging paging)
-        {
-            //filter.SearchBy = "Username";
-            //filter.SearchQuery = "";
-
-            //sorting.SortBy = "Username";
-            //sorting.SortMethod = "ASC";
-
-            //paging.Page = 1;
-            //UserFilter filter = new UserFilter(searchQuery);
-            //Sorting sorting = new Sorting(sortBy, sortMethod);
-            //Paging paging = new Paging(page);
-            
+        {            
             var users = await UserService.GetAsync(filter, sorting, paging);
+            List<UserViewModel> usersView = new List<UserViewModel>();
 
             if (users != null)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, users);
+                foreach(User u in users)
+                {
+                    UserViewModel user = mapper.Map<IUser, UserViewModel>(u);
+                    usersView.Add(user);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, usersView);
             }
             else
             {
@@ -52,10 +51,12 @@ namespace AuTOP.WebAPI.Controllers
         public async Task<HttpResponseMessage> GetByIdAsync(Guid userId)
         {
             var user = await UserService.GetByIdAsync(userId);
-
+            UserViewModel userView = new UserViewModel();            
             if (user != null)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, user);
+                userView = mapper.Map<IUser, UserViewModel>(user);
+
+                return Request.CreateResponse(HttpStatusCode.OK, userView);
             }
             else
             {
@@ -66,7 +67,7 @@ namespace AuTOP.WebAPI.Controllers
         [Route("users")]
         public async Task<HttpResponseMessage> PostAsync([FromBody] User user)
         {
-            IUser userPost = user;
+            User userPost = user;
             var status = await UserService.PostAsync(userPost);
 
             if (status)
@@ -82,7 +83,7 @@ namespace AuTOP.WebAPI.Controllers
         [Route("users/{id}")]
         public async Task<HttpResponseMessage> Put(Guid id, [FromBody] User user)
         {
-            IUser userPut = user;
+            User userPut = user;
             var status = await UserService.PutAsync(id, userPut);
 
             if(status)

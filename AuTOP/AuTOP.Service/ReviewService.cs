@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AuTOP.Common;
+using AuTOP.Model;
 using AuTOP.Model.Common;
 using AuTOP.Repository;
 using AuTOP.Repository.Common;
@@ -23,25 +24,27 @@ namespace AuTOP.Service
         protected IReviewRepository ReviewRepository { get; set; }
         protected IUserRepository UserRepository { get; set; }
         protected IReactionRepository ReactionRepository { get; set; }
-        public async Task<List<IReview>> GetAsync(ReviewFilter filter, Sorting sort, Paging paging)
+        public async Task<List<Review>> GetAsync(ReviewFilter filter, Sorting sort, Paging paging)
         {
-            List<IReview> reviews = await ReviewRepository.GetAsync(filter, sort, paging);
-            foreach (IReview review in reviews)
+            List<Review> reviews = await ReviewRepository.GetAsync(filter, sort, paging);
+            foreach (Review review in reviews)
             {
                 review.LikePercentage = await ReactionRepository.GetLikePercentage(review.UserId);
             }
             return reviews;
         }
-        public async Task<IReview> GetByIdAsync(Guid reviewId)
+        public async Task<Review> GetByIdAsync(Guid reviewId)
         {
             return await ReviewRepository.GetByIdAsync(reviewId);
         }
-        public async Task<bool> PutAsync(Guid reviewId, IReview review)
+        public async Task<bool> PutAsync(Guid reviewId, Review review)
         {
+            review.Generate();
             return await ReviewRepository.PutAsync(reviewId, review);
         }
-        public async Task<bool> PostAsync(IReview review)
+        public async Task<bool> PostAsync(Review review)
         {
+            review.GenerateUpdateDate();
             return await ReviewRepository.PostAsync(review);
         }
 

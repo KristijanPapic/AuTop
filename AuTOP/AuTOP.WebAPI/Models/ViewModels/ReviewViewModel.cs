@@ -10,5 +10,6 @@ namespace AuTOP.WebAPI.Models.ViewModels
         public string Comment { get; set; }
         public int Rating { get; set; }
         public double LikePercentage { get; set; }
+        public DateTime DateCreated { get; set; }
     }
 }
