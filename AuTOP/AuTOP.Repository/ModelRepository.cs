@@ -81,6 +81,36 @@ namespace AuTOP.Repository
             return Model;
         }
 
+        public async Task PostModelAsync(ModelDomainModel model)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            string queryString = $"insert into model values('{model.Id}','{model.ManufacturerId}',{model.Name},{model.DateCreated},{model.DateUpdated},{model.ImageURL});";
+            SqlCommand command = new SqlCommand(queryString, connection);
+            connection.Open();
+            await command.ExecuteNonQueryAsync();
+            connection.Close();
+        }
+
+        public async Task PutModelAsync(ModelDomainModel model)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            string queryString = $"update model set Name = {model.Name},ImageURL = '{model.ImageURL}' where Id = '{manufacturer.Id}'";
+            SqlCommand command = new SqlCommand(queryString, connection);
+            connection.Open();
+            await command.ExecuteNonQueryAsync();
+            connection.Close();
+        }
+
+        public async Task DeleteModelAsync(Guid id)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            string queryString = $"delete from model where Id = '{id}'";
+            SqlCommand command = new SqlCommand(queryString, connection);
+            connection.Open();
+            await command.ExecuteNonQueryAsync();
+            connection.Close();
+        }
+
 
     }
 }

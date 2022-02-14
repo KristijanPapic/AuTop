@@ -73,6 +73,37 @@ namespace AuTOP.Repository
             };
             return domainManufacturer;
         }
-    
+
+        public async Task PostManufacturerAsync(ManufacturerDomainModel manufacturer)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            string queryString = $"insert into manufacturer values('{manufacturer.Id}','{manufacturer.Name}',{manufacturer.DateCreated},{manufacturer.DateUpdated},{manufacturer.ImageURL});";
+            SqlCommand command = new SqlCommand(queryString, connection);
+            connection.Open();
+            await command.ExecuteNonQueryAsync();
+            connection.Close();
+        }
+
+        public async Task PutManufacturerAsync(ManufacturerDomainModel manufacturer)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            string queryString = $"update manufacturer set Name = {manufacturer.Name},ImageURL = '{manufacturer.ImageURL}' where Id = '{manufacturer.Id}'";
+            SqlCommand command = new SqlCommand(queryString, connection);
+            connection.Open();
+            await command.ExecuteNonQueryAsync();
+            connection.Close();
+        }
+
+        public async Task DeleteManufacturerAsync(Guid id)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            string queryString = $"delete from manufacturer where Id = '{id}'";
+            SqlCommand command = new SqlCommand(queryString, connection);
+            connection.Open();
+            await command.ExecuteNonQueryAsync();
+            connection.Close();
+        }
+
+
     }
 }

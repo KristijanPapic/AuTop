@@ -178,7 +178,7 @@ namespace AuTOP.Repository
             string querryString = $"Select Id from [User] where Username = '{name}'";
             SqlDataAdapter adapter = new SqlDataAdapter(querryString, connection);
             DataSet userData = new DataSet();
-            adapter.Fill(userData);
+            await Task.Run(() => adapter.Fill(userData));
             DataRow dataRow = userData.Tables[0].Rows[0];
             return Guid.Parse(Convert.ToString(dataRow["Id"]));
         }

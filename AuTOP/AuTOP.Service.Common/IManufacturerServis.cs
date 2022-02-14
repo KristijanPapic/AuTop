@@ -10,5 +10,9 @@ namespace AuTOP.Service
     {
         Task<List<ManufacturerDomainModel>> GetAllManufacturersAsync(ManufacturerFilter courseFilter, Sorting sort, Paging paging);
         Task<ManufacturerDomainModel> GetManufacturerByIdAsync(Guid id);
+        Task PostManufacturerAsync(ManufacturerDomainModel manufacturer);
+        Task PutManufacturerAsync(ManufacturerDomainModel manufacturer);
+        Task DeleteManufacturerAsync(Guid id);
+
     }
 }

@@ -33,5 +33,21 @@ namespace AuTOP.Service
             //domainManufacturer.Models = await modelRepository.GetModelsByManufacturer(domainManufacturer.Id);
             return domainManufacturer;
         }
+
+        public async Task PostManufacturerAsync(ManufacturerDomainModel manufacturer)
+        {
+            manufacturer.Generate();
+            await manufacturerRepository.PostManufacturerAsync(manufacturer);
+        }
+
+        public async Task PutManufacturerAsync(ManufacturerDomainModel manufacturer)
+        {
+            await manufacturerRepository.PutManufacturerAsync(manufacturer);
+        }
+
+        public async Task DeleteManufacturerAsync(Guid id)
+        {
+            await manufacturerRepository.DeleteManufacturerAsync(id);
+        }
     }
 }
