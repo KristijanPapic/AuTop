@@ -10,7 +10,7 @@ namespace AuTOP.Repository.Common
 {
     public interface IReviewRepository
     {
-        Task<List<IReview>> GetAsync(ReviewFilter filter);
+        Task<List<IReview>> GetAsync(ReviewFilter filter, Sorting sort, Paging paging);
         Task<IReview> GetByIdAsync(Guid reviewId);
         Task<bool> PostAsync(IReview review);
         Task<bool> PutAsync(Guid reveiwId, IReview review);

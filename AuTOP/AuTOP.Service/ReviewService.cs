@@ -23,9 +23,9 @@ namespace AuTOP.Service
         protected IReviewRepository ReviewRepository { get; set; }
         protected IUserRepository UserRepository { get; set; }
         protected IReactionRepository ReactionRepository { get; set; }
-        public async Task<List<IReview>> GetAsync(ReviewFilter filter)
+        public async Task<List<IReview>> GetAsync(ReviewFilter filter, Sorting sort, Paging paging)
         {
-            List<IReview> reviews = await ReviewRepository.GetAsync(filter);
+            List<IReview> reviews = await ReviewRepository.GetAsync(filter, sort, paging);
             foreach (IReview review in reviews)
             {
                 review.LikePercentage = await ReactionRepository.GetLikePercentage(review.UserId);

@@ -16,24 +16,31 @@ namespace AuTOP.Repository
         static string connecitonString = "Server=tcp:monoprojektdbserver.database.windows.net,1433;" +
             "Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;" +
             "MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        public async Task<List<IReview>> GetAsync(ReviewFilter filter)
+        public async Task<List<IReview>> GetAsync(ReviewFilter filter, Sorting sort, Paging paging)
         {
             List<IReview> reviews = new List<IReview>();
             using (SqlConnection connection = new SqlConnection(connecitonString))
             {
-                string query;
-                if (filter.Search == Guid.Empty)
-                {
-                    query = "SELECT * FROM [Review]";
-                }
-                else
-                {
-                    query = $"SELECT * FROM [Review] where {filter.SearchBy} = '{filter.Search}'";
-                }
                 SqlCommand command;
+                StringBuilder queryString = new StringBuilder();
+                queryString.Append("Select * from [Review] WHERE 1=1");
 
-                command = new SqlCommand(query, connection);
+                if (filter != null)
+                {
+                    await AddFilter(filter, queryString);
+                }
 
+                if (sort != null)
+                {
+                    await AddSorting(sort, queryString);
+                }
+
+                if (paging != null)
+                {
+                    await AddPaging(paging, queryString);
+                }
+
+                command = new SqlCommand(queryString.ToString(), connection);
                 connection.Open();
 
                 SqlDataReader reader = await command.ExecuteReaderAsync();
@@ -151,6 +158,40 @@ namespace AuTOP.Repository
             {
                 return false;
             }
+        }
+
+        private async Task<StringBuilder> AddFilter(ReviewFilter filter, StringBuilder queryString)
+        {
+            if (!string.IsNullOrWhiteSpace(filter.SearchQuery))
+            {
+                queryString.Append($" AND (Comment = '{ filter.SearchQuery}' OR Email = '{ filter.SearchQuery}')");
+
+            }
+            if (filter.SearchByRating > 0)
+            {
+                queryString.Append($" AND Rating = '{ filter.SearchByRating}' ");
+            }
+            return await Task.FromResult(queryString);
+        }
+
+        private async Task<StringBuilder> AddSorting(Sorting sorting, StringBuilder queryString)
+        {
+            if (!string.IsNullOrWhiteSpace(sorting.SortMethod) && !string.IsNullOrWhiteSpace(sorting.SortBy))
+            {
+                queryString.Append($" ORDER BY '{sorting.SortBy}' {sorting.SortMethod}");
+
+            }
+            return await Task.FromResult(queryString);
+        }
+
+        private async Task<StringBuilder> AddPaging(Paging paging, StringBuilder queryString)
+        {
+            if (paging.Page > 0)
+            {
+                queryString.Append($" OFFSET {paging.GetStartElement()} ROWS FETCH NEXT {paging.Rpp} ROWS ONLY");
+
+            }
+            return await Task.FromResult(queryString);
         }
 
     }

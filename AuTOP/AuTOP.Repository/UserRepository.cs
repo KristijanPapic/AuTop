@@ -28,11 +28,6 @@ namespace AuTOP.Repository
                 StringBuilder queryString = new StringBuilder(); 
                 queryString.Append("Select * from [User] WHERE 1=1");
 
-
-                //if (filter.SearchEmail == "" && filter.SearchUsername == "")
-                //{
-                //    command = new SqlCommand(queryString, connection);
-                //}
                 //TODO:
                 //3 metode: jedna za filtere, druga za sorter, treća za paging
 
@@ -46,19 +41,10 @@ namespace AuTOP.Repository
                     await AddSorting(sort, queryString);
                 }
 
-                //else
-                //{
-                //    queryString.Append($" AND Username = {}''")
-                //    command = new SqlCommand(queryString, connection);
-                //}
-                //if (!string.IsNullOrWhiteSpace(sort.SortBy))
-                //{
-                //    command.CommandText = command.CommandText.Insert(command.CommandText.Length, $" order by { sort.SortBy} { sort.SortMethod}");
-                //}
-                //if (paging.DontPage == false)
-                //{
-                //    command.CommandText = command.CommandText.Insert(command.CommandText.Length, $" offset { paging.GetStartElement()} rows fetch next {paging.Rpp} rows only;");
-                //}
+                if (paging != null)
+                {
+                    await AddPaging(paging, queryString);
+                }
 
                 command = new SqlCommand(queryString.ToString(), connection);
                 connection.Open();
@@ -209,9 +195,19 @@ namespace AuTOP.Repository
 
         private async Task<StringBuilder> AddSorting(Sorting sorting, StringBuilder queryString)
         {
-            if (!string.IsNullOrWhiteSpace(sorting.SortMethod))
+            if (!string.IsNullOrWhiteSpace(sorting.SortMethod) && !string.IsNullOrWhiteSpace(sorting.SortBy))
             {
                 queryString.Append($" ORDER BY '{sorting.SortBy}' {sorting.SortMethod}");
+
+            }
+            return await Task.FromResult(queryString);
+        }
+
+        private async Task<StringBuilder> AddPaging(Paging paging, StringBuilder queryString)
+        {
+            if (paging.Page > 0)
+            {
+                queryString.Append($" OFFSET {paging.GetStartElement()} ROWS FETCH NEXT {paging.Rpp} ROWS ONLY");
 
             }
             return await Task.FromResult(queryString);

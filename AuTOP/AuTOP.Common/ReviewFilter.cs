@@ -8,16 +8,22 @@ namespace AuTOP.Common
 {
     public class ReviewFilter
     {
-        private string searchBy;
-        private Guid search;
+        //private string searchBy;
+        private string searchQuery;
+        private int searchByRating;
+        private Guid modelVersionId;
+        public ReviewFilter() { }
 
-        public ReviewFilter(string searchBy, Guid search)
+        public ReviewFilter(string searchQuery, int searchByRating)
         {
-            SearchBy = searchBy;
-            Search = search;
+            SearchQuery = searchQuery;
+
+            SearchByRating = searchByRating;
         }
 
-        public string SearchBy { get => searchBy; set => searchBy = value; }
-        public Guid Search { get => search; set => search = value; }
+        //public string SearchBy { get => searchBy; set => searchBy = value; }
+        public string SearchQuery { get => searchQuery; set => searchQuery = value; }
+        public int SearchByRating { get => searchByRating; set => searchByRating = value; }
+        public Guid ModelVersionId { get => modelVersionId; set => modelVersionId = value; } 
     }
 }

@@ -23,25 +23,16 @@ namespace AuTOP.WebAPI.Controllers
         protected IReviewService ReviewService { get; set; }
 
         [Route("reviews")]
-        public async Task<HttpResponseMessage> GetAsync(Guid? searchOpt = null, string searchBy = "ModelVersionId")
+        public async Task<HttpResponseMessage> GetAsync([FromUri] ReviewFilter filter, [FromUri] Sorting sort, [FromUri] Paging paging)
         {
-            Guid search;
-            if (searchOpt.HasValue)
+            var reviews = await ReviewService.GetAsync(filter, sort, paging);
+            if (reviews != null)
             {
-                search = searchOpt.Value;
+                return Request.CreateResponse(HttpStatusCode.OK, reviews);
             }
             else
             {
-                search = Guid.Empty;
-            }
-            ReviewFilter filter = new ReviewFilter(searchBy, search);
-            try
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, await ReviewService.GetAsync(filter));
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound, ex);
+                return Request.CreateResponse(HttpStatusCode.NotFound);
             }
         }
 
@@ -64,9 +55,8 @@ namespace AuTOP.WebAPI.Controllers
         public async Task<HttpResponseMessage> PostAsync([FromBody] Review review)
         {
             IReview reviewPost = review;
-            var status = await ReviewService.PostAsync(reviewPost);
 
-            if(status)
+            if(await ReviewService.PostAsync(reviewPost))
             {                
                 return Request.CreateResponse(HttpStatusCode.OK, "New review created");
             }
@@ -81,9 +71,8 @@ namespace AuTOP.WebAPI.Controllers
         public async Task<HttpResponseMessage> Put(Guid id, [FromBody] Review review)
         {
             IReview reviewPut = review;
-            var status = await ReviewService.PutAsync(id, reviewPut);
             
-            if(status)
+            if(await ReviewService.PutAsync(id, reviewPut))
             {                
                 return Request.CreateResponse(HttpStatusCode.OK, "Review updated");
             }
@@ -97,9 +86,7 @@ namespace AuTOP.WebAPI.Controllers
         [Route("reviews/{id}")]
         public async Task<HttpResponseMessage> Delete(Guid id)
         {
-            var status = await ReviewService.DeleteAsync(id);
-
-            if(status)
+            if(await ReviewService.DeleteAsync(id))
             {
                 return Request.CreateResponse(HttpStatusCode.OK, "Review deleted");
             }
