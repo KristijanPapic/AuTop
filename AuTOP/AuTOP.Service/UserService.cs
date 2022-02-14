@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AuTOP.Common;
 using AuTOP.Model.Common;
 using AuTOP.Repository;
 using AuTOP.Repository.Common;
@@ -17,9 +18,9 @@ namespace AuTOP.Service
             this.UserRepository = userRepository;
         }
         protected IUserRepository UserRepository { get; set; }
-        public async Task<List<IUser>> GetAsync()
+        public async Task<List<IUser>> GetAsync(UserFilter filter, Sorting sort, Paging paging)
         {
-            return await UserRepository.GetAsync();
+            return await UserRepository.GetAsync(filter, sort, paging);
         }
 
         public async Task<IUser> GetByIdAsync(Guid userId)
@@ -27,17 +28,17 @@ namespace AuTOP.Service
             return await UserRepository.GetByIdAsync(userId);
         }
 
-        public async Task PostAsync(IUser user)
+        public async Task<bool> PostAsync(IUser user)
         {
-            await UserRepository.PostAsync(user);
+            return await UserRepository.PostAsync(user);
         }
-        public async Task PutAsync(Guid userId, IUser user)
+        public async Task<bool> PutAsync(Guid userId, IUser user)
         {
-            await UserRepository.PutAsync(userId, user);
+            return await UserRepository.PutAsync(userId, user);
         }
-        public async Task DeleteAsync(Guid userId)
+        public async Task<bool> DeleteAsync(Guid userId)
         {
-            await UserRepository.DeleteAsync(userId);
+            return await UserRepository.DeleteAsync(userId);
         }
     }
 }

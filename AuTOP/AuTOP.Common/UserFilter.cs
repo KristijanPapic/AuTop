@@ -6,24 +6,17 @@ using System.Threading.Tasks;
 
 namespace AuTOP.Common
 {
-    public class ReviewFilter
+    public class UserFilter
     {
         //private string searchBy;
         private string searchQuery;
-        private int searchByRating;
-        private Guid modelVersionId;
-        public ReviewFilter() { }
 
-        public ReviewFilter(string searchQuery, int searchByRating)
+        public UserFilter() { }
+        public UserFilter(string searchQuery)
         {
             SearchQuery = searchQuery;
-
-            SearchByRating = searchByRating;
         }
-
         //public string SearchBy { get => searchBy; set => searchBy = value; }
         public string SearchQuery { get => searchQuery; set => searchQuery = value; }
-        public int SearchByRating { get => searchByRating; set => searchByRating = value; }
-        public Guid ModelVersionId { get => modelVersionId; set => modelVersionId = value; } 
     }
 }

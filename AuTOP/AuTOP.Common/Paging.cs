@@ -12,6 +12,7 @@ namespace AuTOP.Common
         private int page;
         private bool dontPage = false;
 
+        public Paging() { }
         public Paging(int page)
         {
             Page = page;

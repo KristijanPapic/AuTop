@@ -13,6 +13,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using AuTOP.Common;
 
 namespace AuTOP.WebAPI.Provider
 {
@@ -39,7 +40,19 @@ namespace AuTOP.WebAPI.Provider
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
 
-            var users = await userService.GetAsync();
+            var searcQuery = "";
+            //var searchBy = "Username";
+            string sortBy = "Username";
+            string sortMethod = "ASC";
+            int page = 1;
+
+            UserFilter filter = new UserFilter(searcQuery);
+            Sorting sorting = new Sorting(sortBy, sortMethod);
+            Paging paging = new Paging(page);
+
+            var users = await userService.GetAsync(filter,sorting,paging);
+
+
 
             if (users != null)
             {

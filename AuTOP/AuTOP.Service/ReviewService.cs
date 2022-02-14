@@ -23,12 +23,12 @@ namespace AuTOP.Service
         protected IReviewRepository ReviewRepository { get; set; }
         protected IUserRepository UserRepository { get; set; }
         protected IReactionRepository ReactionRepository { get; set; }
-        public async Task<List<IReview>> GetAsync(ReviewFilter filter)
+        public async Task<List<IReview>> GetAsync(ReviewFilter filter, Sorting sort, Paging paging)
         {
-            List<IReview> reviews = await ReviewRepository.GetAsync(filter);
+            List<IReview> reviews = await ReviewRepository.GetAsync(filter, sort, paging);
             foreach (IReview review in reviews)
             {
-                review.LikePercentage = await ReactionRepository.GetLikePercentage(review.Id);
+                review.LikePercentage = await ReactionRepository.GetLikePercentage(review.UserId);
             }
             return reviews;
         }
@@ -36,18 +36,18 @@ namespace AuTOP.Service
         {
             return await ReviewRepository.GetByIdAsync(reviewId);
         }
-        public async Task PutAsync(Guid reviewId, IReview review)
+        public async Task<bool> PutAsync(Guid reviewId, IReview review)
         {
-            await ReviewRepository.PutAsync(reviewId, review);
+            return await ReviewRepository.PutAsync(reviewId, review);
         }
-        public async Task PostAsync(IReview review)
+        public async Task<bool> PostAsync(IReview review)
         {
-            await ReviewRepository.PostAsync(review);
+            return await ReviewRepository.PostAsync(review);
         }
 
-        public async Task DeleteAsync(Guid reviewId)
+        public async Task<bool> DeleteAsync(Guid reviewId)
         {
-            await ReviewRepository.DeleteAsync(reviewId);
+            return await ReviewRepository.DeleteAsync(reviewId);
         }
     }
 }

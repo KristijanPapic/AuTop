@@ -8,6 +8,7 @@ using AuTOP.Model.Common;
 using AuTOP.Model;
 using AuTOP.Repository.Common;
 using System.Data;
+using AuTOP.Common;
 
 namespace AuTOP.Repository 
 {
@@ -17,16 +18,35 @@ namespace AuTOP.Repository
             "Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;" +
             "MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
-        public async Task<List<IUser>> GetAsync()
+        public async Task<List<IUser>> GetAsync(UserFilter filter, Sorting sort, Paging paging)
         {
             List<IUser> users = new List<IUser>();
             using (SqlConnection connection = new SqlConnection(connecitonString))
             {
-                string query = "SELECT * FROM [User]";
-                SqlCommand command;
                 
-                command = new SqlCommand(query, connection);
+                SqlCommand command;
+                StringBuilder queryString = new StringBuilder(); 
+                queryString.Append("Select * from [User] WHERE 1=1");
 
+                //TODO:
+                //3 metode: jedna za filtere, druga za sorter, treća za paging
+
+                if(filter!=null)
+                {
+                    await AddFilter(filter, queryString);
+                }
+
+                if (sort != null)
+                {
+                    await AddSorting(sort, queryString);
+                }
+
+                if (paging != null)
+                {
+                    await AddPaging(paging, queryString);
+                }
+
+                command = new SqlCommand(queryString.ToString(), connection);
                 connection.Open();
 
                 SqlDataReader reader = await command.ExecuteReaderAsync();
@@ -65,57 +85,87 @@ namespace AuTOP.Repository
 
                 SqlDataReader reader = await command.ExecuteReaderAsync();
 
-                reader.Read();
+                if (reader.HasRows != false)
+                {
+                    reader.Read();
 
+                    user.Id = (Guid)reader["Id"];
+                    user.Username = reader["Username"].ToString();
+                    user.Email = reader["Email"].ToString();
+                    user.DateCreated = (DateTime)reader["DateCreated"];
+                    user.DateUpdated = (DateTime)reader["DateUpdated"];
 
-                user.Id = (Guid)reader["Id"];
-                user.Username = reader["Username"].ToString();
-                user.Email = reader["Email"].ToString();
-                user.DateCreated = (DateTime)reader["DateCreated"];
-                user.DateUpdated = (DateTime)reader["DateUpdated"];                
-
-                reader.Close();
-                connection.Close();
-            }
-            return user;
+                    reader.Close();
+                    connection.Close();
+                    return user;
+                }
+                else
+                {
+                    return null;
+                }
+            }            
         }
 
-        public async Task PostAsync(IUser user)
+        public async Task<bool> PostAsync(IUser user)
         {
-            using (SqlConnection connection = new SqlConnection(connecitonString))
+            if (user != null)
             {
-                SqlCommand command = new SqlCommand(
-                  $"INSERT INTO [User] VALUES (NEWID(),'{user.Username}','{user.Password}','{user.Email}','761B13B6-699D-45EF-9EFB-E31D352BC476',GETDATE(),GETDATE())", connection);
+                using (SqlConnection connection = new SqlConnection(connecitonString))
+                {
+                    SqlCommand command = new SqlCommand(
+                      $"INSERT INTO [User] VALUES (NEWID(),'{user.Username}','{user.Password}','{user.Email}','761B13B6-699D-45EF-9EFB-E31D352BC476',GETDATE(),GETDATE())", connection);
 
-                connection.Open();
-                await command.ExecuteNonQueryAsync();
-                connection.Close();
+                    connection.Open();
+                    await command.ExecuteNonQueryAsync();
+                    connection.Close();
+                }
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
-        public async Task PutAsync(Guid userId, IUser user)
+        public async Task<bool> PutAsync(Guid userId, IUser user)
         {
-            using (SqlConnection connection = new SqlConnection(connecitonString))
+            if (userId != null && user != null)
             {
-                SqlCommand command = new SqlCommand(
-                  $"UPDATE [User] SET Username='{user.Username}', Password='{user.Password}', Email='{user.Email}', DateUpdated=GETDATE() WHERE Id='{userId}'", connection);
+                using (SqlConnection connection = new SqlConnection(connecitonString))
+                {
+                    SqlCommand command = new SqlCommand(
+                      $"UPDATE [User] SET Username='{user.Username}', Password='{user.Password}', Email='{user.Email}', DateUpdated=GETDATE() WHERE Id='{userId}'", connection);
 
-                connection.Open();
-                await command.ExecuteNonQueryAsync();
-                connection.Close();
+                    connection.Open();
+                    await command.ExecuteNonQueryAsync();
+                    connection.Close();
+                }
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
-        public async Task DeleteAsync(Guid userId)
+        public async Task<bool> DeleteAsync(Guid userId)
         {
-            using (SqlConnection connection = new SqlConnection(connecitonString))
+            if (userId != null)
             {
-                SqlCommand command = new SqlCommand(
-                  $"DELETE FROM [User] WHERE Id='{userId}'", connection);
+                using (SqlConnection connection = new SqlConnection(connecitonString))
+                {
+                    SqlCommand command = new SqlCommand(
+                      $"DELETE FROM [User] WHERE Id='{userId}'", connection);
 
-                connection.Open();
-                await command.ExecuteNonQueryAsync();
-                connection.Close();
+                    connection.Open();
+                    await command.ExecuteNonQueryAsync();
+                    connection.Close();
+                }
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
         public async Task<Guid> GetIdbyName(string name)
@@ -127,6 +177,40 @@ namespace AuTOP.Repository
             adapter.Fill(userData);
             DataRow dataRow = userData.Tables[0].Rows[0];
             return Guid.Parse(Convert.ToString(dataRow["Id"]));
+        }
+
+        private async Task<StringBuilder> AddFilter(UserFilter filter,StringBuilder queryString)
+        {
+            if (!string.IsNullOrWhiteSpace(filter.SearchQuery))
+            {
+                queryString.Append($" AND (Username = '{ filter.SearchQuery}' OR Email = '{ filter.SearchQuery}')");
+
+            }
+            //if (filter.RoleId.HasValue)
+            //{
+            //    queryString.Append($" AND RoleId = '{ filter.RoleId}' ");
+            //}
+            return await Task.FromResult(queryString);
+        }
+
+        private async Task<StringBuilder> AddSorting(Sorting sorting, StringBuilder queryString)
+        {
+            if (!string.IsNullOrWhiteSpace(sorting.SortMethod) && !string.IsNullOrWhiteSpace(sorting.SortBy))
+            {
+                queryString.Append($" ORDER BY '{sorting.SortBy}' {sorting.SortMethod}");
+
+            }
+            return await Task.FromResult(queryString);
+        }
+
+        private async Task<StringBuilder> AddPaging(Paging paging, StringBuilder queryString)
+        {
+            if (paging.Page > 0)
+            {
+                queryString.Append($" OFFSET {paging.GetStartElement()} ROWS FETCH NEXT {paging.Rpp} ROWS ONLY");
+
+            }
+            return await Task.FromResult(queryString);
         }
     }
 }

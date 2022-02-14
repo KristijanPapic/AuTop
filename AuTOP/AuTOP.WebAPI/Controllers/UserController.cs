@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AuTOP.Common;
 using AuTOP.Model;
 using AuTOP.Model.Common;
 using AuTOP.Service;
@@ -22,70 +23,88 @@ namespace AuTOP.WebAPI.Controllers
         protected IUserService UserService { get; set; }
 
         [Route("users")]
-        public async Task<HttpResponseMessage> GetAsync()
+        public async Task<HttpResponseMessage> GetAsync([FromUri] UserFilter filter, [FromUri] Sorting sorting, [FromUri] Paging paging)
         {
-            try
+            //filter.SearchBy = "Username";
+            //filter.SearchQuery = "";
+
+            //sorting.SortBy = "Username";
+            //sorting.SortMethod = "ASC";
+
+            //paging.Page = 1;
+            //UserFilter filter = new UserFilter(searchQuery);
+            //Sorting sorting = new Sorting(sortBy, sortMethod);
+            //Paging paging = new Paging(page);
+            
+            var users = await UserService.GetAsync(filter, sorting, paging);
+
+            if (users != null)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, await UserService.GetAsync());
+                return Request.CreateResponse(HttpStatusCode.OK, users);
             }
-            catch (Exception ex)
+            else
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, ex);
+                return Request.CreateResponse(HttpStatusCode.NotFound);
             }
         }
 
         [Route("users/{userId}")]
         public async Task<HttpResponseMessage> GetByIdAsync(Guid userId)
         {
-            try
+            var user = await UserService.GetByIdAsync(userId);
+
+            if (user != null)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, await UserService.GetByIdAsync(userId));
+                return Request.CreateResponse(HttpStatusCode.OK, user);
             }
-            catch (Exception ex)
+            else
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, ex);
+                return Request.CreateResponse(HttpStatusCode.NotFound);
             }
         }
 
         [Route("users")]
         public async Task<HttpResponseMessage> PostAsync([FromBody] User user)
         {
-            try
+            IUser userPost = user;
+            var status = await UserService.PostAsync(userPost);
+
+            if (status)
             {
-                IUser userPost = user;
-                await UserService.PostAsync(userPost);
                 return Request.CreateResponse(HttpStatusCode.OK, "New user created");
             }
-            catch (Exception ex)
+            else
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, ex);
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
 
         [Route("users/{id}")]
         public async Task<HttpResponseMessage> Put(Guid id, [FromBody] User user)
         {
-            try
-            {
-                IUser userPut = user;
-                await UserService.PutAsync(id, userPut);
+            IUser userPut = user;
+            var status = await UserService.PutAsync(id, userPut);
+
+            if(status)
+            {                
                 return Request.CreateResponse(HttpStatusCode.OK, "User updated");
             }
-            catch
+            else
             {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError);
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
         }
 
         [Route("users/{id}")]
         public async Task<HttpResponseMessage> Delete(Guid id)
         {
-            try
-            {
-                await UserService.DeleteAsync(id);
+
+            var status = await UserService.DeleteAsync(id);
+            if (status)
+            {                
                 return Request.CreateResponse(HttpStatusCode.OK, "User deleted");
             }
-            catch
+            else
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, $"User with Id:{id} not found");
             }

@@ -55,7 +55,7 @@ namespace AuTOP.Service
             domainModelVersion.Motor = await motorRepository.GetByIdAsync(domainModelVersion.MotorId);
             domainModelVersion.Transmission = await transmissionRepository.GetByIdAsync(domainModelVersion.TransmissionId);
             domainModelVersion.BodyShape = await bodyShapeRepository.GetByIdAsync(domainModelVersion.BodyShapeId);
-            domainModelVersion.Reviews = await reviewService.GetAsync(new ReviewFilter("ModelVersionId", domainModelVersion.Id));
+            domainModelVersion.Reviews = await reviewService.GetAsync(new ReviewFilter { ModelVersionId=domainModelVersion.Id}, new Sorting("",""), new Paging(true));
             if(currentUserName != "")
             {
                 Guid userId = await userRepository.GetIdbyName(currentUserName);
