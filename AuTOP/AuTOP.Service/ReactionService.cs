@@ -19,12 +19,14 @@ namespace AuTOP.Service
         protected IReactionRepository ReactionRepository { get; set; }
 
         public async Task<bool> PostAsync(Reaction reaction)
-        {
+        {                       
+            reaction.Generate();
             return await ReactionRepository.PostAsync(reaction);
         }
 
         public async Task<bool> PutAsync(Reaction reaction)
         {
+            reaction.DateUpdated = DateTime.UtcNow;
             return await ReactionRepository.PutAsync(reaction);
         }
 

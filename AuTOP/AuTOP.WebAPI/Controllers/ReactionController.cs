@@ -20,40 +20,18 @@ namespace AuTOP.WebAPI.Controllers
 
 
         public async Task<HttpResponseMessage> PostAsync(Reaction reaction)
-        {
-            try
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, await ReactionService.PostAsync(reaction));
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound, ex);
-            }
-
+        {           
+            return Request.CreateResponse(HttpStatusCode.OK, await ReactionService.PostAsync(reaction));
         }
 
         public async Task<HttpResponseMessage> PutAsync(Reaction reaction)
         {
-            try
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, await ReactionService.PutAsync(reaction));
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound, ex);
-            }
+            return Request.CreateResponse(HttpStatusCode.OK, await ReactionService.PutAsync(reaction)); 
         }
 
         public async Task<HttpResponseMessage> DeleteAsync(Guid userId, Guid reviewId)
-        {
-            try
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, await ReactionService.DeleteAsync(userId,reviewId));
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound, ex);
-            }
+        {          
+            return Request.CreateResponse(HttpStatusCode.OK, await ReactionService.DeleteAsync(userId,reviewId));                   
         }
     }
 }

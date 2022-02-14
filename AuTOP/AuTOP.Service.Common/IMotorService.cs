@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AuTOP.Repository.Common
+namespace AuTOP.Service.Common
 {
-    public interface IMotorRepository
+    public interface IMotorService
     {
         Task<List<Motor>> GetAllAsync();
 
@@ -15,8 +15,12 @@ namespace AuTOP.Repository.Common
 
         Task<bool> PostAsync(Motor motor);
 
+
         Task<bool> PutAsync(Motor motor);
 
+
         Task<bool> DeleteAsync(Guid Id);
+        
+
     }
 }

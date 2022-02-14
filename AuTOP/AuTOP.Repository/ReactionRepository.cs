@@ -58,9 +58,7 @@ namespace AuTOP.Repository
         }
 
         public async Task<bool> PostAsync(Reaction reaction)
-        {
-            reaction.DateCreated = DateTime.UtcNow;
-            reaction.DateUpdated = DateTime.UtcNow;
+        {     
            
             string insertSql = @"INSERT INTO Reaction(UserId, ReviewId, IsLiked, DateCreated, DateUpdated)
                      Values(@UserId, @ReviewId, @IsLiked, @DateCreated, @DateUpdated)";
@@ -68,9 +66,7 @@ namespace AuTOP.Repository
             
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-            try
-                {
-                    using (var com = new SqlCommand(insertSql, connection))
+               using (var com = new SqlCommand(insertSql, connection))
                     {
                         com.Parameters.AddWithValue("@UserId", reaction.UserId);
                         com.Parameters.AddWithValue("@ReviewId", reaction.ReviewId);
@@ -84,11 +80,7 @@ namespace AuTOP.Repository
                     connection.Close();
                     return true;
 
-                }
-                catch (SqlException ex)
-                {
-                    return false;
-                }
+                
 
             }
         }
@@ -102,8 +94,7 @@ namespace AuTOP.Repository
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                try
-                {
+                
                     using (var com = new SqlCommand(insertSql, connection))
                     {
                         com.Parameters.AddWithValue("@UserId", reaction.UserId);
@@ -117,11 +108,7 @@ namespace AuTOP.Repository
                     connection.Close();
                     return true;
 
-                }
-                catch (SqlException ex)
-                {
-                    return false;
-                }
+                
             }
         }
 
@@ -131,18 +118,13 @@ namespace AuTOP.Repository
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                try
-                {
+                
                     connection.Open();
                     SqlCommand myCommand = new SqlCommand(queryString, connection);
                     await myCommand.ExecuteNonQueryAsync();
                     connection.Close();
                     return true;
-                }
-                catch (SqlException ex)
-                {
-                    return false;
-                }
+               
 
             }
 

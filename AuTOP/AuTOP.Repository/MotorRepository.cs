@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AuTOP.Repository
 {
-    class MotorRepository : IMotorRepository
+   public  class MotorRepository : IMotorRepository
     {
         string connectionString = "Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog = monoprojekt; Persist Security Info=False;User ID = matej; Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout = 30;";
         public async Task<List<Motor>> GetAllAsync()
@@ -75,5 +75,86 @@ namespace AuTOP.Repository
 
             }
         }
+            public async Task<bool> PostAsync(Motor motor)
+            {
+
+                string insertSql = @"INSERT INTO Motor(Year, Type, MaxHP, EngineSize,Name,DateCreated,DateUpdated)
+                     Values(@Year, @Type, @MaxHP, @EngineSize, @Name, @DateCreated, @DateUpdated)";
+
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    using (var com = new SqlCommand(insertSql, connection))
+                    {
+                        com.Parameters.AddWithValue("@Year", motor.Year);
+                        com.Parameters.AddWithValue("@Type", motor.Type);
+                        com.Parameters.AddWithValue("@MaxHP", motor.MaxHP);
+                        com.Parameters.AddWithValue("@EngineSize", motor.EngineSize);
+                        com.Parameters.AddWithValue("@Name", motor.Name);
+                        com.Parameters.AddWithValue("@DateCreated", motor.DateCreated);
+                        com.Parameters.AddWithValue("@DateUpdated", motor.DateUpdated);
+                        connection.Open();
+                        await com.ExecuteNonQueryAsync();
+                    }
+
+                    connection.Close();
+                    return true;
+
+
+
+                }
+            }
+
+            public async Task<bool> PutAsync(Motor motor)
+            {
+            
+
+                string insertSql = @"UPDATE motor SET Year=@Year,Type=@Type, MaxHP = @MaxHP, EngineSize = @EngineSize, Name=@Name ,DateUpdated=@DateUpdated WHERE Id=@Id";
+
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                   
+                        using (var com = new SqlCommand(insertSql, connection))
+                        {
+                            com.Parameters.AddWithValue("@Id", motor.Id);
+                            com.Parameters.AddWithValue("@Year", motor.Year);
+                            com.Parameters.AddWithValue("@Type", motor.Type);
+                            com.Parameters.AddWithValue("@MaxHP", motor.MaxHP);
+                            com.Parameters.AddWithValue("@EngineSize", motor.EngineSize);
+                            com.Parameters.AddWithValue("@Name", motor.Name);
+                            com.Parameters.AddWithValue("@DateCreated", motor.DateCreated);
+                            com.Parameters.AddWithValue("@DateUpdated", motor.DateUpdated);
+                            connection.Open();
+                            await com.ExecuteNonQueryAsync();
+                        }
+
+                        connection.Close();
+                        return true;
+                                   
+                }
+            }
+
+            public async Task<bool> DeleteAsync(Guid Id)
+            {
+                string queryString = $"DELETE FROM Motor WHERE Id='{Id}';";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                   
+                        connection.Open();
+                        SqlCommand myCommand = new SqlCommand(queryString, connection);
+                        await myCommand.ExecuteNonQueryAsync();
+                        connection.Close();
+                        return true;
+                    
+
+                }
+            }
+        }
     }
-}
+
+            
+        
+    
+
