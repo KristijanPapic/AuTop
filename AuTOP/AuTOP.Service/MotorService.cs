@@ -1,4 +1,5 @@
-﻿using AuTOP.Model;
+﻿using AuTOP.Common;
+using AuTOP.Model;
 using AuTOP.Repository.Common;
 using AuTOP.Service.Common;
 using System;
@@ -17,9 +18,9 @@ namespace AuTOP.Service
         }
         protected IMotorRepository MotorRepository { get; set; }
 
-        public async Task<List<Motor>> GetAllAsync()
+        public async Task<List<Motor>> GetAllAsync(MotorFilter filter, Sorting sort, Paging paging)
         {
-        return await MotorRepository.GetAllAsync();
+        return await MotorRepository.GetAllAsync( filter,  sort,  paging);
         }
 
 

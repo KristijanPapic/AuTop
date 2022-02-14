@@ -1,4 +1,5 @@
-﻿using AuTOP.Model;
+﻿using AuTOP.Common;
+using AuTOP.Model;
 using AuTOP.Repository.Common;
 using System;
 using System.Collections.Generic;
@@ -12,16 +13,48 @@ namespace AuTOP.Repository
    public  class MotorRepository : IMotorRepository
     {
         string connectionString = "Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog = monoprojekt; Persist Security Info=False;User ID = matej; Password=Sifra1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout = 30;";
-        public async Task<List<Motor>> GetAllAsync()
+        public async Task<List<Motor>> GetAllAsync(MotorFilter filter,Sorting sort ,Paging paging)
         {
+            
+            StringBuilder queryString = new StringBuilder("select * from Motor where 1=1");
+            if (!String.IsNullOrWhiteSpace(filter.Name)) 
+            {
+                queryString.Append($" and Name Like '%{filter.Name}%");
+            }
+            if (filter.Year > 0)
+            {
+                queryString.Append($" and Year = {filter.Year}");
+            }
+            if (!String.IsNullOrWhiteSpace(filter.Type)) 
+            {
+                queryString.Append($" and Type Like '%{filter.Type}%");
+            }
+            if (filter.EngineSize > 0)
+            {
+                queryString.Append($" and EngineSize = {filter.EngineSize}");
+            }
+            if (filter.MaxHP > 0)
+            {
+                queryString.Append($" and MaxHP = {filter.MaxHP}");
+            }
+
+            if (!String.IsNullOrWhiteSpace(sort.SortBy))
+            {
+                queryString.Append($" order by { sort.SortBy} { sort.SortMethod}");
+            }
+            if (paging.DontPage == false)
+            {
+                queryString.Append($" offset { paging.GetStartElement()} rows fetch next {paging.Rpp} rows only;");
+            }
+
             List<Motor> motors = new List<Motor>();
-            string queryString = $"SELECT * FROM Motor;";
+           
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
                 connection.Open();
-                SqlCommand myCommand = new SqlCommand(queryString, connection);
+                SqlCommand myCommand = new SqlCommand(queryString.ToString(), connection);
                 SqlDataReader myReader = await myCommand.ExecuteReaderAsync();
 
                 while (myReader.Read())

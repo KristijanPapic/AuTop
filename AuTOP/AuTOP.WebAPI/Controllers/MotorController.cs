@@ -1,4 +1,5 @@
-﻿using AuTOP.Model;
+﻿using AuTOP.Common;
+using AuTOP.Model;
 using AuTOP.Service.Common;
 using System;
 using System.Collections.Generic;
@@ -19,9 +20,15 @@ namespace AuTOP.WebAPI.Controllers
         }
         protected IMotorService MotorService { get; set; }
 
-        public async Task<HttpResponseMessage> GetAllAsync( )
+        public async Task<HttpResponseMessage> GetAllAsync(MotorFilter filter, string sortBy = "Name", string sortMethod = "", int page = 1)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, await MotorService.GetAllAsync());
+            if (filter == null)
+            {
+                filter = new MotorFilter();
+            }
+            Sorting sorting = new Sorting(sortBy, sortMethod);
+            Paging paging = new Paging(page);
+            return Request.CreateResponse(HttpStatusCode.OK, await MotorService.GetAllAsync( filter,  sorting,  paging));
         }
         public async Task<HttpResponseMessage> GetByIdAsync(Guid id)
         {

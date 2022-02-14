@@ -78,14 +78,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BodyShapeFilter.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="ManufacturerFilter.cs" />
     <Compile Include="ModelFilter.cs" />
     <Compile Include="ModelVersionFilter.cs" />
+    <Compile Include="MotorFilter.cs" />
     <Compile Include="Paging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReviewFilter.cs" />
     <Compile Include="Sorting.cs" />
+    <Compile Include="TransmissionFilter.cs" />
     <Compile Include="UserFilter.cs" />
   </ItemGroup>
   <ItemGroup>
