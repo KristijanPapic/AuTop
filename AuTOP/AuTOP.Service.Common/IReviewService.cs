@@ -11,8 +11,8 @@ namespace AuTOP.Service.Common
 {
     public interface IReviewService
     {
-        Task<List<IReview>> GetAsync(ReviewFilter filter, Sorting sort, Paging paging);
-        Task<IReview> GetByIdAsync(Guid reviewId);
+        Task<List<Review>> GetAsync(ReviewFilter filter, Sorting sort, Paging paging);
+        Task<Review> GetByIdAsync(Guid reviewId);
         Task<bool> PostAsync(Review review);
         Task<bool> PutAsync(Guid reviewId, Review review);
         Task<bool> DeleteAsync(Guid reviewId);

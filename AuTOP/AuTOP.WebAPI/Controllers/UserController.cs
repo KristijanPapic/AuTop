@@ -36,7 +36,7 @@ namespace AuTOP.WebAPI.Controllers
             {
                 foreach(User u in users)
                 {
-                    UserViewModel user = mapper.Map<User, UserViewModel>(u);
+                    UserViewModel user = mapper.Map<IUser, UserViewModel>(u);
                     usersView.Add(user);
                 }
                 return Request.CreateResponse(HttpStatusCode.OK, usersView);
@@ -54,7 +54,7 @@ namespace AuTOP.WebAPI.Controllers
             UserViewModel userView = new UserViewModel();            
             if (user != null)
             {
-                userView = mapper.Map<User, UserViewModel>(user);
+                userView = mapper.Map<IUser, UserViewModel>(user);
 
                 return Request.CreateResponse(HttpStatusCode.OK, userView);
             }

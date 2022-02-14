@@ -24,16 +24,16 @@ namespace AuTOP.Service
         protected IReviewRepository ReviewRepository { get; set; }
         protected IUserRepository UserRepository { get; set; }
         protected IReactionRepository ReactionRepository { get; set; }
-        public async Task<List<IReview>> GetAsync(ReviewFilter filter, Sorting sort, Paging paging)
+        public async Task<List<Review>> GetAsync(ReviewFilter filter, Sorting sort, Paging paging)
         {
-            List<IReview> reviews = await ReviewRepository.GetAsync(filter, sort, paging);
-            foreach (IReview review in reviews)
+            List<Review> reviews = await ReviewRepository.GetAsync(filter, sort, paging);
+            foreach (Review review in reviews)
             {
                 review.LikePercentage = await ReactionRepository.GetLikePercentage(review.UserId);
             }
             return reviews;
         }
-        public async Task<IReview> GetByIdAsync(Guid reviewId)
+        public async Task<Review> GetByIdAsync(Guid reviewId)
         {
             return await ReviewRepository.GetByIdAsync(reviewId);
         }

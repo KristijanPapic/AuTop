@@ -50,11 +50,14 @@ namespace AuTOP.WebAPI.Controllers
         [Route("reviews/{reviewId}")]
         public async Task<HttpResponseMessage> GetByIdAsync(Guid reviewId)
         {
-            var review = await ReviewService.GetByIdAsync(reviewId);
+            Review review = await ReviewService.GetByIdAsync(reviewId);
+            ReviewViewModel reviewView = new ReviewViewModel();
 
             if(review != null)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, review);
+                reviewView = mapper.Map<Review, ReviewViewModel>(review);
+                reviewView.DateCreated = review.DateCreated;
+                return Request.CreateResponse(HttpStatusCode.OK, reviewView);
             }
             else
             {

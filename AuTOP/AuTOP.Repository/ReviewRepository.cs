@@ -16,9 +16,9 @@ namespace AuTOP.Repository
         static string connecitonString = "Server=tcp:monoprojektdbserver.database.windows.net,1433;" +
             "Initial Catalog=monoprojekt;Persist Security Info=False;User ID=matej;Password=Sifra1234;" +
             "MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        public async Task<List<IReview>> GetAsync(ReviewFilter filter, Sorting sort, Paging paging)
+        public async Task<List<Review>> GetAsync(ReviewFilter filter, Sorting sort, Paging paging)
         {
-            List<IReview> reviews = new List<IReview>();
+            List<Review> reviews = new List<Review>();
             using (SqlConnection connection = new SqlConnection(connecitonString))
             {
                 SqlCommand command;
@@ -66,7 +66,7 @@ namespace AuTOP.Repository
             return reviews;
         }
 
-        public async Task<IReview> GetByIdAsync(Guid reviewId)
+        public async Task<Review> GetByIdAsync(Guid reviewId)
         {
             Review review = new Review();
             using (SqlConnection connection = new SqlConnection(connecitonString))

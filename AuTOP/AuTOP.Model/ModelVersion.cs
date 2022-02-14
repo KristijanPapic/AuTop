@@ -30,14 +30,14 @@ namespace AuTOP.Model
         public Motor Motor { get => motor; set => motor = value; }
         public BodyShape BodyShape { get => bodyShape; set => bodyShape = value; }
         public Transmission Transmission { get => transmission; set => transmission = value; }
-        public List<IReview> Reviews { get => reviews; set => reviews = value; }
+        public List<Review> Reviews { get => reviews; set => reviews = value; }
         public string Name { get => name; set => name = value; }
 
         private ModelDomainModel model;
         private Motor motor;
         private BodyShape bodyShape;
         private Transmission transmission;
-        private List<IReview> reviews;
+        private List<Review> reviews;
         private string name;
 
         
