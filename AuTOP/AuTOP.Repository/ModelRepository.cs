@@ -84,8 +84,12 @@ namespace AuTOP.Repository
         public async Task PostModelAsync(ModelDomainModel model)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            string queryString = $"insert into model values('{model.Id}','{model.ManufacturerId}',{model.Name},{model.DateCreated},{model.DateUpdated},{model.ImageURL});";
+            string queryString = $"insert into model values('{model.Id}','{model.ManufacturerId}','{model.Name}',@DateCreated,@DateUpdated,'{model.ImageURL}');";
             SqlCommand command = new SqlCommand(queryString, connection);
+            command.Parameters.Add("@DateCreated", SqlDbType.DateTime);
+            command.Parameters["@DateCreated"].Value = model.DateCreated;
+            command.Parameters.Add("@DateUpdated", SqlDbType.DateTime);
+            command.Parameters["@DateUpdated"].Value = model.DateUpdated;
             connection.Open();
             await command.ExecuteNonQueryAsync();
             connection.Close();
@@ -94,8 +98,10 @@ namespace AuTOP.Repository
         public async Task PutModelAsync(ModelDomainModel model)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            string queryString = $"update model set Name = {model.Name},ImageURL = '{model.ImageURL}' where Id = '{manufacturer.Id}'";
+            string queryString = $"update model set Name = {model.Name},ImageURL = '{model.ImageURL}',DateUpdated = @DateUpdated where Id = '{model.Id}'";
             SqlCommand command = new SqlCommand(queryString, connection);
+            command.Parameters.Add("@DateUpdated", SqlDbType.DateTime);
+            command.Parameters["@DateUpdated"].Value = model.DateUpdated;
             connection.Open();
             await command.ExecuteNonQueryAsync();
             connection.Close();

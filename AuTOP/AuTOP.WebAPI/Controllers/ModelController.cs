@@ -3,6 +3,7 @@ using AuTOP.Common;
 using AuTOP.Model.DomainModels;
 using AuTOP.Service;
 using AuTOP.WebAPI.Models;
+using AuTOP.WebAPI.Models.InputModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace AuTOP.WebAPI.Controllers
             this.modelService = modelServis;
             this.mapper = mapper;
         }
-        public async Task<HttpResponseMessage> GetAllModels(ModelFilter filter = null, string sortBy = "Name", string sortMethod = "", int page = 1)
+        public async Task<HttpResponseMessage> GetAllModels(ModelFilter filter, string sortBy = "Name", string sortMethod = "", int page = 1)
         {
             if(filter == null)
             {
@@ -43,6 +44,21 @@ namespace AuTOP.WebAPI.Controllers
             ModelViewModel viewModel = mapper.Map<ModelDomainModel, ModelViewModel>(domainModel);
             return Request.CreateResponse(HttpStatusCode.OK, viewModel);
 
+        }
+        public async Task PostModelAsync(ModelInputModel model)
+        {
+            ModelDomainModel domainModel = mapper.Map<ModelInputModel, ModelDomainModel>(model);
+            await modelService.PostModelAsync(domainModel);
+        }
+
+        public async Task PutModelAsync(ModelInputModel model)
+        {
+            ModelDomainModel domainModel = mapper.Map<ModelInputModel, ModelDomainModel>(model);
+            await modelService.PutModelAsync(domainModel);
+        }
+        public async Task DeleteModelAsync(Guid id)
+        {
+            await modelService.DeleteModelAsync(id);
         }
     }
 }

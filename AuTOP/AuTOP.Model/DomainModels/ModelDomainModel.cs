@@ -16,17 +16,7 @@ namespace AuTOP.Model.DomainModels
         private List<ModelVersion> modelVersions;
 
 
-        public ModelDomainModel() { }
 
-        public ModelDomainModel(Guid id, Guid manufacturerId, string name, string imageURL,DateTime dateCreated,DateTime dateUpdated)
-        {
-            Id = id;
-            ManufacturerId = manufacturerId;
-            Name = name;
-            ImageURL = imageURL;
-            DateCreated = dateCreated;
-            DateUpdated = dateUpdated;
-        }
 
         public Guid ManufacturerId { get => manufacturerId; set => manufacturerId = value; }
         public string Name { get => name; set => name = value; }

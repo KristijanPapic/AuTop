@@ -77,8 +77,12 @@ namespace AuTOP.Repository
         public async Task PostManufacturerAsync(ManufacturerDomainModel manufacturer)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            string queryString = $"insert into manufacturer values('{manufacturer.Id}','{manufacturer.Name}',{manufacturer.DateCreated},{manufacturer.DateUpdated},{manufacturer.ImageURL});";
+            string queryString = $"insert into manufacturer values('{manufacturer.Id}','{manufacturer.Name}',@DateCreated,@DateUpdated,'{manufacturer.ImageURL}');";
             SqlCommand command = new SqlCommand(queryString, connection);
+            command.Parameters.Add("@DateCreated", SqlDbType.DateTime);
+            command.Parameters["@DateCreated"].Value = manufacturer.DateCreated;
+            command.Parameters.Add("@DateUpdated", SqlDbType.DateTime);
+            command.Parameters["@DateUpdated"].Value = manufacturer.DateUpdated;
             connection.Open();
             await command.ExecuteNonQueryAsync();
             connection.Close();
@@ -87,8 +91,10 @@ namespace AuTOP.Repository
         public async Task PutManufacturerAsync(ManufacturerDomainModel manufacturer)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            string queryString = $"update manufacturer set Name = {manufacturer.Name},ImageURL = '{manufacturer.ImageURL}' where Id = '{manufacturer.Id}'";
+            string queryString = $"update manufacturer set Name = {manufacturer.Name},ImageURL = '{manufacturer.ImageURL}',DateUpdated = @DateUpdated where Id = '{manufacturer.Id}'";
             SqlCommand command = new SqlCommand(queryString, connection);
+            command.Parameters.Add("@DateUpdated", SqlDbType.DateTime);
+            command.Parameters["@DateUpdated"].Value = manufacturer.DateUpdated;
             connection.Open();
             await command.ExecuteNonQueryAsync();
             connection.Close();

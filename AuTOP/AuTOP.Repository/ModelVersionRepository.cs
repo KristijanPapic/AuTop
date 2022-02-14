@@ -42,7 +42,6 @@ namespace AuTOP.Repository
                 queryString.Append($" and BodyShapeId = '{filter.BodyShapeId}'");
             }
 
-
             if (!String.IsNullOrWhiteSpace(sort.SortBy))
             {
                 queryString.Append($" order by { sort.SortBy} { sort.SortMethod}");
@@ -109,6 +108,40 @@ namespace AuTOP.Repository
             return modelVersion;
         }
 
+        public async Task PostModelVersionAsync(ModelVersion modelVersion)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            string queryString = $"insert into ModelVersion values('{modelVersion.Id}','{modelVersion.ModelId}',{modelVersion.MotorId},{modelVersion.BodyShapeId},{modelVersion.TransmissionId},{modelVersion.FuelConsumption},{modelVersion.Year},{modelVersion.Acceleration},{modelVersion.Doors},@DateCreated,@DateUpdated,{modelVersion.Name});";
+            SqlCommand command = new SqlCommand(queryString, connection);
+            command.Parameters.Add("@DateCreated",SqlDbType.DateTime);
+            command.Parameters["@DateCreated"].Value = modelVersion.DateCreated;
+            command.Parameters.Add("@DateUpdated", SqlDbType.DateTime);
+            command.Parameters["@DateUpdated"].Value = modelVersion.DateUpdated;
+            connection.Open();
+            await command.ExecuteNonQueryAsync();
+            connection.Close();
+        }
+
+        public async Task PutModelVersionAsync(ModelVersion modelVersion)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            string queryString = $"update ModelVersion  set ModelId = '{modelVersion.ModelId},MotorId = '{modelVersion.MotorId},BodyShapeId = '{modelVersion.BodyShapeId}',TransmissionId = '{modelVersion.TransmissionId},FuelConsumption = {modelVersion.FuelConsumption},Acceleration = {modelVersion.Acceleration},DateUpdated = @DateUpdated,Name = {modelVersion.Name}";
+            SqlCommand command = new SqlCommand(queryString, connection);
+            command.Parameters.Add("@DateUpdated", SqlDbType.DateTime);
+            command.Parameters["@DateUpdated"].Value=modelVersion.DateUpdated;
+            connection.Open();
+            await command.ExecuteNonQueryAsync();
+            connection.Close();
+        }
+        public async Task DeleteModelVersionAsync(Guid id)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            string queryString = $"delete from ModelVersion where Id = '{id}'";
+            SqlCommand command = new SqlCommand(queryString, connection);
+            connection.Open();
+            await command.ExecuteNonQueryAsync();
+            connection.Close();
+        }
 
     }
 }

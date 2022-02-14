@@ -35,7 +35,21 @@ namespace AuTOP.Service
             return modelDomain;
         }
 
-        public async Task Po
+        public async Task PostModelAsync(ModelDomainModel model)
+        {
+            model.Generate();
+            await modelRepository.PostModelAsync(model);
+        }
+        public async Task PutModelAsync(ModelDomainModel model)
+        {
+            model.DateUpdated = DateTime.UtcNow;
+            await modelRepository.PutModelAsync(model);
+        }
+
+        public async Task DeleteModelAsync(Guid id)
+        {
+            await modelRepository.DeleteModelAsync(id);
+        }
 
     }
 }

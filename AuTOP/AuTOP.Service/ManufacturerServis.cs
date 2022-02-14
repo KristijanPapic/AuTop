@@ -42,6 +42,7 @@ namespace AuTOP.Service
 
         public async Task PutManufacturerAsync(ManufacturerDomainModel manufacturer)
         {
+            manufacturer.DateUpdated = DateTime.UtcNow;
             await manufacturerRepository.PutManufacturerAsync(manufacturer);
         }
 

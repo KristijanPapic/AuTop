@@ -34,6 +34,8 @@ namespace AuTOP.WebAPI.App_Start
             CreateMap<IUser, UserViewModel>();
             CreateMap<Review, ReviewViewModel>();
             CreateMap<Motor, MotorViewModel>();
+            CreateMap<ModelVersionInputModel, ModelVersion>();
+            
         }
         
     }
