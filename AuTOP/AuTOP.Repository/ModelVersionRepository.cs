@@ -111,7 +111,7 @@ namespace AuTOP.Repository
         public async Task PostModelVersionAsync(ModelVersion modelVersion)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            string queryString = $"insert into ModelVersion values('{modelVersion.Id}','{modelVersion.ModelId}',{modelVersion.MotorId},{modelVersion.BodyShapeId},{modelVersion.TransmissionId},{modelVersion.FuelConsumption},{modelVersion.Year},{modelVersion.Acceleration},{modelVersion.Doors},@DateCreated,@DateUpdated,{modelVersion.Name});";
+            string queryString = $"insert into ModelVersion values('{modelVersion.Id}','{modelVersion.ModelId}','{modelVersion.MotorId}','{modelVersion.BodyShapeId}','{modelVersion.TransmissionId}','{modelVersion.FuelConsumption}',{modelVersion.Year},{modelVersion.Acceleration},{modelVersion.Doors},@DateCreated,@DateUpdated,'{modelVersion.Name}');";
             SqlCommand command = new SqlCommand(queryString, connection);
             command.Parameters.Add("@DateCreated",SqlDbType.DateTime);
             command.Parameters["@DateCreated"].Value = modelVersion.DateCreated;
@@ -125,7 +125,7 @@ namespace AuTOP.Repository
         public async Task PutModelVersionAsync(ModelVersion modelVersion)
         {
             SqlConnection connection = new SqlConnection(connectionString);
-            string queryString = $"update ModelVersion  set ModelId = '{modelVersion.ModelId},MotorId = '{modelVersion.MotorId},BodyShapeId = '{modelVersion.BodyShapeId}',TransmissionId = '{modelVersion.TransmissionId},FuelConsumption = {modelVersion.FuelConsumption},Acceleration = {modelVersion.Acceleration},DateUpdated = @DateUpdated,Name = {modelVersion.Name}";
+            string queryString = $"update ModelVersion  set ModelId = '{modelVersion.ModelId},MotorId = '{modelVersion.MotorId}',BodyShapeId = '{modelVersion.BodyShapeId}',TransmissionId = '{modelVersion.TransmissionId}',FuelConsumption = {modelVersion.FuelConsumption},Acceleration = {modelVersion.Acceleration},DateUpdated = @DateUpdated,Name = '{modelVersion.Name}'";
             SqlCommand command = new SqlCommand(queryString, connection);
             command.Parameters.Add("@DateUpdated", SqlDbType.DateTime);
             command.Parameters["@DateUpdated"].Value=modelVersion.DateUpdated;
