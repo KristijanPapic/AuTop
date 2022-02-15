@@ -1,5 +1,6 @@
 ﻿using AuTOP.Common;
 using AuTOP.Model;
+using AuTOP.Model.DomainModels;
 using AuTOP.Repository;
 using AuTOP.Repository.Common;
 using AuTOP.Service.Common;
@@ -40,7 +41,6 @@ namespace AuTOP.Service
             List<ModelVersion> ModelVersions = await modelVersionRepository.GetAllModelVersions(filter, sort, paging);
             foreach (ModelVersion modelVersion in ModelVersions)
             {
-                modelVersion.Motor = await motorRepository.GetByIdAsync(modelVersion.MotorId);
                 modelVersion.Model = await modelRepository.GetModelById(modelVersion.ModelId);
                 modelVersion.Model.Manufacturer = await manufacturerRepository.GetManufacturerByIdAsync(modelVersion.Model.ManufacturerId);
             }
@@ -66,6 +66,21 @@ namespace AuTOP.Service
             }
             
             return domainModelVersion;
+        }
+
+        public async Task PostModelVersionAsync(ModelVersion model)
+        {
+            model.Generate();
+            await modelVersionRepository.PostModelVersionAsync(model);
+        }
+        public async Task PutModelVersionAsync(ModelVersion model)
+        {
+            model.DateUpdated = DateTime.UtcNow;
+            await modelVersionRepository.PostModelVersionAsync(model);
+        }
+        public async Task DeleteModelVersionAsync(Guid id)
+        {
+            await modelVersionRepository.DeleteModelVersionAsync(id);
         }
     }
 }

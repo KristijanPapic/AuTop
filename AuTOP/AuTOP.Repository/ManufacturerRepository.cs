@@ -73,6 +73,43 @@ namespace AuTOP.Repository
             };
             return domainManufacturer;
         }
-    
+
+        public async Task PostManufacturerAsync(ManufacturerDomainModel manufacturer)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            string queryString = $"insert into manufacturer values('{manufacturer.Id}','{manufacturer.Name}',@DateCreated,@DateUpdated,'{manufacturer.ImageURL}');";
+            SqlCommand command = new SqlCommand(queryString, connection);
+            command.Parameters.Add("@DateCreated", SqlDbType.DateTime);
+            command.Parameters["@DateCreated"].Value = manufacturer.DateCreated;
+            command.Parameters.Add("@DateUpdated", SqlDbType.DateTime);
+            command.Parameters["@DateUpdated"].Value = manufacturer.DateUpdated;
+            connection.Open();
+            await command.ExecuteNonQueryAsync();
+            connection.Close();
+        }
+
+        public async Task PutManufacturerAsync(ManufacturerDomainModel manufacturer)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            string queryString = $"update manufacturer set Name = {manufacturer.Name},ImageURL = '{manufacturer.ImageURL}',DateUpdated = @DateUpdated where Id = '{manufacturer.Id}'";
+            SqlCommand command = new SqlCommand(queryString, connection);
+            command.Parameters.Add("@DateUpdated", SqlDbType.DateTime);
+            command.Parameters["@DateUpdated"].Value = manufacturer.DateUpdated;
+            connection.Open();
+            await command.ExecuteNonQueryAsync();
+            connection.Close();
+        }
+
+        public async Task DeleteManufacturerAsync(Guid id)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            string queryString = $"delete from manufacturer where Id = '{id}'";
+            SqlCommand command = new SqlCommand(queryString, connection);
+            connection.Open();
+            await command.ExecuteNonQueryAsync();
+            connection.Close();
+        }
+
+
     }
 }

@@ -11,10 +11,8 @@ namespace AuTOP.WebAPI.Models.ViewModels
     {
         private Guid id;
         private ModelViewModel model;
-        private MotorViewModel motor;
 
         public Guid Id { get => id; set => id = value; }
         public ModelViewModel Model { get => model; set => model = value; }
-        public MotorViewModel Motor { get => motor; set => motor = value; }
     }
 }

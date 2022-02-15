@@ -13,5 +13,9 @@ namespace AuTOP.Repository.Common
         Task<List<ModelVersion>> GetAllModelVersions(ModelVersionFilter filter, Sorting sort, Paging paging);
 
        Task<ModelVersion> GetModelVersionById(Guid id);
+        Task PostModelVersionAsync(ModelVersion modelVersion);
+        Task PutModelVersionAsync(ModelVersion modelVersion);
+        Task DeleteModelVersionAsync(Guid id);
+
     }
 }

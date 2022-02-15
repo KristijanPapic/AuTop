@@ -10,5 +10,8 @@ namespace AuTOP.Repository
     {
         Task<List<ManufacturerDomainModel>> GetAllManufacturers(ManufacturerFilter filter, Sorting sort, Paging paging);
         Task<ManufacturerDomainModel> GetManufacturerByIdAsync(Guid id);
+        Task PostManufacturerAsync(ManufacturerDomainModel manufacturer);
+        Task PutManufacturerAsync(ManufacturerDomainModel manufacturer);
+        Task DeleteManufacturerAsync(Guid id);
     }
 }

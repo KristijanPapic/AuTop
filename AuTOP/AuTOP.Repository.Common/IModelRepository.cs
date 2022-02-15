@@ -10,5 +10,9 @@ namespace AuTOP.Repository
     {
         Task<List<ModelDomainModel>> GetAllModelsAsync(ModelFilter filter, Sorting sort, Paging paging);
         Task<ModelDomainModel> GetModelById(Guid id);
+        Task PostModelAsync(ModelDomainModel model);
+        Task PutModelAsync(ModelDomainModel model);
+        Task DeleteModelAsync(Guid id);
+
     }
 }

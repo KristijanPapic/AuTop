@@ -13,6 +13,7 @@ using AuTOP.Service;
 using AuTOP.Service.Common;
 using AuTOP.WebAPI.Models;
 using AuTOP.WebAPI.Models.DetailModel;
+using AuTOP.WebAPI.Models.InputModel;
 
 namespace AuTOP.WebAPI.Controllers
 {
@@ -26,7 +27,7 @@ namespace AuTOP.WebAPI.Controllers
             this.manufacturerServis = manufacturerServis;
             this.mapper = mapper;
         }
-        public async Task<HttpResponseMessage> GetAllManufacturers(string name = "", string sortBy = "Name", string sortMethod = "", int page = 1)
+        public async Task<HttpResponseMessage> GetAllManufacturersAsync(string name = "", string sortBy = "Name", string sortMethod = "", int page = 1)
         {
             ManufacturerFilter filter = new ManufacturerFilter
             {
@@ -39,11 +40,29 @@ namespace AuTOP.WebAPI.Controllers
             return Request.CreateResponse(HttpStatusCode.OK,viewManufacturers);
   
         }
-        public async Task<HttpResponseMessage> GetManufacturerById(Guid id)
+        public async Task<HttpResponseMessage> GetManufacturerByIdAsync(Guid id)
         {
             ManufacturerDomainModel domainManufacturer = await manufacturerServis.GetManufacturerByIdAsync(id);
             ManufacturerDetailModel detailManufacturer = mapper.Map<ManufacturerDomainModel, ManufacturerDetailModel>(domainManufacturer);
             return Request.CreateResponse(HttpStatusCode.OK,domainManufacturer);
+        }
+
+        public async Task<HttpResponseMessage> PostManufacturerAsync(ManufacturerInputModel manufacturer)
+        {
+            ManufacturerDomainModel domainManufacturer = mapper.Map<ManufacturerInputModel, ManufacturerDomainModel>(manufacturer);
+            await manufacturerServis.PostManufacturerAsync(domainManufacturer);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+        public async Task<HttpResponseMessage> PutManufacturerAsync(ManufacturerInputModel manufacturer)
+        {
+            ManufacturerDomainModel domainManufacturer = mapper.Map<ManufacturerInputModel, ManufacturerDomainModel>(manufacturer);
+            await manufacturerServis.PutManufacturerAsync(domainManufacturer);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+        public async Task<HttpResponseMessage> DeleteManufacturerAsync(Guid id)
+        {
+            await manufacturerServis.DeleteManufacturerAsync(id);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
 

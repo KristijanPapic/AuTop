@@ -10,5 +10,10 @@ namespace AuTOP.Service
     {
         Task<List<ModelDomainModel>> GetAllModelsAsync(ModelFilter filter, Sorting sorting, Paging paging);
         Task<ModelDomainModel> GetModelAsync(Guid id);
+        Task PostModelAsync(ModelDomainModel model);
+        Task PutModelAsync(ModelDomainModel model);
+        Task DeleteModelAsync(Guid id);
+
+
     }
 }
