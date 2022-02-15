@@ -29,7 +29,7 @@ namespace AuTOP.Service
             List<Review> reviews = await ReviewRepository.GetAsync(filter, sort, paging);
             foreach (Review review in reviews)
             {
-                review.LikePercentage = await ReactionRepository.GetLikePercentage(review.UserId);
+                review.LikePercentage = await ReactionRepository.GetLikePercentage(review.Id);
             }
             return reviews;
         }

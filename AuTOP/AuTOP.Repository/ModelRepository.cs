@@ -19,7 +19,7 @@ namespace AuTOP.Repository
             StringBuilder queryString = new StringBuilder("select * from Model where 1=1");
             if (!String.IsNullOrWhiteSpace(filter.Name));
             {
-                queryString.Append($" and Name Like '%{filter.Name}%");
+                queryString.Append($" and Name Like '%{filter.Name}%'");
             }
             if(filter.ManufacturerId.HasValue)
             {
