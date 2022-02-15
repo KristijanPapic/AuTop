@@ -10,5 +10,9 @@ namespace AuTOP.Service
     {
         Task<List<ModelVersion>> GetAllModelVersionsAsync(ModelVersionFilter filter, Sorting sort, Paging paging);
         Task<ModelVersion> GetModelVersionByIdAsync(Guid id,string currentUserName);
+        Task PostModelVersionAsync(ModelVersion model);
+        Task PutModelVersionAsync(ModelVersion model);
+        Task DeleteModelVersionAsync(Guid id);
+
     }
 }

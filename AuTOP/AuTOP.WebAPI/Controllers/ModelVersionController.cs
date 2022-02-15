@@ -5,6 +5,7 @@ using AuTOP.Model.DomainModels;
 using AuTOP.Service;
 using AuTOP.WebAPI.Models;
 using AuTOP.WebAPI.Models.DetailModel;
+using AuTOP.WebAPI.Models.InputModel;
 using AuTOP.WebAPI.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace AuTOP.WebAPI.Controllers
             this.mapper = mapper;
             this.modelVersionService = modelVersionService;
         }
-        public async Task<HttpResponseMessage> GetAllModelVersions(ModelVersionFilter filter = null,string sortBy = "Year", string sortMethod = "ASC", int page = 1)
+        public async Task<HttpResponseMessage> GetAllModelVersions(ModelVersionFilter filter,string sortBy = "Year", string sortMethod = "ASC", int page = 1)
         {   if(filter == null)
             {
                 filter = new ModelVersionFilter();
@@ -45,5 +46,25 @@ namespace AuTOP.WebAPI.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, detailModel);
 
        }
+
+        public async Task<HttpResponseMessage> PostModelVersion(ModelVersionInputModel modelVersion)
+        {
+            ModelVersion domainModelVersion = mapper.Map<ModelVersionInputModel, ModelVersion>(modelVersion);
+            await modelVersionService.PostModelVersionAsync(domainModelVersion);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        public async Task<HttpResponseMessage> PutModelVersion(ModelVersionInputModel modelVersion)
+        {
+            ModelVersion domainModelVersion = mapper.Map<ModelVersionInputModel, ModelVersion>(modelVersion);
+            await modelVersionService.PutModelVersionAsync(domainModelVersion);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        public async Task<HttpResponseMessage> DeleteModelVersion(Guid id)
+        {
+            await modelVersionService.DeleteModelVersionAsync(id);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
     }
 }
