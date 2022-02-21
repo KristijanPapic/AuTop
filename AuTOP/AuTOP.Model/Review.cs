@@ -14,7 +14,8 @@ namespace AuTOP.Model
         public string Comment { get; set; }
         public int  Rating { get; set; }
         public double LikePercentage { get; set; }
-
+        public IUser User { get; set; }
+        //public IModelVersion ModelVersion { get; set; }
         public IReaction CurrentUserReaction { get; set; }
 
     }

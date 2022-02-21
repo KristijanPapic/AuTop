@@ -15,7 +15,7 @@ using AutoMapper;
 
 namespace AuTOP.WebAPI.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class UserController : ApiController
     {
         public UserController(IUserService userService, IMapper mapper)
@@ -37,6 +37,7 @@ namespace AuTOP.WebAPI.Controllers
                 foreach(User u in users)
                 {
                     UserViewModel user = mapper.Map<IUser, UserViewModel>(u);
+                    user.Id = u.Id;
                     usersView.Add(user);
                 }
                 return Request.CreateResponse(HttpStatusCode.OK, usersView);
@@ -72,7 +73,7 @@ namespace AuTOP.WebAPI.Controllers
 
             if (status)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, "New user created");
+                return Request.CreateResponse(HttpStatusCode.OK, user);
             }
             else
             {

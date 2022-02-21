@@ -36,6 +36,9 @@ namespace AuTOP.WebAPI.Controllers
                 foreach (Review r in reviews)
                 {
                     ReviewViewModel review = mapper.Map<Review, ReviewViewModel>(r);
+                    review.Id = r.Id;
+                    review.User.Id = r.UserId;
+                    //review.ModelVersion.Id = r.ModelVersionId;                    
                     review.DateCreated = r.DateCreated;
                     reviewsView.Add(review);
                 }
@@ -64,7 +67,7 @@ namespace AuTOP.WebAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
         }
-        [Authorize]
+        //[Authorize]
         [Route("reviews")]
         public async Task<HttpResponseMessage> PostAsync([FromBody] Review review)
         {
@@ -80,7 +83,7 @@ namespace AuTOP.WebAPI.Controllers
             }
         }
 
-        [Authorize]
+        //[Authorize]
         [Route("reviews/{id}")]
         public async Task<HttpResponseMessage> Put(Guid id, [FromBody] Review review)
         {
@@ -96,7 +99,7 @@ namespace AuTOP.WebAPI.Controllers
             }
         }
 
-        [Authorize]
+        //[Authorize]
         [Route("reviews/{id}")]
         public async Task<HttpResponseMessage> Delete(Guid id)
         {

@@ -104,9 +104,12 @@ namespace AuTOP.Repository
                 using (SqlConnection connection = new SqlConnection(connecitonString))
                 {
                     SqlCommand command = new SqlCommand(
-                      $"INSERT INTO [Review] VALUES (NEWID(),'{review.ModelVersionId}','{review.UserId}','{review.Comment}','{review.Rating}',GETDATE(),GETDATE())", connection);
+                      $"INSERT INTO [Review] VALUES (@Id,'{review.ModelVersionId}','{review.UserId}','{review.Comment}','{review.Rating}',@DateCreated,@DateUpdated)", connection);
 
                     connection.Open();
+                    command.Parameters.AddWithValue("@Id", review.Id);
+                    command.Parameters.AddWithValue("@DateCreated", review.DateCreated);
+                    command.Parameters.AddWithValue("@DateUpdated", review.DateUpdated);
                     await command.ExecuteNonQueryAsync();
                     connection.Close();
                 }
