@@ -25,7 +25,7 @@ namespace AuTOP.WebAPI.Controllers
             this.modelService = modelServis;
             this.mapper = mapper;
         }
-        public async Task<HttpResponseMessage> GetAllModels(ModelFilter filter, string sortBy = "Name", string sortMethod = "", int page = 1)
+        public async Task<HttpResponseMessage> GetAllModels([FromUri] ModelFilter filter, string sortBy = "Name", string sortMethod = "", int page = 1)
         {
             if(filter == null)
             {
@@ -38,7 +38,7 @@ namespace AuTOP.WebAPI.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, viewModels);
 
         }
-        public async Task<HttpResponseMessage> GetModel(Guid id)
+        public async Task<HttpResponseMessage> GetModel([FromUri] Guid id)
         {
             ModelDomainModel domainModel = await modelService.GetModelAsync(id);
             ModelViewModel viewModel = mapper.Map<ModelDomainModel, ModelViewModel>(domainModel);

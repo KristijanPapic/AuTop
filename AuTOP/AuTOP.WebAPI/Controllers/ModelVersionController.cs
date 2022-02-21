@@ -27,7 +27,7 @@ namespace AuTOP.WebAPI.Controllers
             this.mapper = mapper;
             this.modelVersionService = modelVersionService;
         }
-        public async Task<HttpResponseMessage> GetAllModelVersions(ModelVersionFilter filter,string sortBy = "Year", string sortMethod = "ASC", int page = 1)
+        public async Task<HttpResponseMessage> GetAllModelVersions([FromUri] ModelVersionFilter filter,string sortBy = "Year", string sortMethod = "ASC", int page = 1)
         {   if(filter == null)
             {
                 filter = new ModelVersionFilter();

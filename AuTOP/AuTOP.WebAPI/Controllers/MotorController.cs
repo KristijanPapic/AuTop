@@ -24,7 +24,7 @@ namespace AuTOP.WebAPI.Controllers
         }
         protected IMotorService MotorService { get; set; }
 
-        public async Task<HttpResponseMessage> GetAllAsync(MotorFilter filter, string sortBy = "Name", string sortMethod = "", int page = 1)
+        public async Task<HttpResponseMessage> GetAllAsync([FromUri]MotorFilter filter, string sortBy = "Name", string sortMethod = "", int page = 1)
         {
             if (filter == null)
             {
