@@ -24,6 +24,7 @@ namespace AuTOP.WebAPI.App_Start
             CreateMap<ManufacturerDomainModel, ManufacturerDetailModel>();
             CreateMap<ManufacturerDomainModel, ManufacturerViewModel>();
             CreateMap<ManufacturerInputModel, ManufacturerDomainModel>();
+            CreateMap<PagedManufacturersModel, PagedViewManufacturersModel>();
 
             CreateMap<ModelDomainModel, ModelViewModel>();
 

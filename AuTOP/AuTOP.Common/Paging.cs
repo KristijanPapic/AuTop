@@ -8,7 +8,7 @@ namespace AuTOP.Common
 {
     public class Paging
     {
-        private int rpp = 10;
+        private int rpp = 18;
         private int page;
         private bool dontPage = false;
 

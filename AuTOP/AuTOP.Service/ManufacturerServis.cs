@@ -20,16 +20,16 @@ namespace AuTOP.Service
             this.manufacturerRepository = manufacturerRepository;
             this.modelRepository = modelRepository;
         }
-        public async Task<List<ManufacturerDomainModel>> GetAllManufacturersAsync(ManufacturerFilter courseFilter, Sorting sort, Paging paging)
+        public async Task<PagedManufacturersModel> GetAllManufacturersAsync(ManufacturerFilter courseFilter, Sorting sort, Paging paging)
         {
-            List<ManufacturerDomainModel> manufacturers = await manufacturerRepository.GetAllManufacturers(courseFilter, sort, paging);
+            PagedManufacturersModel manufacturers = await manufacturerRepository.GetAllManufacturers(courseFilter, sort, paging);
             
             return manufacturers; ;
         }
-        public async Task<ManufacturerDomainModel> GetManufacturerByIdAsync(Guid id)
+        public async Task<ManufacturerDomainModel> GetManufacturerByIdAsync(Guid id,string modelSortMethod,string modelFilter)
         {
             ManufacturerDomainModel domainManufacturer = await manufacturerRepository.GetManufacturerByIdAsync(id);
-            domainManufacturer.Models = await modelRepository.GetAllModelsAsync(new ModelFilter {ManufacturerId = domainManufacturer.Id }, new Sorting("Name", "ASC"), new Paging(true));
+            domainManufacturer.Models = await modelRepository.GetAllModelsAsync(new ModelFilter {ManufacturerId = domainManufacturer.Id, Name=modelFilter }, new Sorting("Name", modelSortMethod), new Paging(true));
             //domainManufacturer.Models = await modelRepository.GetModelsByManufacturer(domainManufacturer.Id);
             return domainManufacturer;
         }
