@@ -111,5 +111,19 @@ namespace AuTOP.WebAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.NotFound, $"User with Id:{id} not found");
             }
         }
+
+        [Route("username/{username}")]
+        public async Task<HttpResponseMessage> GetIdByUsername(string username)
+        {
+            var user = await UserService.GetIdbyName(username);
+            if (user != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, user);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, $"User with username:{username} not found");
+            }
+        }
     }
 }

@@ -10,12 +10,17 @@ import{useState,useEffect} from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { Container, footer } from 'reactstrap'
 import ModelVerionDetail from './components/modelVersionDetail/modelVersionDetail';
-
-
-
-
+import Login from './components/Login';
+import Registration from './components/Registration';
+import ReviewInput from './components/modelVersionDetail/ReviewInput';
+import useToken from './components/useToken';
+import useSetId from './components/useSetId';
 
 function App() {
+
+  const {id, setUserId} = useSetId();
+
+  const { token, setToken } = useToken();
 
   return (
     <Router>
@@ -41,12 +46,35 @@ function App() {
               <ModelVersions/>
             }
             />
+
             <Route
             path='/ModelVersion/:modelVersionId'
             element={
-              <ModelVerionDetail/> 
+            <ModelVerionDetail/>
+            } 
+            />
+
+            <Route
+            path='/Login/'
+            element={
+              <Login setToken={setToken} setId={setUserId}/>
             }
             />
+
+            <Route
+            path='/ReviewInput/'
+            element={
+              <ReviewInput />
+            }
+            />
+
+            <Route
+            path='/Register/'
+            element={
+              <Registration />
+            }
+            />
+
             </Routes>
         </Container>
         

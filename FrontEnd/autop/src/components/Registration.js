@@ -7,7 +7,6 @@ import {
   Input,
   Button,
 } from 'reactstrap';
-import './App.css';
 import axios from 'axios';
 
 class Registration extends Component {

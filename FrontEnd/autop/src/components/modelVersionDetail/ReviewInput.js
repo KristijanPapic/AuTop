@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import ReactStars from 'react-rating-stars-component';
 import { Container,Form,FormGroup,Label,Input, Button,Row} from 'reactstrap';
-import '../../App.css';
 
 export default function ReviewInput({modelVersionId}){
     
@@ -12,7 +11,7 @@ export default function ReviewInput({modelVersionId}){
     const AddReview = () => {
         const newReviewData = {Comment : comment,
                              Rating : rating,
-                             UserId : '1E3B4F5B-2CED-448C-82BA-B4D977E34571',
+                             UserId : sessionStorage.getItem('id').replace(/["]+/g, ''),
                              ModelVersionId: modelVersionId};
         
         axios.post('https://localhost:44343/reviews', newReviewData).then((response) => {
@@ -59,3 +58,5 @@ export default function ReviewInput({modelVersionId}){
         </Container>
     )
 }
+
+

@@ -5,7 +5,7 @@ export default function useToken() {
     const tokenString = sessionStorage.getItem('token');
 
     if(tokenString == 'undefined'){
-      alert("Incorrect Username and/or password");
+      console.log("Error in useToken")
     }
     else{
     const userToken = JSON.parse(tokenString);   
