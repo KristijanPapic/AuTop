@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Breadcrumb,BreadcrumbItem,bre } from "reactstrap";
 
 function Breadcrumbs(crumbs) {
@@ -7,7 +8,7 @@ function Breadcrumbs(crumbs) {
   {crumbs.crumbs.map((crumb,index) => (
     index + 1 == crumbs.crumbs.length ? (
     <BreadcrumbItem active
-        href="#"
+        href={Link}
         tag="a"
       >
           {crumb.Name}

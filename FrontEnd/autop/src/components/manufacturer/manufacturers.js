@@ -45,10 +45,7 @@ function Manufacturers() {
         setSearch(input);
     }
     const crumbs = [
-        {"Name" : 'Manufacturers',"Link": '/',"Active": ""},
-        {"Name" : 'AUDI',"Link": '/',"Active": ""},
-        {"Name" : 'A3',"Link": '/',"Active": "active"},
-
+        {"Name" : 'Manufacturers',"Link": '/'}
     ]
     return (
 

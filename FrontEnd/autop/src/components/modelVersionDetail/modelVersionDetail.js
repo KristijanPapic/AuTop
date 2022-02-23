@@ -4,6 +4,7 @@ import { useEffect,useState } from "react";
 import ModelVersionImageView from "./modelVersionImageView";
 import { useParams } from "react-router-dom";
 import ReviewInput from "./ReviewInput";
+import Breadcrumbs from "../common/breadCrumbs";
 function ModelVerionDetail(){
 
 const [modelVersion,setModelVersion] = useState(undefined)
@@ -22,10 +23,22 @@ const FetchModelVersion = async () => {
         setModelVersion(response.data)
     })
 }
-
+var crumbs = []
+if(modelVersion != undefined){
+   crumbs = [
+    {"Name" : 'Manufacturers',"Link": '/'},
+    {"Name": modelVersion.Model.Manufacturer.Name,"Link": '/'},
+    {"Name" : modelVersion.Model.Name,"Link": '/'},
+    {"Name" : modelVersion.Name,"Link": '/'}
+] 
+}
+ 
     return(
         
         <Container>
+            <Row>
+                <Breadcrumbs crumbs = {crumbs}/>
+            </Row>
             {modelVersion == undefined ? (<p>loading</p>) : (<>
             <Row>
                 <Col md='7'>

@@ -7,6 +7,7 @@ import ModelVersion from './modelVersion.js'
 import SearchBar from '../common/searchBar.js';
 import '../../App.css'
 import Filter from './filter.js';
+import Breadcrumbs from '../common/breadCrumbs.js';
 
 
 function ModelVersions() {
@@ -55,9 +56,24 @@ const sorting = (e) => {
 const handleClick = (input) => {
     setSearch(input);
 }
+var crumbs = []
+if(modelVersions.length > 0){
+crumbs = [
+    {"Name" : 'Manufacturers',"Link": '/'},
+    {"Name": modelVersions[0].Model.Manufacturer.Name,"Link": '/'},
+    {"Name" : modelVersions[0].Model.Name,"Link": '/'}
+]
+} 
+
 return(
     <Container id='view_con'>
-        <SearchBar click={handleClick}/>
+        <Row>
+            <Breadcrumbs crumbs={crumbs}/>
+        </Row>
+        <Row>
+            <SearchBar click={handleClick}/>
+        </Row>
+        
         <Row>
             <Col md='9'>
                {modelVersions.length < 1 ? (<p></p>) : (<h3 id='header'>{modelVersions[0].Model.Manufacturer.Name} {modelVersions[0].Model.Name} versions:</h3>)} 
