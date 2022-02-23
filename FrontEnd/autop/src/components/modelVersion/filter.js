@@ -1,5 +1,31 @@
 import { Container,Row,Form,Input, Label, Button,Col} from "reactstrap";
+import { useState,useEffect } from "react";
+import axios from "axios";
 function Filter(){
+    const [transmissions,setTransmissions] = useState([])
+    const [bodyShapes,setBodyShapes]= useState([])
+
+    useEffect(() => {
+        const Get = async () => {
+            await fetchTransmission();
+            await fetchBodyShapes();
+            }
+        Get()
+    },[])
+
+    const fetchTransmission = async () => {
+        axios.get('https://localhost:44343/api/Transmission').then((response) => {
+            setTransmissions(response.data)
+        })
+    }
+
+    const fetchBodyShapes = async () => {
+        axios.get('https://localhost:44343/api/BodyShape').then((response) => {
+            setBodyShapes(response.data)
+        })
+    }
+
+
     const year = (new Date()).getFullYear();
     const years = Array.from(new Array(30),( val, index) => year - index);
     return(
@@ -8,15 +34,23 @@ function Filter(){
                 <Row className="my-3">
                     <Label for="transmissions">Transmission</Label>
                     <Input type="select" id="transmissions">
-                        <option>Auto</option>
-                        <option>Manual</option>
+                    <option value={null}></option>
+                        {transmissions.length < 1 ? (null) : (
+                            transmissions.map((transmission) => (
+                                <option value={transmission.Id}>{transmission.Gears}-gear {transmission.Name}</option>
+                            ))
+                        )}
                     </Input>
                 </Row>
                 <Row className="my-3">
                 <Label for="body_shapes">Body Shape</Label>
                     <Input type="select" id="body_shapes">
-                        <option>Coupe</option>
-                        <option>Limuzine</option>
+                        <option value={null}></option>
+                    {bodyShapes.length < 1 ? (null) : (
+                            bodyShapes.map((bodyShape) => (
+                                <option value={bodyShape.Id}>{bodyShape.Name}</option>
+                            ))
+                        )}
                     </Input> 
                 </Row>
                 <Row className="my-3">
