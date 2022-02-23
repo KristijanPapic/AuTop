@@ -18,7 +18,7 @@ namespace AuTOP.Repository
             List<BodyShape> bodyShapes = new List<BodyShape>();
            
             StringBuilder queryString = new StringBuilder("select * from BodyShape where 1=1");
-            if (!String.IsNullOrWhiteSpace(filter.Name)) ;
+            if (!String.IsNullOrWhiteSpace(filter.Name)) 
             {
                 queryString.Append($" and Name Like '%{filter.Name}%");
             }

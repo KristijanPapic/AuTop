@@ -78,6 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BodyShapeService.cs" />
     <Compile Include="ManufacturerServis.cs" />
     <Compile Include="ModelService.cs" />
     <Compile Include="ModelVersionService.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="ReactionService.cs" />
     <Compile Include="ReviewService.cs" />
     <Compile Include="ServiceDIModule.cs" />
+    <Compile Include="TransmissionService.cs" />
     <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>

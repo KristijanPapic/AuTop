@@ -20,6 +20,8 @@ namespace AuTOP.Service
             builder.RegisterType<ModelVersionService>().As<IModelVersionService>();
             builder.RegisterType<MotorService>().As<IMotorService>();
             builder.RegisterType<ReviewService>().As<IReviewService>();
+            builder.RegisterType<BodyShapeService>().As<IBodyShapeService>();
+            builder.RegisterType<TransmissionService>().As<ITransmissionService>();
         }
     }
 }
