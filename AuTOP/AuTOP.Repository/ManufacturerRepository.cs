@@ -15,7 +15,7 @@ namespace AuTOP.Repository
     {
 
         private String connectionString = "Server=tcp:monoprojektdbserver.database.windows.net,1433;Initial Catalog=monoprojekt;Persist Security Info=False;User ID=kristijan;Password=Robinhoodr52600;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        public async Task<List<ManufacturerDomainModel>> GetAllManufacturers(ManufacturerFilter filter, Sorting sort, Paging paging)
+        public async Task<PagedManufacturersModel> GetAllManufacturers(ManufacturerFilter filter, Sorting sort, Paging paging)
         {
             SqlConnection connection = new SqlConnection(connectionString);
             
@@ -39,7 +39,7 @@ namespace AuTOP.Repository
             List<ManufacturerDomainModel> manufacturers = new List<ManufacturerDomainModel>();
             if (manufacturerData.Tables[0].Rows.Count == 0)
             {
-                return manufacturers;
+                return new PagedManufacturersModel();
             }
 
             foreach (DataRow dataRow in manufacturerData.Tables[0].Rows)
@@ -52,7 +52,19 @@ namespace AuTOP.Repository
                    DateUpdated = Convert.ToDateTime(dataRow["DateUpdated"])
                     });
             }
-            return manufacturers;
+            SqlCommand countCommand = new SqlCommand("select COUNT(Id) as count from Manufacturer", connection);
+            SqlDataAdapter countAdapter = new SqlDataAdapter(countCommand);
+            DataSet countData = new DataSet();
+            countAdapter.Fill(countData);
+            DataRow countDataRow = countData.Tables[0].Rows[0];
+            int totalItemCount = Convert.ToInt32(countDataRow["count"]);
+            PagedManufacturersModel pagedManufacturers = new PagedManufacturersModel
+            {
+                Manufacturers = manufacturers,
+                TotalItemCount = totalItemCount
+            };
+
+            return pagedManufacturers;
 
         }
         public async Task<ManufacturerDomainModel> GetManufacturerByIdAsync(Guid id)

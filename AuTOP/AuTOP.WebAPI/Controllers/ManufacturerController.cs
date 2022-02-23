@@ -14,6 +14,7 @@ using AuTOP.Service.Common;
 using AuTOP.WebAPI.Models;
 using AuTOP.WebAPI.Models.DetailModel;
 using AuTOP.WebAPI.Models.InputModel;
+using AuTOP.WebAPI.Models.ViewModels;
 
 namespace AuTOP.WebAPI.Controllers
 {
@@ -35,14 +36,14 @@ namespace AuTOP.WebAPI.Controllers
             };
             Sorting sorting = new Sorting(sortBy, sortMethod);
             Paging paging = new Paging(page);
-            List<ManufacturerDomainModel> domainManufacturers = await manufacturerServis.GetAllManufacturersAsync(filter,sorting,paging);
-            List<ManufacturerViewModel> viewManufacturers = mapper.Map<List<ManufacturerDomainModel>, List<ManufacturerViewModel>>(domainManufacturers);
+            PagedManufacturersModel domainManufacturers = await manufacturerServis.GetAllManufacturersAsync(filter,sorting,paging);
+            PagedViewManufacturersModel viewManufacturers = mapper.Map<PagedManufacturersModel,PagedViewManufacturersModel>(domainManufacturers);
             return Request.CreateResponse(HttpStatusCode.OK,viewManufacturers);
   
         }
-        public async Task<HttpResponseMessage> GetManufacturerByIdAsync(Guid id)
+        public async Task<HttpResponseMessage> GetManufacturerByIdAsync(Guid id,string modelSortMethod = "",string modelFilter = "")
         {
-            ManufacturerDomainModel domainManufacturer = await manufacturerServis.GetManufacturerByIdAsync(id);
+            ManufacturerDomainModel domainManufacturer = await manufacturerServis.GetManufacturerByIdAsync(id,modelSortMethod,modelFilter);
             ManufacturerDetailModel detailManufacturer = mapper.Map<ManufacturerDomainModel, ManufacturerDetailModel>(domainManufacturer);
             return Request.CreateResponse(HttpStatusCode.OK,domainManufacturer);
         }

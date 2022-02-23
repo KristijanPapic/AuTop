@@ -8,8 +8,8 @@ namespace AuTOP.Service
 {
     public interface IManufacturerServis
     {
-        Task<List<ManufacturerDomainModel>> GetAllManufacturersAsync(ManufacturerFilter courseFilter, Sorting sort, Paging paging);
-        Task<ManufacturerDomainModel> GetManufacturerByIdAsync(Guid id);
+        Task<PagedManufacturersModel> GetAllManufacturersAsync(ManufacturerFilter courseFilter, Sorting sort, Paging paging);
+        Task<ManufacturerDomainModel> GetManufacturerByIdAsync(Guid id,string modelSortMethod,string modelFilter);
         Task PostManufacturerAsync(ManufacturerDomainModel manufacturer);
         Task PutManufacturerAsync(ManufacturerDomainModel manufacturer);
         Task DeleteManufacturerAsync(Guid id);

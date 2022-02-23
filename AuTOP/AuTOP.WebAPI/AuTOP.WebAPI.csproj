@@ -242,6 +242,7 @@
     <Compile Include="Models\ViewModels\ModelVersionViewModel.cs" />
     <Compile Include="Models\ViewModels\ModelViewModel.cs" />
     <Compile Include="Models\ViewModels\MotorViewModel.cs" />
+    <Compile Include="Models\ViewModels\PagedViewManufacturersModel.cs" />
     <Compile Include="Models\ViewModels\ReviewViewModel.cs" />
     <Compile Include="Models\ViewModels\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

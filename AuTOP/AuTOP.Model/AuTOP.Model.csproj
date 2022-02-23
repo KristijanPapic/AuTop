@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="DomainModels\ManufacturerDomainModel.cs" />
     <Compile Include="BodyShape.cs" />
+    <Compile Include="DomainModels\PagedManufacturersModel.cs" />
     <Compile Include="ModelVersion.cs" />
     <Compile Include="Motor.cs" />
     <Compile Include="DomainModels\ModelDomainModel.cs" />
