@@ -20,7 +20,7 @@ function Filter(){
                     </Input> 
                 </Row>
                 <Row className="my-3">
-                    <Label for='power'>Enhine power (hp)</Label>
+                    <Label for='power'>Engine power (hp)</Label>
                     <Row className="m-auto">
                         <Col md='5'>
                             <Input type="number" id="power"/>

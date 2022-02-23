@@ -1,17 +1,18 @@
 import {Navbar,Nav,NavbarBrand,NavbarToggler,NavItem,NavLink,UncontrolledDropdown,DropdownToggle,DropdownItem,NavbarText,DropdownMenu,Collapse,Form,Input,Button} from 'reactstrap'
-
+import { useState } from 'react';
+import logo from './logo5.png'
 function NavigationBar(){
     return(
         <div>
-  <Navbar
+  <Navbar id='navbar'
     color="info"
     expand="lg"
     light
     className='mb-3'
     container ='lg'
   >
-    <NavbarBrand href="/">
-      <img src='AA.png'/>
+    <NavbarBrand id='navbrand' href="/">
+      <img id='navlogo' src={logo} height={100} width={290}/>
     </NavbarBrand>
     <NavbarToggler onClick={function noRefCheck(){}} />
     <Collapse navbar>

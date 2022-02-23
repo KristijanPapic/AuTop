@@ -2,10 +2,10 @@ import {useParams} from 'react-router-dom'
 import{useState,useEffect} from 'react'
 import axios from 'axios';
 import{Container,Row,Col,Spinne,Label,Input,Spinner} from 'reactstrap'
-import Model from './model.js'
+import Model from '../model/model.js'
 import ModelVersion from './modelVersion.js'
-import SearchBar from './searchBar.js';
-import '../App.css'
+import SearchBar from '../common/searchBar.js';
+import '../../App.css'
 import Filter from './filter.js';
 
 

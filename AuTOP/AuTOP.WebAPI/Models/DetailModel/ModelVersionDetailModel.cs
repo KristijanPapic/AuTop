@@ -11,6 +11,7 @@ namespace AuTOP.WebAPI.Models.DetailModel
     public class ModelVersionDetailModel
     {
         private Guid id;
+        private string name;
         private decimal fuelConsumption;
         private int year;
         private decimal acceleration;
@@ -22,6 +23,7 @@ namespace AuTOP.WebAPI.Models.DetailModel
         private List<IReview> reviews;
 
         public Guid Id { get => id; set => id = value; }
+        public string Name { get => name; set => name = value; }
         public decimal FuelConsumption { get => fuelConsumption; set => fuelConsumption = value; }
         public int Year { get => year; set => year = value; }
         public decimal Acceleration { get => acceleration; set => acceleration = value; }
@@ -31,5 +33,6 @@ namespace AuTOP.WebAPI.Models.DetailModel
         public Transmission Transmission { get => transmission; set => transmission = value; }
         public BodyShape BodyShape { get => bodyShape; set => bodyShape = value; }
         public List<IReview> Reviews { get => reviews; set => reviews = value; }
+        
     }
 }
