@@ -39,6 +39,7 @@ namespace AuTOP.Model
         private Transmission transmission;
         private List<Review> reviews;
         private string name;
+        public double TotalRating { get; set; }
 
         
 

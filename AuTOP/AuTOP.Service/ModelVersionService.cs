@@ -49,6 +49,7 @@ namespace AuTOP.Service
         }
         public async Task<ModelVersion> GetModelVersionByIdAsync(Guid id,string currentUserName)
         {
+            var total = 0.00;
             ModelVersion domainModelVersion = await modelVersionRepository.GetModelVersionById(id);
             domainModelVersion.Model = await modelRepository.GetModelById(domainModelVersion.ModelId);
             domainModelVersion.Model.Manufacturer = await manufacturerRepository.GetManufacturerByIdAsync(domainModelVersion.Model.ManufacturerId);
@@ -62,7 +63,9 @@ namespace AuTOP.Service
                 foreach(Review review in domainModelVersion.Reviews)
                 {
                     review.CurrentUserReaction = await reactionRepository.GetUserReaction(userId, review.Id);
+                    total += review.Rating; 
                 }
+                domainModelVersion.TotalRating = Math.Round((total / domainModelVersion.Reviews.Count) * 2, MidpointRounding.AwayFromZero) / 2;
             }
             
             return domainModelVersion;

@@ -8,6 +8,18 @@ import {
   Input,
   Button,
 } from 'reactstrap';
+import axios from 'axios';
+
+
+async function getUserId(credentials){
+
+  return axios.get('https://localhost:44343/username/' + credentials.username)
+    .then(data => data.data)
+    .catch(error => {
+      alert(error)
+    });
+        
+}
 
 async function loginUser(credentials) {
     var formBody = [];
@@ -17,7 +29,7 @@ async function loginUser(credentials) {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    
+        
     return fetch('https://localhost:44343/token', {
     method: 'POST',
     headers: {
@@ -27,11 +39,14 @@ async function loginUser(credentials) {
     })
     .then(data => data.json())
     .then(data => data.access_token)
+    .catch(error => {
+      alert(error)
+    });
 }
 
-export default function Login({ setToken }) {
+export default function Login({ setToken, setId }) {
   const [username, setUserName] = useState();
-  const [password, setPassword] = useState();
+  const [password, setPassword] = useState(); 
   const [grant_type, setGrantType] = useState("password");  
 
   const handleSubmit = async e => {
@@ -42,8 +57,12 @@ export default function Login({ setToken }) {
       grant_type
     });    
     setToken(token);
-  }
 
+    const id = await getUserId({
+      username
+    });
+    setId(id);
+  }
   return(
     <div className="Registration">
       <h2>Please Log In</h2>

@@ -33,6 +33,6 @@ namespace AuTOP.WebAPI.Models.DetailModel
         public Transmission Transmission { get => transmission; set => transmission = value; }
         public BodyShape BodyShape { get => bodyShape; set => bodyShape = value; }
         public List<IReview> Reviews { get => reviews; set => reviews = value; }
-        
+        public double TotalRating { get; set; }
     }
 }

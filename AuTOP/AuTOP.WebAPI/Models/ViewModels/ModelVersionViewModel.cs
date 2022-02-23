@@ -16,5 +16,6 @@ namespace AuTOP.WebAPI.Models.ViewModels
         public Guid Id { get => id; set => id = value; }
         public ModelViewModel Model { get => model; set => model = value; }
         public string Name { get => name; set => name = value; }
+        public double TotalRating { get; set; }
     }
 }

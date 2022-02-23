@@ -43,5 +43,10 @@ namespace AuTOP.Service
         {
             return await UserRepository.DeleteAsync(userId);
         }
+
+        public async Task<Guid> GetIdbyName(string username)
+        {
+            return await UserRepository.GetIdbyName(username);
+        }
     }
 }

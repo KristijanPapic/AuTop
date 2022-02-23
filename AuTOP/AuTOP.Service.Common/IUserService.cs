@@ -18,6 +18,7 @@ namespace AuTOP.Service.Common
         Task<bool> PostAsync(User user);
         Task<bool> PutAsync(Guid userId, User user);
         Task<bool> DeleteAsync(Guid userId);
+        Task<Guid> GetIdbyName(string name);
 
 
     }
