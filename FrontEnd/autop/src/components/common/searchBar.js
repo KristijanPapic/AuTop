@@ -5,9 +5,11 @@ const [search,setSearch] = useState("");
 
 const handleChange = (e) => {
     setSearch(e.target.value)
+    if(e.key === 'Enter'){
+        click(search)
+    }
 }
     return(
-        <Form>
         <Row className="mb-4 mt-2">
             <Col md='9'>
                      <Input className="form-control mr-sm-2 inline mx-5" type="search" onChange={handleChange} placeholder="Search" aria-label="Search"/>
@@ -19,7 +21,6 @@ const handleChange = (e) => {
                 <Input color="info" type="reset" value={"Clear"} onClick={() => click("")}></Input>
             </Col>
         </Row>
-        </Form>
         
       
      
