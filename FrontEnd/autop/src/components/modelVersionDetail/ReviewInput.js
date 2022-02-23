@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import ReactStars from 'react-rating-stars-component';
-import { Container,Form,FormGroup,Label,Input, Button } from 'reactstrap';
-import './App.css';
+import { Container,Form,FormGroup,Label,Input, Button,Row} from 'reactstrap';
+import '../../App.css';
 
-export default function ReviewInput(){
+export default function ReviewInput({modelVersionId}){
     
     const [comment, setComment] = useState("");
     const [rating, setRating] = useState(0);   
@@ -13,7 +13,7 @@ export default function ReviewInput(){
         const newReviewData = {Comment : comment,
                              Rating : rating,
                              UserId : '1E3B4F5B-2CED-448C-82BA-B4D977E34571',
-                             ModelVersionId: '679DA10D-530D-4FE8-B28B-5FDB95415BCB'};
+                             ModelVersionId: modelVersionId};
         
         axios.post('https://localhost:44343/reviews', newReviewData).then((response) => {
           setComment('');
@@ -29,25 +29,32 @@ export default function ReviewInput(){
       };
 
     return(
-        <Container className='Registration'>                        
+        <Container className='Registration bg-light border mt-3'>                        
             <FormGroup>
-                <Label>Comment</Label>
+                <Row>
+                   <Label>Comment</Label>
                 <Input
                     id="exampleText"
                     name="text"
                     type="textarea"
                     value={comment} onChange={(e) => setComment(e.target.value)}
-                    />
-                <br></br>
-                <Label>Rating</Label>
-                <ReactStars
+                    /> 
+                </Row>
+                <Row className='justify-content-center'>
+                   <Label>Rating</Label>
+                       <ReactStars classNames={"mx-auto mb-2"}
                     count={5} 
-                    size={24}
+                    size={45}
                     value={rating} 
                     onChange={ratingChanged}
-                />
-                <br></br>             
-                <Button onClick={AddReview}>Submit</Button>
+                    />  
+                      
+                
+                </Row>
+                <Row>
+                  <Button onClick={AddReview}>Submit</Button>  
+                </Row>
+                
             </FormGroup>
         </Container>
     )

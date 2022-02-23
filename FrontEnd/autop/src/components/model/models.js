@@ -1,10 +1,11 @@
 import {useParams} from 'react-router-dom'
 import{useState,useEffect} from 'react'
 import axios from 'axios';
-import{Container,Spinner,Col,Row,Input,Label} from 'reactstrap'
+import{Container,Col,Row,Input,Label} from 'reactstrap'
 import Model from './model.js'
-import '../App.css'
-import SearchBar from './searchBar.js';
+import '../../App.css'
+import SearchBar from '../common/searchBar.js';
+import LoadSpinner from '../common/LoadSpinner.js';
 
 function Models(){
     const [manufacturerDetail,setManufacturerDetail] = useState([]);
@@ -56,14 +57,7 @@ function Models(){
         </Row>
         
         <h3>Models:</h3>
-        {manufacturerDetail.Models == undefined ? (
-            <Spinner
-            color="primary"
-            size=""
-          >
-            Loading...
-          </Spinner>
-        ) : 
+        {manufacturerDetail.Models == undefined ? (<LoadSpinner/>) : 
         (manufacturerDetail.Models.map((model) => (
             <Model model = {model}/>
         )))

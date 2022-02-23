@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react'
-import { Container, Row, Col, Input, Spinner, Label } from 'reactstrap';
+import { Container, Row, Col, Input, Label } from 'reactstrap';
 import Manufacturer from './manufacturer';
-import '../App.css';
+import '../../App.css';
 import ReactPaginate from 'react-paginate';
-import SearchBar from './searchBar';
+import SearchBar from '../common/searchBar';
+import LoadSpinner from '../common/LoadSpinner';
+import Breadcrumbs from '../common/breadCrumbs';
 
 
 
@@ -42,11 +44,22 @@ function Manufacturers() {
     const handleClick = (input) => {
         setSearch(input);
     }
+    const crumbs = [
+        {"Name" : 'Manufacturers',"Link": '/',"Active": ""},
+        {"Name" : 'AUDI',"Link": '/',"Active": ""},
+        {"Name" : 'A3',"Link": '/',"Active": "active"},
+
+    ]
     return (
 
 
         <Container>
-            <SearchBar click={handleClick}/>
+            <Row>
+                <Breadcrumbs crumbs={crumbs}/>
+            </Row>
+            <Row>
+                <SearchBar click={handleClick}/>
+            </Row>
             <Row>
                 <Col md="9">
                     <h3 id='header'>Manufacturers</h3>
@@ -66,14 +79,7 @@ function Manufacturers() {
                 </Col>
 
             </Row>
-            {manufacturers == null || manufacturers.Manufacturers == undefined ? (
-                <Spinner
-                    color="primary"
-                    size=""
-                >
-                    Loading...
-                </Spinner>
-            ) : (
+            {manufacturers == null || manufacturers.Manufacturers == undefined ? (<LoadSpinner/>) : (
                 <Row>
                     {manufacturers.Manufacturers.map((manufacturer) => (
                         <Col key={manufacturer.Id}>

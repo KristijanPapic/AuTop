@@ -1,4 +1,4 @@
-import '../App.css';
+import '../../App.css';
 import {Container,Row} from 'reactstrap';
 import { Link,useNavigate } from 'react-router-dom'
 

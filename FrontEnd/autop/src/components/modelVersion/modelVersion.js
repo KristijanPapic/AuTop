@@ -1,15 +1,22 @@
-import {useParams} from 'react-router-dom'
+import {useParams,useNavigate} from 'react-router-dom'
 import{useState,useEffect} from 'react'
 import axios from 'axios';
 import{Container,Row,Col} from 'reactstrap'
-import Model from './model.js'
-import '../App.css'
+import Model from '../model/model.js'
+import '../../App.css'
 
 
 function ModelVersion(modelVersion){
+
     {console.log(modelVersion)}
+    const navigate = useNavigate();
+
+
+    const link = (id) =>{
+        navigate('/ModelVersion/' + modelVersion.modelVersion.Id);
+    }
     return(
-        <Container className='bg-light border my-2' id='list_con'>
+        <Container className='bg-light border my-2' id='list_con' onClick={link}>
             <Row>
                 <Col>
                 <img className='mod_img' src={modelVersion.modelVersion.Model.ImageURL}/>

@@ -1,6 +1,6 @@
 import { Link,useNavigate } from 'react-router-dom';
 import {Container} from 'reactstrap'
-import '../App.css'
+import '../../App.css'
 import {useEffect} from 'react'
 
 function Model(model){

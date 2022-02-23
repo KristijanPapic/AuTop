@@ -1,14 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
-import Navbar from './components/navbar.js'
-import Footer from './components/footer';
-import Manufacturers from './components/manufacturers.js';
-import Models from './components/models.js'
-import ModelVersions from './components/modelVersions';
+import Navbar from './components/common/navbar.js'
+import Footer from './components/common/footer';
+import Manufacturers from './components/manufacturer/manufacturers.js';
+import Models from './components/model/models.js'
+import ModelVersions from './components/modelVersion/modelVersions';
 import axios from 'axios';
 import{useState,useEffect} from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { Container, footer } from 'reactstrap'
+import ModelVerionDetail from './components/modelVersionDetail/modelVersionDetail';
 
 
 
@@ -38,6 +39,12 @@ function App() {
             path='/Model/:modelId'
             element={
               <ModelVersions/>
+            }
+            />
+            <Route
+            path='/ModelVersion/:modelVersionId'
+            element={
+              <ModelVerionDetail/> 
             }
             />
             </Routes>
