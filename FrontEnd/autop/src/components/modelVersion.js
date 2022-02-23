@@ -7,6 +7,7 @@ import '../App.css'
 
 
 function ModelVersion(modelVersion){
+    {console.log(modelVersion)}
     return(
         <Container className='bg-light border my-2' id='list_con'>
             <Row>

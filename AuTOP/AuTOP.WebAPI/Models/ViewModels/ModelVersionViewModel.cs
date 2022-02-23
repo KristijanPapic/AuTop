@@ -10,9 +10,11 @@ namespace AuTOP.WebAPI.Models.ViewModels
     public class ModelVersionViewModel
     {
         private Guid id;
+        private string name;
         private ModelViewModel model;
 
         public Guid Id { get => id; set => id = value; }
         public ModelViewModel Model { get => model; set => model = value; }
+        public string Name { get => name; set => name = value; }
     }
 }
