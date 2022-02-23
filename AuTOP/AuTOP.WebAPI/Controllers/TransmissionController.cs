@@ -25,10 +25,8 @@ namespace AuTOP.WebAPI.Controllers
             this.mapper = mapper;
         }
 
-        public TransmissionController()
-        {
-           
-        }
+        
+        
 
         public async Task<HttpResponseMessage> GetAllAsync([FromUri] TransmissionFilter filter, string sortBy = "Name", string sortMethod = "", int page = 1)
         {

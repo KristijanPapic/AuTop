@@ -1,5 +1,6 @@
 ﻿using AuTOP.Common;
 using AuTOP.Model;
+using AuTOP.Repository.Common;
 using AuTOP.Service.Common;
 using System;
 using System.Collections.Generic;
@@ -11,16 +12,13 @@ namespace AuTOP.Service
 {
     public  class BodyShapeService : IBodyShapeService
     {
-        protected IBodyShapeService BodyShapeRepository { get; set; }
-        public BodyShapeService(IBodyShapeService bodyShape)
+        protected IBodyShapeRepository BodyShapeRepository { get; set; }
+        public BodyShapeService(IBodyShapeRepository bodyShape)
             {
                 this.BodyShapeRepository = bodyShape;
             }
 
-        public BodyShapeService()
-        {
-            
-        }
+       
 
 
         public async Task<List<BodyShape>> GetAllAsync(BodyShapeFilter filter, Sorting sort, Paging paging)

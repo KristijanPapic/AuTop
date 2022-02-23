@@ -1,5 +1,6 @@
 ﻿using AuTOP.Common;
 using AuTOP.Model;
+using AuTOP.Repository.Common;
 using AuTOP.Service.Common;
 using System;
 using System.Collections.Generic;
@@ -11,14 +12,10 @@ namespace AuTOP.Service
 {
     public class TransmissionService : ITransmissionService
     {
-        protected ITransmissionService BodyShapeRepository { get; set; }
-        public TransmissionService(ITransmissionService bodyShape)
+        protected ITransmissionRepository BodyShapeRepository { get; set; }
+        public TransmissionService(ITransmissionRepository bodyShape)
         {
             this.BodyShapeRepository = bodyShape;
-        }
-        public TransmissionService()
-        {
-           
         }
 
 
