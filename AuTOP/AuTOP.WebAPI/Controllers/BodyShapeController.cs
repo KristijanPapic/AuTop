@@ -19,14 +19,9 @@ namespace AuTOP.WebAPI.Controllers
         protected IBodyShapeService BodyShapeService { get; set; }
         public BodyShapeController(IBodyShapeService bodyShapeService, IMapper mapper)
         {
-            BodyShapeService = bodyShapeService;
+            this.BodyShapeService = bodyShapeService;
             this.mapper = mapper;
-        }
-
-        public BodyShapeController()
-        {
-            
-        }
+        }        
 
 
         public async Task<HttpResponseMessage> GetAllAsync([FromUri] BodyShapeFilter filter, string sortBy = "Name", string sortMethod = "", int page = 1)
