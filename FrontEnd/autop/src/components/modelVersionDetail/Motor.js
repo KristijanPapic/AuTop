@@ -6,7 +6,7 @@ import { Row, Button, CardHeader, Container, ListGroup, ListGroupItem } from 're
 export default function Motor({motor}) {
    
         return (
-          <Container className="bg-light mt-2">   
+          <Container className="bg-light border mt-2">   
              <h5>Motor</h5>
                 <Row className='bg-light mt-2 '>Type: {motor?.Name}</Row>   
                 <Row className='bg-light'>Year: {motor?.Year}</Row>  

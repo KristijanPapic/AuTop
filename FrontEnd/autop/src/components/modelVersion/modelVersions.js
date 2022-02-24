@@ -16,6 +16,7 @@ const [modelVersions,setModelVersions] = useState([]);
 const [sort, setSort] = useState('ASC')
 const [sortby,setSortBy] = useState('Year')
 const [search,setSearch] = useState("")
+const [filterData,setFilterData] = useState({})
 const {modelId} = useParams();
 
 useEffect(() => {
@@ -23,10 +24,22 @@ useEffect(() => {
         await FetchModelVersions();
         }
     Get()
-},[sort,search])
+},[sort,search,filterData])
 
 const FetchModelVersions = async () => {
-    axios.get('https://localhost:44343/api/ModelVersion/',{params: {Name: search, ModelId : modelId,sortby: sortby,sortMethod: sort}}).then((response) => {
+    axios.get('https://localhost:44343/api/ModelVersion/',{params: {
+        Name: search,
+        ModelId : modelId,
+        TransmissionId : filterData.transmission,
+        BodyShapeId : filterData.bodyShape,
+        PowerFrom: filterData.powerFrom,
+        PowerTo: filterData.powerTo,
+        YearFrom: filterData.yearFrom,
+        YearTo: filterData.yearTo,
+        sortby: sortby,
+        sortMethod: sort
+    
+    }}).then((response) => {
         console.log(modelId)
         console.log(response.data);
       setModelVersions(response.data)  
@@ -56,6 +69,11 @@ const sorting = (e) => {
 const handleClick = (input) => {
     setSearch(input);
 }
+const onFilterSubmit = (data) => {
+    console.log(data)
+    setFilterData(data)
+}
+
 var crumbs = []
 if(modelVersions.length > 0){
 crumbs = [
@@ -109,7 +127,7 @@ return(
     ) : (
         <Row>
             <Col md='3'>
-            <Filter/>
+            <Filter onFilterSubmit={onFilterSubmit}/>
             </Col>
 
             <Col md='9'>

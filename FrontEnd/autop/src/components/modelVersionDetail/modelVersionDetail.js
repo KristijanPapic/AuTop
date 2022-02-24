@@ -7,9 +7,10 @@ import ReviewInput from "./ReviewInput";
 import Breadcrumbs from "../common/breadCrumbs";
 import Reviews from "../Reviews";
 import Motor from "./Motor";
+import BodyShape from "./BodyShape";
 function ModelVerionDetail(){
 
-const [modelVersion,setModelVersion] = useState([])
+const [modelVersion,setModelVersion] = useState(undefined)
 const {modelVersionId} = useParams()
 
 useEffect(() => {
@@ -26,7 +27,7 @@ const FetchModelVersion = async () => {
     })
 }
 var crumbs = []
-if(modelVersion.length > 0){
+if(modelVersion != undefined){
    crumbs = [
     {"Name" : 'Manufacturers',"Link": '/'},
     {"Name": modelVersion.Model.Manufacturer.Name,"Link": '/'},
@@ -39,9 +40,11 @@ if(modelVersion.length > 0){
         
         <Container>
             <Row>
+                {console.log(crumbs)}
+                {console.log(modelVersion)}
                 <Breadcrumbs crumbs = {crumbs}/>
             </Row>
-            {modelVersion.length < 1 ? (<p>loading</p>) : (<>
+            {modelVersion == undefined ? (<p>loading</p>) : (<>
             <Row>
                 <Col md='7'>
                 <ModelVersionImageView 
@@ -52,7 +55,8 @@ if(modelVersion.length > 0){
                 />
                 </Col>
                 <Col md='5'>
-                    <Motor motor={modelVersion.Motor}/>
+                    <Row><Motor motor={modelVersion.Motor}/></Row>
+                    <Row><BodyShape bodyShape={modelVersion.BodyShape}/></Row>
                 </Col>
             </Row>
             <Row>

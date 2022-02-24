@@ -1,4 +1,4 @@
-import { Container,Row,Col } from "reactstrap";
+import { Container,Row,Col,Button } from "reactstrap";
 import '../App.css'
 import ReactStars from "react-rating-stars-component";
 function Review(review){
@@ -22,6 +22,17 @@ function Review(review){
                 <Container className="bg-light border mb-3 text-start">
                     <p>{review.review.Comment}</p>
                 </Container>
+            </Row>
+            <Row>
+                <Col md='3'>
+                <Button type="button">Like</Button>
+                </Col>
+                <Col md='3'>
+                <Button type="button">Dislike</Button>
+                </Col>
+                <Col md='6'>
+                <p>{review.review.LikePercentage}% of users liked this</p>
+                </Col>
             </Row>
         </Container>
     );
