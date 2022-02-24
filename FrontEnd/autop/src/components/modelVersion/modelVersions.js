@@ -78,8 +78,8 @@ var crumbs = []
 if(modelVersions.length > 0){
 crumbs = [
     {"Name" : 'Manufacturers',"Link": '/'},
-    {"Name": modelVersions[0].Model.Manufacturer.Name,"Link": '/'},
-    {"Name" : modelVersions[0].Model.Name,"Link": '/'}
+    {"Name": modelVersions[0].Model.Manufacturer.Name,"Link": '/Manufacturer/' + modelVersions[0].Model.Manufacturer.Id},
+    {"Name" : modelVersions[0].Model.Name,"Link": ''}
 ]
 } 
 
