@@ -4,7 +4,7 @@ export default function useSetId() {
   const getUserId = () => {
     const idString = sessionStorage.getItem('id');
 
-    if(idString == 'undefined'){
+    if(idString === 'undefined'){
       console.log("Error in useSetId")
     }
     else{

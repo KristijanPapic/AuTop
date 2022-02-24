@@ -28,7 +28,7 @@ export default function ReviewInput({modelVersionId}){
       };
 
     return(
-        <Container className='Registration bg-light border mt-3'>                        
+        <Container className='Registration bg-light border mt-3'>                   
             <FormGroup>
                 <Row>
                    <Label>Comment</Label>

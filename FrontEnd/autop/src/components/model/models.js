@@ -6,6 +6,7 @@ import Model from './model.js'
 import '../../App.css'
 import SearchBar from '../common/searchBar.js';
 import LoadSpinner from '../common/LoadSpinner.js';
+import Breadcrumbs from '../common/breadCrumbs.js';
 
 function Models(){
     const [manufacturerDetail,setManufacturerDetail] = useState([]);
@@ -34,9 +35,19 @@ function Models(){
     const handleClick = (input) => {
         setSearch(input)
     }
+    const crumbs = [
+        {"Name" : 'Manufacturers',"Link": '/'},
+        {"Name": manufacturerDetail.Name,"Link": '#'}
+    ]
     return (
     <Container>
-        <SearchBar click={handleClick}/>
+        <Row>
+            <Breadcrumbs crumbs={crumbs}/>
+        </Row>
+        <Row>
+            <SearchBar click={handleClick}/>
+        </Row>
+        
         <Row>
             <Col md='9'>
                 <h1 id='header'>{manufacturerDetail.Name}</h1>

@@ -29,10 +29,31 @@ namespace AuTOP.Repository
             {
                 queryString.Append($" and ModelId = '{filter.ModelId}'");
             }
-            if (filter.MotorId.HasValue)
+            if (filter.PowerFrom != 0 || filter.PowerTo != 0)
             {
-                queryString.Append($" and MotorId = '{filter.MotorId}'");
+                if (filter.PowerFrom == 0)
+                {
+                    queryString.Append($" and MotorId = (select Id from [dbo].[Motor] where Id = [dbo].[ModelVersion].MotorId and MaxHP < {filter.PowerTo} )");
+                }
+                if (filter.PowerTo == 0)
+                {
+                    queryString.Append($" and MotorId = (select Id from [dbo].[Motor] where Id = [dbo].[ModelVersion].MotorId and MaxHP > {filter.PowerFrom} )");
+                }
+                if (filter.PowerFrom != 0 && filter.PowerTo != 0)
+                    queryString.Append($" and MotorId = (select Id from [dbo].[Motor] where Id = [dbo].[ModelVersion].MotorId and MaxHP > {filter.PowerFrom} and MaxHP < {filter.PowerTo}  )");
             }
+            if (filter.YearFrom != 0 || filter.YearTo != 0)
+            {
+                if (filter.YearFrom == 0)
+                {
+                    queryString.Append($" and Year < {filter.YearTo}");
+                }
+                if (filter.YearTo == 0)
+                {
+                    queryString.Append($" and Year > {filter.YearFrom}");
+                }
+            }
+
             if (filter.TransmissionId.HasValue)
             {
                 queryString.Append($" and TransmissionId = '{filter.TransmissionId}'");

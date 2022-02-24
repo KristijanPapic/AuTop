@@ -9,6 +9,7 @@ function ModelVersionImageView({manufac_name,model_name,model_version_name,image
                 </Col>
                 <Col md='4'>
                     <ReactStars
+                    edit={false}
                     count={5}
                     size={24}
                     value={3}

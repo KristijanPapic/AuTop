@@ -4,6 +4,10 @@ import { useEffect,useState } from "react";
 import ModelVersionImageView from "./modelVersionImageView";
 import { useParams } from "react-router-dom";
 import ReviewInput from "./ReviewInput";
+import Breadcrumbs from "../common/breadCrumbs";
+import Reviews from "../Reviews";
+import Motor from "./Motor";
+import BodyShape from "./BodyShape";
 function ModelVerionDetail(){
 
 const [modelVersion,setModelVersion] = useState(undefined)
@@ -18,14 +22,28 @@ useEffect(() => {
 
 const FetchModelVersion = async () => {
     axios.get('https://localhost:44343/api/ModelVersion/' + modelVersionId).then((response) => {
-        console.log(response)
-        setModelVersion(response.data)
+        console.log(response.data.Reviews);
+        setModelVersion(response.data);
     })
 }
-
+var crumbs = []
+if(modelVersion != undefined){
+   crumbs = [
+    {"Name" : 'Manufacturers',"Link": '/'},
+    {"Name": modelVersion.Model.Manufacturer.Name,"Link": '/'},
+    {"Name" : modelVersion.Model.Name,"Link": '/'},
+    {"Name" : modelVersion.Name,"Link": '/'}
+] 
+}
+ 
     return(
         
         <Container>
+            <Row>
+                {console.log(crumbs)}
+                {console.log(modelVersion)}
+                <Breadcrumbs crumbs = {crumbs}/>
+            </Row>
             {modelVersion == undefined ? (<p>loading</p>) : (<>
             <Row>
                 <Col md='7'>
@@ -37,12 +55,14 @@ const FetchModelVersion = async () => {
                 />
                 </Col>
                 <Col md='5'>
-                
+                    <Row><Motor motor={modelVersion.Motor}/></Row>
+                    <Row><BodyShape bodyShape={modelVersion.BodyShape}/></Row>
                 </Col>
             </Row>
             <Row>
                 <Col md='7'>
-                    <ReviewInput modelVersionId={modelVersion.Id}/>
+                {sessionStorage.getItem('id') == null ? (null) : (<ReviewInput modelVersionId={modelVersion.Id}/>)}
+                    
                 </Col>
                 <Col md='5'>
                 
@@ -50,7 +70,13 @@ const FetchModelVersion = async () => {
                 
             </Row>
             <Row>
-
+                <Col md='7'>
+                {modelVersion.Reviews.length < 1 ? (null) : (<Reviews reviews = {modelVersion.Reviews}/>)}
+                </Col>
+                <Col md='5'>
+                </Col>
+                
+                
             </Row>
             </>)}
             

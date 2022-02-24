@@ -7,6 +7,7 @@ import ModelVersion from './modelVersion.js'
 import SearchBar from '../common/searchBar.js';
 import '../../App.css'
 import Filter from './filter.js';
+import Breadcrumbs from '../common/breadCrumbs.js';
 
 
 function ModelVersions() {
@@ -15,6 +16,7 @@ const [modelVersions,setModelVersions] = useState([]);
 const [sort, setSort] = useState('ASC')
 const [sortby,setSortBy] = useState('Year')
 const [search,setSearch] = useState("")
+const [filterData,setFilterData] = useState({})
 const {modelId} = useParams();
 
 useEffect(() => {
@@ -22,10 +24,22 @@ useEffect(() => {
         await FetchModelVersions();
         }
     Get()
-},[sort,search])
+},[sort,search,filterData])
 
 const FetchModelVersions = async () => {
-    axios.get('https://localhost:44343/api/ModelVersion/',{params: {Name: search, ModelId : modelId,sortby: sortby,sortMethod: sort}}).then((response) => {
+    axios.get('https://localhost:44343/api/ModelVersion/',{params: {
+        Name: search,
+        ModelId : modelId,
+        TransmissionId : filterData.transmission,
+        BodyShapeId : filterData.bodyShape,
+        PowerFrom: filterData.powerFrom,
+        PowerTo: filterData.powerTo,
+        YearFrom: filterData.yearFrom,
+        YearTo: filterData.yearTo,
+        sortby: sortby,
+        sortMethod: sort
+    
+    }}).then((response) => {
         console.log(modelId)
         console.log(response.data);
       setModelVersions(response.data)  
@@ -55,9 +69,29 @@ const sorting = (e) => {
 const handleClick = (input) => {
     setSearch(input);
 }
+const onFilterSubmit = (data) => {
+    console.log(data)
+    setFilterData(data)
+}
+
+var crumbs = []
+if(modelVersions.length > 0){
+crumbs = [
+    {"Name" : 'Manufacturers',"Link": '/'},
+    {"Name": modelVersions[0].Model.Manufacturer.Name,"Link": '/'},
+    {"Name" : modelVersions[0].Model.Name,"Link": '/'}
+]
+} 
+
 return(
     <Container id='view_con'>
-        <SearchBar click={handleClick}/>
+        <Row>
+            <Breadcrumbs crumbs={crumbs}/>
+        </Row>
+        <Row>
+            <SearchBar click={handleClick}/>
+        </Row>
+        
         <Row>
             <Col md='9'>
                {modelVersions.length < 1 ? (<p></p>) : (<h3 id='header'>{modelVersions[0].Model.Manufacturer.Name} {modelVersions[0].Model.Name} versions:</h3>)} 
@@ -93,7 +127,7 @@ return(
     ) : (
         <Row>
             <Col md='3'>
-            <Filter/>
+            <Filter onFilterSubmit={onFilterSubmit}/>
             </Col>
 
             <Col md='9'>

@@ -9,46 +9,51 @@ import {
   Button,
 } from 'reactstrap';
 import axios from 'axios';
-import Logout from './Logout';
+import { useNavigate } from 'react-router-dom';
 
 
-async function getUserId(credentials){
 
-  return axios.get('https://localhost:44343/username/' + credentials.username)
-    .then(data => data.data)
-    .catch(error => {
-      alert(error)
-    });
-        
-}
-
-async function loginUser(credentials) {
-    var formBody = [];
-    for (var property in credentials) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(credentials[property]);
-      formBody.push(encodedKey + "=" + encodedValue);
-    }
-    formBody = formBody.join("&");
-        
-    return fetch('https://localhost:44343/token', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    body: formBody
-    })
-    .then(data => data.json())
-    .then(data => data.access_token)
-    .catch(error => {
-      alert(error)
-    });
-}
 
 export default function Login({ setToken, setId }) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState(); 
-  const [grant_type, setGrantType] = useState("password");  
+  const [grant_type, setGrantType] = useState("password"); 
+  const navigate = useNavigate();
+ 
+  async function getUserId(credentials){
+
+    return axios.get('https://localhost:44343/username/' + credentials.username)
+      .then(data => data.data)
+      .catch(error => {
+        alert(error)
+      });
+          
+  }
+  
+  async function loginUser(credentials) {
+    let dontNav = false
+      var formBody = [];
+      for (var property in credentials) {
+        var encodedKey = encodeURIComponent(property);
+        var encodedValue = encodeURIComponent(credentials[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
+      }
+      formBody = formBody.join("&");
+          
+      return fetch('https://localhost:44343/token', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: formBody
+      })
+      .then(data => data.json())
+      .then(data => data.access_token)
+      .catch(error => {
+        alert(error)
+        dontNav = true
+      });
+  }
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -57,12 +62,13 @@ export default function Login({ setToken, setId }) {
       password,
       grant_type
     });    
-    setToken(token);
+    setToken(token)
+    if(token != null){(navigate('/'))};
 
     const id = await getUserId({
       username
     });
-    setId(id);
+    setId(id); 
   }
   return(
     <div className="Registration">
