@@ -9,7 +9,7 @@ import {
   Button,
 } from 'reactstrap';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 
 
 
@@ -31,7 +31,6 @@ export default function Login({ setToken, setId }) {
   }
   
   async function loginUser(credentials) {
-    let dontNav = false
       var formBody = [];
       for (var property in credentials) {
         var encodedKey = encodeURIComponent(property);
@@ -51,7 +50,6 @@ export default function Login({ setToken, setId }) {
       .then(data => data.access_token)
       .catch(error => {
         alert(error)
-        dontNav = true
       });
   }
 
@@ -63,7 +61,9 @@ export default function Login({ setToken, setId }) {
       grant_type
     });    
     setToken(token)
-    if(token != null){(navigate('/'))};
+    if(token != null){
+      (navigate('/'))
+    };
 
     const id = await getUserId({
       username

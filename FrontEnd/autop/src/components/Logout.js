@@ -5,6 +5,7 @@ export default function Logout(){
     const LogoutUser = () => {
         sessionStorage.removeItem("id")
         sessionStorage.removeItem("token")
+        window.location.reload();
         alert("You are logged out")
 
     }
