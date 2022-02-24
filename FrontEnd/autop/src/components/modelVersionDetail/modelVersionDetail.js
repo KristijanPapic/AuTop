@@ -21,7 +21,7 @@ useEffect(() => {
 },[])
 
 const FetchModelVersion = async () => {
-    axios.get('https://localhost:44343/api/ModelVersion/' + modelVersionId).then((response) => {
+    axios.get('https://localhost:44343/api/ModelVersion/' + modelVersionId,{params: {userId: '93cfd340-2b88-46ad-8d7b-3fd03803084'}}).then((response) => {
         console.log(response.data.Reviews);
         setModelVersion(response.data);
     })
@@ -30,8 +30,8 @@ var crumbs = []
 if(modelVersion != undefined){
    crumbs = [
     {"Name" : 'Manufacturers',"Link": '/'},
-    {"Name": modelVersion.Model.Manufacturer.Name,"Link": '/'},
-    {"Name" : modelVersion.Model.Name,"Link": '/'},
+    {"Name": modelVersion.Model.Manufacturer.Name,"Link": '/Manufacturer/' + modelVersion.Model.Manufacturer.Id},
+    {"Name" : modelVersion.Model.Name,"Link": '/Model/' + modelVersion.Model.Id},
     {"Name" : modelVersion.Name,"Link": '/'}
 ] 
 }
@@ -55,8 +55,24 @@ if(modelVersion != undefined){
                 />
                 </Col>
                 <Col md='5'>
+                    <Row>
+                        <Container className="bg-light border text-start">
+                            <div><h5 className="text-center">Specification</h5></div>
+                            <div>Name: {modelVersion.Name}</div>
+                            <div>Avg Fuel Consumption: {modelVersion.FuelConsumption}</div>
+                            <div>Year: {modelVersion.Year}</div>
+                            <div>Number of doors: {modelVersion.Doors}</div>
+                            <div>BodyShape: {modelVersion.BodyShape.Name}</div>
+                        </Container>
+                    </Row>
                     <Row><Motor motor={modelVersion.Motor}/></Row>
-                    <Row><BodyShape bodyShape={modelVersion.BodyShape}/></Row>
+                    <Row>
+                        <Container className="bg-light border text-start mt-2">
+                            <div><h5 className="text-center">Transmission</h5></div>
+                            <div>Type: {modelVersion.Transmission.Name}</div>
+                            <div>Number of gears: {modelVersion.Transmission.Gears}</div>
+                        </Container>
+                    </Row>
                 </Col>
             </Row>
             <Row>

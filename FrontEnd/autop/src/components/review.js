@@ -25,7 +25,10 @@ function Review(review){
             </Row>
             <Row>
                 <Col md='3'>
-                <Button type="button">Like</Button>
+                    {review.review.User.Id === localStorage.getItem('id') ? (<Button color="info" type="button">Like</Button>) : 
+                    (<Button type="button">Like</Button>)
+                    }
+                
                 </Col>
                 <Col md='3'>
                 <Button type="button">Dislike</Button>
