@@ -165,15 +165,11 @@ namespace AuTOP.Repository
 
         private async Task<StringBuilder> AddFilter(ReviewFilter filter, StringBuilder queryString)
         {
-            if (!string.IsNullOrWhiteSpace(filter.SearchQuery))
+            if (filter.ModelVersionId.HasValue)
             {
-                queryString.Append($" AND (Comment = '{ filter.SearchQuery}' OR Email = '{ filter.SearchQuery}')");
+                queryString.Append($" AND ModelVersionId = '{filter.ModelVersionId}'");
+            }
 
-            }
-            if (filter.SearchByRating > 0)
-            {
-                queryString.Append($" AND Rating = '{ filter.SearchByRating}' ");
-            }
             return await Task.FromResult(queryString);
         }
 

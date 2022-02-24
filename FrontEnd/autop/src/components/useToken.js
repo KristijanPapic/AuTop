@@ -4,7 +4,7 @@ export default function useToken() {
   const getToken = () => {
     const tokenString = sessionStorage.getItem('token');
 
-    if(tokenString == 'undefined'){
+    if(tokenString === 'undefined'){
       console.log("Error in useToken")
     }
     else{

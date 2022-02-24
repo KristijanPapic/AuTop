@@ -11,7 +11,7 @@ namespace AuTOP.Common
         //private string searchBy;
         private string searchQuery;
         private int searchByRating;
-        private Guid modelVersionId;
+        private Guid? modelVersionId = null;
         public ReviewFilter() { }
 
         public ReviewFilter(string searchQuery, int searchByRating)
@@ -24,6 +24,6 @@ namespace AuTOP.Common
         //public string SearchBy { get => searchBy; set => searchBy = value; }
         public string SearchQuery { get => searchQuery; set => searchQuery = value; }
         public int SearchByRating { get => searchByRating; set => searchByRating = value; }
-        public Guid ModelVersionId { get => modelVersionId; set => modelVersionId = value; } 
+        public Guid? ModelVersionId { get => modelVersionId; set => modelVersionId = value; } 
     }
 }

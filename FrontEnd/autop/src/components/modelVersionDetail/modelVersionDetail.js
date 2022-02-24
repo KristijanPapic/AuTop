@@ -5,9 +5,11 @@ import ModelVersionImageView from "./modelVersionImageView";
 import { useParams } from "react-router-dom";
 import ReviewInput from "./ReviewInput";
 import Breadcrumbs from "../common/breadCrumbs";
+import Reviews from "../Reviews";
+import Motor from "./Motor";
 function ModelVerionDetail(){
 
-const [modelVersion,setModelVersion] = useState(undefined)
+const [modelVersion,setModelVersion] = useState([])
 const {modelVersionId} = useParams()
 
 useEffect(() => {
@@ -19,12 +21,12 @@ useEffect(() => {
 
 const FetchModelVersion = async () => {
     axios.get('https://localhost:44343/api/ModelVersion/' + modelVersionId).then((response) => {
-        console.log(response)
-        setModelVersion(response.data)
+        console.log(response.data.Reviews);
+        setModelVersion(response.data);
     })
 }
 var crumbs = []
-if(modelVersion != undefined){
+if(modelVersion.length > 0){
    crumbs = [
     {"Name" : 'Manufacturers',"Link": '/'},
     {"Name": modelVersion.Model.Manufacturer.Name,"Link": '/'},
@@ -39,7 +41,7 @@ if(modelVersion != undefined){
             <Row>
                 <Breadcrumbs crumbs = {crumbs}/>
             </Row>
-            {modelVersion == undefined ? (<p>loading</p>) : (<>
+            {modelVersion.length < 1 ? (<p>loading</p>) : (<>
             <Row>
                 <Col md='7'>
                 <ModelVersionImageView 
@@ -50,12 +52,13 @@ if(modelVersion != undefined){
                 />
                 </Col>
                 <Col md='5'>
-                
+                    <Motor motor={modelVersion.Motor}/>
                 </Col>
             </Row>
             <Row>
                 <Col md='7'>
-                    <ReviewInput modelVersionId={modelVersion.Id}/>
+                {sessionStorage.getItem('id') == null ? (null) : (<ReviewInput modelVersionId={modelVersion.Id}/>)}
+                    
                 </Col>
                 <Col md='5'>
                 
@@ -63,7 +66,13 @@ if(modelVersion != undefined){
                 
             </Row>
             <Row>
-
+                <Col md='7'>
+                {modelVersion.Reviews.length < 1 ? (null) : (<Reviews reviews = {modelVersion.Reviews}/>)}
+                </Col>
+                <Col md='5'>
+                </Col>
+                
+                
             </Row>
             </>)}
             
