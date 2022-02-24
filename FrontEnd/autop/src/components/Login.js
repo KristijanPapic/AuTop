@@ -9,6 +9,7 @@ import {
   Button,
 } from 'reactstrap';
 import axios from 'axios';
+import Logout from './Logout';
 
 
 async function getUserId(credentials){

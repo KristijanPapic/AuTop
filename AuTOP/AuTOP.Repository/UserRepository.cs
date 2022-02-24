@@ -180,7 +180,7 @@ namespace AuTOP.Repository
             DataSet userData = new DataSet();
             await Task.Run(() => adapter.Fill(userData));
             DataRow dataRow = userData.Tables[0].Rows[0];
-            return Guid.Parse(Convert.ToString(dataRow["Id"]));
+            return Guid.Parse(Convert.ToString(dataRow["Id"]));            
         }
 
         private async Task<StringBuilder> AddFilter(UserFilter filter,StringBuilder queryString)

@@ -1,7 +1,19 @@
 import {Navbar,Nav,NavbarBrand,NavbarToggler,NavItem,NavLink,UncontrolledDropdown,DropdownToggle,DropdownItem,NavbarText,DropdownMenu,Collapse,Form,Input,Button} from 'reactstrap'
 import { useState } from 'react';
-import logo from './logo5.png'
+import logo from './logo5.png';
+import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import Login from '../Login';
+import Logout from '../Logout';
+import useToken from '../useToken';
+import useSetId from '../useSetId';
 function NavigationBar(){
+  const navigate = useNavigate();
+
+  const {id, setUserId} = useSetId();
+
+  const { token, setToken } = useToken();
+
     return(
         <div>
   <Navbar id='navbar'
@@ -56,7 +68,11 @@ function NavigationBar(){
       </Nav>
       
       <NavbarText>
-        Simple Text
+        <Button
+          onClick={() => navigate("/login")}>
+          Login
+        </Button>
+        <Logout/>
       </NavbarText>
     </Collapse>
   </Navbar>
