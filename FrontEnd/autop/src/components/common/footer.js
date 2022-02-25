@@ -4,7 +4,9 @@ function Footer(){
     
     <div className="text-center p-3 bg-dark text-secondary">
       © 2021 Copyright:
-      <a className="text-secondary" href="https://mdbootstrap.com/">Kristijan Papic</a>
+      <a className="text-secondary">Kristijan Papic  </a>
+      <a className="text-secondary">Matej Šarčević  </a>
+      <a className="text-secondary">Marko Danković</a>
     </div>
   </footer> 
     );
