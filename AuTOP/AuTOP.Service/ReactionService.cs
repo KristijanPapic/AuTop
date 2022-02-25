@@ -19,8 +19,9 @@ namespace AuTOP.Service
         protected IReactionRepository ReactionRepository { get; set; }
 
         public async Task<bool> PostAsync(Reaction reaction)
-        {                       
-            reaction.Generate();
+        {
+            reaction.DateCreated = DateTime.UtcNow;
+            reaction.DateUpdated = DateTime.UtcNow;
             return await ReactionRepository.PostAsync(reaction);
         }
 
