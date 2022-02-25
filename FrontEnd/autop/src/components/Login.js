@@ -87,6 +87,7 @@ export default function Login({ setToken, setId }) {
           <Button>Submit</Button>
         </div>
       </Form>
+      <div>Dont have an account? <Button onClick={() => navigate('/Register')}>Register</Button></div>
     </div>
   )
 }

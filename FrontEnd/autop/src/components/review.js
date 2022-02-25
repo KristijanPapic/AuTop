@@ -5,19 +5,65 @@ import axios from "axios";
 function Review(review){
 const handleLike = () => {
    if(review.review.CurrentUserReaction == null){
-    const data = {UserId : localStorage.getItem('id'),
+    const data = {UserId : sessionStorage.getItem('id').replace(/["]+/g, ''),
         ReviewId : review.review.Id,
         IsLiked : true
     };
-    axios.post('https://localhost:44343/api/Reaction', data).then((response) => {
+    axios.post('https://localhost:44343/api/Reaction',data).then((response) => {
         console.log(response)
           window.location.reload()  
     })
    } 
+   if(review.review.CurrentUserReaction != null){
+        if(review.review.CurrentUserReaction.IsLiked == false){
+            const data = {UserId : sessionStorage.getItem('id').replace(/["]+/g, ''),
+        ReviewId : review.review.Id,
+        IsLiked : true
+    };
+    axios.put('https://localhost:44343/api/Reaction',data).then((response) => {
+        console.log(response)
+          window.location.reload()  
+    })
+        }
+    }
 }
-const handleRemoveLike = () => {}
-const handleDislike = () => {}
-const handleRemoveDislike = () => {}
+const handleRemoveLike = () => {
+    axios.delete('https://localhost:44343/api/Reaction',{params: {ReviewId : review.review.Id,UserId: sessionStorage.getItem('id').replace(/["]+/g, '')}}).then((response) => {
+        console.log(response)
+        window.location.reload()
+    })
+}
+
+const handleDislike = () => {
+    if(review.review.CurrentUserReaction == null){
+        const data = {UserId : sessionStorage.getItem('id').replace(/["]+/g, ''),
+            ReviewId : review.review.Id,
+            IsLiked : false
+        };
+        axios.post('https://localhost:44343/api/Reaction',data).then((response) => {
+            console.log(response)
+              window.location.reload()  
+        })
+       } 
+       if(review.review.CurrentUserReaction != null){
+        if(review.review.CurrentUserReaction.IsLiked == true){
+            const data = {UserId : sessionStorage.getItem('id').replace(/["]+/g, ''),
+        ReviewId : review.review.Id,
+        IsLiked : false
+    };
+    axios.put('https://localhost:44343/api/Reaction',data).then((response) => {
+        console.log(response)
+          window.location.reload()  
+    })
+        }
+    }
+}
+const handleRemoveDislike = () => {
+    axios.delete('https://localhost:44343/api/Reaction',{params: {ReviewId : review.review.Id,UserId: sessionStorage.getItem('id').replace(/["]+/g, '')}}).then((response) => {
+        console.log(response)
+        window.location.reload()
+    })
+}
 
     return(
         <Container className="border my-3" id="review">
@@ -40,7 +86,7 @@ const handleRemoveDislike = () => {}
                     <p>{review.review.Comment}</p>
                 </Container>
             </Row>
-            <Row>
+            {sessionStorage.getItem('id') == null ? (null) : (<Row>
                 <Col md='3'>
                     {review.review.CurrentUserReaction !== null ? (<>
                     {review.review.CurrentUserReaction.IsLiked === true ? (<Button color="info" type="button" onClick={handleRemoveLike}>Like</Button>) : (<Button onClick={handleLike} color="light" type="button">Like</Button>)}
@@ -62,7 +108,8 @@ const handleRemoveDislike = () => {}
                 <Col md='6'>
                 <p>{review.review.LikePercentage}% of users liked this</p>
                 </Col>
-            </Row>
+            </Row>)}
+            
         </Container>
     );
 }

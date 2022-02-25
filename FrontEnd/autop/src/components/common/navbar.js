@@ -50,7 +50,7 @@ function NavigationBar(){
           onClick={() => navigate("/login")}>
           Login
         </Button>
-      ) : (<Logout/>)}
+      ) : (<><span className='me-3'>{sessionStorage.getItem('username').replace(/["]+/g, '')}</span><Logout/></>)}
         
       </NavbarText>
     </Collapse>
