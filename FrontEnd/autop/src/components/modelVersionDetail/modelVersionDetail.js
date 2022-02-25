@@ -19,10 +19,14 @@ useEffect(() => {
         }
     Get()
 },[])
-
+var token = ""
+if(!(sessionStorage.getItem('token') == null)){
+    token = sessionStorage.getItem('token').replace(/["]+/g, '');
+    console.log(token)
+}
 const FetchModelVersion = async () => {
-    axios.get('https://localhost:44343/api/ModelVersion/' + modelVersionId,{params: {userId: '93cfd340-2b88-46ad-8d7b-3fd03803084'}}).then((response) => {
-        console.log(response.data.Reviews);
+    axios.get('https://localhost:44343/api/ModelVersion/' + modelVersionId,{headers: {Authorization: "Bearer " + token}}).then((response) => {
+        console.log(response.data);
         setModelVersion(response.data);
     })
 }

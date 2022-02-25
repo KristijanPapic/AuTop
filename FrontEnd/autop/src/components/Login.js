@@ -62,6 +62,7 @@ export default function Login({ setToken, setId }) {
     });    
     setToken(token)
     if(token != null){
+      sessionStorage.setItem('username', JSON.stringify(username));
       (navigate('/'))
     };
 
