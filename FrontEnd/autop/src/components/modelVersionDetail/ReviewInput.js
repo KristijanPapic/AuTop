@@ -18,8 +18,8 @@ export default function ReviewInput({modelVersionId}){
           setComment('');
           setRating(0);
           console.log(response.data);
-          console.log(newReviewData);    
-    
+          console.log(newReviewData);
+          window.location.reload()  
     })};
 
 

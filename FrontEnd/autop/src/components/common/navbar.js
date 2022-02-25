@@ -38,41 +38,20 @@ function NavigationBar(){
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="https://github.com/reactstrap/reactstrap">
+          <NavLink href="https://github.com/jelenatufekovic/Praksa2022-g01-01">
             GitHub
           </NavLink>
         </NavItem>
-        <UncontrolledDropdown
-          inNavbar
-          nav
-        >
-          <DropdownToggle
-            caret
-            nav
-          >
-            Options
-          </DropdownToggle>
-          <DropdownMenu end>
-            <DropdownItem>
-              Option 1
-            </DropdownItem>
-            <DropdownItem>
-              Option 2
-            </DropdownItem>
-            <DropdownItem divider />
-            <DropdownItem>
-              Reset
-            </DropdownItem>
-          </DropdownMenu>
-        </UncontrolledDropdown>
       </Nav>
       
       <NavbarText>
+      {sessionStorage.getItem('id') == null ? (
         <Button
           onClick={() => navigate("/login")}>
           Login
         </Button>
-        <Logout/>
+      ) : (<><span className='me-3'>{sessionStorage.getItem('username').replace(/["]+/g, '')}</span><Logout/></>)}
+        
       </NavbarText>
     </Collapse>
   </Navbar>
